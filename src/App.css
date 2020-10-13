@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+
+.nwTable{
+  overflow-x:auto;
+  color:green;
+}
+tr:hover.nwTable {background-color: #f5f5f5;}
+tr:nth-child(even).nwTable {background-color: #f2f2f2;}

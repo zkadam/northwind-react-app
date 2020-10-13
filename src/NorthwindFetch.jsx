@@ -84,30 +84,33 @@ class NorthwindFetch extends Component {
     let taulukko=[];
     let otsikko=[];
     if (this.state.nwRecords.length>0){
-    //getting first row to get columnnames
+    //getting first row to get columnnames - HUOM: individual key have to be set for all table data
       var columnNames = this.state.nwRecords[0];
-      
-        for(var name in columnNames){
-        otsikko.push(<th>{name}</th>)
-
+       for(var name in columnNames){
+        otsikko.push(<th key={name}>{name}</th>)
         }
    
-   
-    
+     
         var rivi=[];
-    for(let index=0; index<this.state.nwRecords.length; index++){
-      let avainBoole=true;
-      let element = this.state.nwRecords[index];
-      for(var tieto in element){
-        if (avainBoole)
+      //for each object-aka row  
+        for(let index=0; index<this.state.nwRecords.length; index++){
+          let avainBoole=true;
+          let element = this.state.nwRecords[index];
+          let i =0;
+      //get values
+        for(var tieto in element){
+        //catching id for key
+          if (avainBoole)
           {
             var avain=element[tieto];
             avainBoole=false;
           }
-            rivi.push(<td>{element[tieto]}</td>)
+        //building row by pushing value to td fields  
+            rivi.push(<td key={avain + i.toString()}>{element[tieto]}</td>)
+            i++;
           }
-          // console.log(rivi[0;0])
-          console.log(JSON.stringify(avain));
+          
+          //pushing row to table
            taulukko.push(<tr key={avain}>{rivi}</tr>)
            rivi=[];
         } 
@@ -122,8 +125,8 @@ class NorthwindFetch extends Component {
         <h3>{viesti}</h3>
         <button onClick={this.handleClickPrev}>Edelliset</button>
         <button onClick={this.handleClickNext}>Seuraavat</button>
-
-        <table id="t01"><thead><tr>{otsikko}</tr></thead><tbody>{taulukko}</tbody></table>
+{/* filling the table with the data */}
+        <table className="nwTable" id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody>{taulukko}</tbody></table>
       </div>
     );
   }
