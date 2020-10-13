@@ -8,8 +8,8 @@ class NorthwindFetch extends Component {
     this.state={
       nwRecords:[],
       recordcount: 0,
-      start:0,
-      end:10
+      offset:0,
+      limit:10
 
     };
   }
@@ -21,11 +21,10 @@ class NorthwindFetch extends Component {
 
   // --------------------------------------PREVIOUS BUTTON CLICK------------------
   handleClickPrev=(event)=>{
-   let startnumb=this.state.start-10;
-      if (startnumb<10){startnumb=0}
+   let offsetnumb=this.state.offset-10;
+      if (offsetnumb<10){offsetnumb=0}
     this.setState({
-      start: startnumb,
-      end: startnumb+10
+      offset: offsetnumb,
   },()=>this.NorthwindFetch());
 
 
@@ -34,16 +33,14 @@ class NorthwindFetch extends Component {
 
   handleClickNext=(event)=>{
    
-    let startnumb=this.state.start+10;
-    let endnumb=startnumb+10;
-    if (endnumb>this.state.recordcount)
-    {while(startnumb>=this.state.recordcount)
-      {startnumb=startnumb-1; endnumb=startnumb+10}
+    let offsetnumb=this.state.offset+10;
+    if (offsetnumb>this.state.recordcount)
+    {while(offsetnumb>=this.state.recordcount)
+      {offsetnumb=offsetnumb-10}
     }
 
       this.setState({
-          start: startnumb,
-          end: startnumb+10
+          offset: offsetnumb,
       },()=>this.NorthwindFetch());
       
   }
@@ -51,8 +48,7 @@ class NorthwindFetch extends Component {
 
   NorthwindFetch(){
     let uri2='https://localhost:5001/nw/customer';
-    // let uri='https://jsonplaceholder.typicode.com/todos?_start='+this.state.start+'&_end='+this.state.end;
-    let uri='https://localhost:5001/nw/customer';
+    let uri='https://localhost:5001/nw/customer/r?offset='+this.state.offset+'&limit='+this.state.limit;
 
     console.log("NorthwindFetch " + uri);
     fetch(uri)
