@@ -93,7 +93,7 @@ class NorthwindFetch extends Component {
      
         var rivi=[];
       //for each object-aka row  
-        for(let index=1; index<this.state.nwRecords.length; index++){
+        for(let index=0; index<this.state.nwRecords.length; index++){
           let avainBoole=true;
           let element = this.state.nwRecords[index];
           let i =0;

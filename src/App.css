@@ -46,7 +46,7 @@
   overflow:scroll;
   margin-left:auto;
   margin-right: auto;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
 }
 
 
@@ -65,13 +65,13 @@
   
   .nwTable > tbody{
     
-    background-color: #f2f2f2;
+    background-color: #ffffff;
   }
   
   tr:nth-child(even) {
-    background-color: #dbd5d5;
+    background-color: #f7f2f2;
   }
-  tr:hover{background-color: rgb(121, 121, 121);}
+  tr:hover{background-color: rgb(216, 213, 213);}
   
   
   td{padding:5px}    
