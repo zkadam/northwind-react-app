@@ -106,12 +106,12 @@ class NorthwindFetch extends Component {
             avainBoole=false;
           }
         //building row by pushing value to td fields  
-            rivi.push(<td key={avain + i.toString()}>{element[tieto]}</td>)
+            rivi.push(<td key={avain + i.toString()} className="tData">{element[tieto]}</td>)
             i++;
           }
           
           //pushing row to table
-           taulukko.push(<tr key={avain}>{rivi}</tr>)
+           taulukko.push(<tr key={avain} className="nwBody">{rivi}</tr>)
            rivi=[];
         } 
         
@@ -121,12 +121,15 @@ class NorthwindFetch extends Component {
     }
 
     return (
-      <div className="NorthwindFetch">
+      <div >
         <h3>{viesti}</h3>
         <button onClick={this.handleClickPrev}>Edelliset</button>
         <button onClick={this.handleClickNext}>Seuraavat</button>
 {/* filling the table with the data */}
-        <table className="nwTable" id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody>{taulukko}</tbody></table>
+      <div className="NorthwindFetch">
+        <table className="nwTable" id="t01"><thead className="nwHeader"><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
+
+      </div>
       </div>
     );
   }
