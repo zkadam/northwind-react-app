@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+// import App from './App';
 import * as serviceWorker from './serviceWorker';
+import NorthwindFetch from './NorthwindFetch';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <div>
+    <NorthwindFetch/>
+    {/* <App /> */}
+
+    </div>
+  ,
   document.getElementById('root')
 );
 
