@@ -93,7 +93,7 @@ class NorthwindFetch extends Component {
      
         var rivi=[];
       //for each object-aka row  
-        for(let index=0; index<this.state.nwRecords.length; index++){
+        for(let index=1; index<this.state.nwRecords.length; index++){
           let avainBoole=true;
           let element = this.state.nwRecords[index];
           let i =0;
@@ -127,7 +127,7 @@ class NorthwindFetch extends Component {
         <button onClick={this.handleClickNext}>Seuraavat</button>
 {/* filling the table with the data */}
       <div className="NorthwindFetch">
-        <table className="nwTable" id="t01"><thead className="nwHeader"><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
+        <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
 
       </div>
       </div>

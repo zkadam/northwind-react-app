@@ -38,35 +38,56 @@
 }
 
 .NorthwindFetch{
+  margin-top: 20px;
+  margin-bottom: 20px;
   font-family:Arial, Helvetica, sans-serif;
-  
   max-width: 95%;
+  max-height:85vh;
   overflow:scroll;
-  margin:auto;
+  margin-left:auto;
+  margin-right: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-thead.nwHeader {
-  /* font-weight:lighter; */
-  
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #0a0a0a;
-  color: white;
-  }
-  
-  .nwTable{
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  tr:nth-child(odd).nwBody{background-color: #ffffff;}
-
-  tr:nth-child(even).nwBody{background-color: #f2f2f2;}
-  tr:hover.nwBody {background-color: #ddd;}
-  .nwBody{font-size: smaller;}
-  .td{border:none;
-  border-collapse: collapse;}
-.tData{padding:2px}
 
 
   body{background-color: rgb(212, 254, 255);}
+
+
+/* ------------------------------------------TABLE CSS---------------------- */
+
+.nwTable{
+    border-collapse: collapse;
+    position: relative;
+    
+  }
+
+  
+  .nwTable > tbody{
+    
+    background-color: #f2f2f2;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dbd5d5;
+  }
+  tr:hover{background-color: rgb(121, 121, 121);}
+  
+  
+  td{padding:5px}    
+  
+  th{padding:10px;
+    text-align:left;
+    font-weight: 100;
+    position: sticky;
+    top: 0;
+    background-color: rgb(12, 12, 12);
+    color:white;
+    font-size: small;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+
+    ;}
+    
+    
+    
