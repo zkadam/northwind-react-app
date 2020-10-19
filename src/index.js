@@ -1,19 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter} from 'react-router-dom';
 
 import './index.css';
 // import App from './App';
 import * as serviceWorker from './serviceWorker';
-import NorthwindFetch from './NorthwindFetch';
+import Navigaatio from './Navigaatio';
 
 ReactDOM.render(
-    <div>
-    <NorthwindFetch/>
-    {/* <App /> */}
-
-    </div>
-  ,
-  document.getElementById('root')
+    <BrowserRouter>
+      <Navigaatio/>
+    </BrowserRouter>
+   
+    
+  , document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
