@@ -12,11 +12,20 @@ class NWCustomerFetch extends Component {
       recordcount: 0,
       offset:0,
       limit:10,
-      visible:"table"
-
+      visible:"table",
+      renderChild:true
+//nwcustomeradd komponentti renderöideään jos this.state.renderChild=true
     };
+    this.handleChildUnmount=this.handleChildUnmount.bind(this);
   }
 
+handleChildUnmount(){
+  this.setState({renderChild:false});
+  this.handleClickTable();//clicking table button
+  this.NorthwindFetch();
+}
+
+//--------------------------------------------click functions
   handleClickTable=()=>{
     this.setState({visible:"table"});
   }
@@ -158,7 +167,6 @@ class NWCustomerFetch extends Component {
             <button onClick={this.handleClickHelp}>Opasteet</button>
             <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
           </div>  
-          {/* <NWCustomerAdd/> */}
           {this.state.renderChild ? <NWCustomerAdd unmountMe={this.handleChildUnmount}/>:null}
           </div>
         );}

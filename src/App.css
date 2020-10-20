@@ -90,7 +90,7 @@
     ;}
     
     
-    .box3{
-      width: 50%;
-      height: 50%;
+    .box30{
+     display:flexbox;
+     width: 30%;
     }
