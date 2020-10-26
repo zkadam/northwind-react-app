@@ -177,7 +177,7 @@ handleChildUnmount(){
             <h1>Sovelluksen opasteet</h1>
             <button onClick={this.handleClickAdd}>Lisää asiakas</button>
             <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
-            <Helpit moduli="NWCustomerFetch"/>
+            <Helpit moduli="NWLoginsFetch"/>
          </div>  
         
         );
