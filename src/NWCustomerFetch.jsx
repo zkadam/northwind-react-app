@@ -37,6 +37,10 @@ handleChildUnmount(){
   handleClickHelp=()=>{
     this.setState({visible:"help"});
   }
+//-----------------------------------------EDIT BUTTON
+  handleClickEdit=(dataObj,event)=>{
+    console.log(dataObj)
+  }
 
   componentDidMount(){
     console.log("NWCustomerFetch: component did mount")
@@ -130,7 +134,7 @@ handleChildUnmount(){
             rivi.push(<td key={avain + i.toString()} className="tData">{element[tieto]}</td>)
             i++;
           }
-          
+          rivi.push(<td key={"edit" + tieto[0].toString()}><button onClick={this.handleClickEdit.bind(this,element)}>Muokkaa</button></td>)
           //pushing row to table
            taulukko.push(<tr key={avain} className="nwBody">{rivi}</tr>)
            rivi=[];
