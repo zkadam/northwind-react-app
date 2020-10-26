@@ -12,11 +12,13 @@ class NWLoginsFetch extends Component {
       recordcount: 0,
     //   offset:0,
     //   limit:10,
+    sukunimi:"",
       visible:"table",
       renderChild:true
 //NWLoginsAdd komponentti renderöideään jos this.state.renderChild=true
     };
     this.handleChildUnmount=this.handleChildUnmount.bind(this);
+    this.handleChangeSukunimi=this.handleChangeSukunimi.bind(this);
   }
 
 handleChildUnmount(){
@@ -38,10 +40,17 @@ handleChildUnmount(){
     this.setState({visible:"help"});
   }
 
+  handleChangeSukunimi(event){
+    let arvo=event.target.value;
+    this.setState({sukunimi: arvo},this.NorthwindFetch);
+  }
+  
+
   componentDidMount(){
     console.log("NWLoginFetch: component did mount")
     this.NorthwindFetch();
   }
+
 
   // --------------------------------------PREVIOUS BUTTON CLICK------------------
   handleClickPrev=(event)=>{
@@ -71,8 +80,8 @@ handleChildUnmount(){
 
 
   NorthwindFetch(){
-    let uri2='https://localhost:5001/nw/logins';
-    let uri='https://localhost:5001/nw/logins';
+    let uri2='https://localhost:5001/nw/logins/';
+    let uri='https://localhost:5001/nw/logins/'+this.state.sukunimi;
     // let uri='https://localhost:5001/nw/orders/';
 
     console.log("NwLoginsfetch " + uri);
@@ -150,6 +159,7 @@ handleChildUnmount(){
           <button onClick={this.handleClickAdd}>Lisää käyttäjä</button>
           <button onClick={this.handleClickPrev}>Edelliset</button>
           <button onClick={this.handleClickNext}>Seuraavat</button>
+          <input type="text" placeholder="Filter by surname"  onChange={this.handleChangeSukunimi}/>
           {/* filling the table with the data */}
         <div className="NorthwindFetch">
           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
