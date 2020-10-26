@@ -31,7 +31,7 @@ handleChildUnmount(){
   }
 
   handleClickAdd=()=>{
-    this.setState({visible:"addform"});
+    this.setState({visible:"addform",renderChild:true});
   }
 
   handleClickHelp=()=>{
