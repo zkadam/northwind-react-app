@@ -145,7 +145,7 @@ handleChildUnmount(){
        return (
       
         <div >
-       <h1>Tietokantahaku</h1>
+       <h1>Käyttäjät</h1>
           <button onClick={this.handleClickHelp}>Opasteet</button>
           <button onClick={this.handleClickAdd}>Lisää käyttäjä</button>
           <button onClick={this.handleClickPrev}>Edelliset</button>
