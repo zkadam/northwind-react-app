@@ -108,13 +108,18 @@ handleChildUnmount(){
 
     let taulukko=[];
     let otsikko=[];
+    let apucounter=0;
     if (this.state.nwRecords.length>0){
     //getting first row to get columnnames - HUOM: individual key have to be set for all table data
       var columnNames = this.state.nwRecords[0];
        for(var name in columnNames){
-        otsikko.push(<th key={name}>{name}</th>)
+         if(apucounter<9){
+           otsikko.push(<th key={name}>{name}</th>)
+         }
+        apucounter=apucounter+1;
         }
-   
+        
+        otsikko.push(<th key="edit"></th>)
      
         var rivi=[];
       //for each object-aka row  
@@ -131,10 +136,13 @@ handleChildUnmount(){
             avainBoole=false;
           }
         //building row by pushing value to td fields  
+        if(i<9)
+          {
             rivi.push(<td key={avain + i.toString()} className="tData">{element[tieto]}</td>)
+          }
             i++;
           }
-          rivi.push(<td key={"edit" + tieto[0].toString()}><button onClick={this.handleClickEdit.bind(this,element)}>Muokkaa</button></td>)
+          rivi.push(<td key={"edit" + tieto[0].toString()}><button className="editBtn" onClick={this.handleClickEdit.bind(this,element)}>Muokkaa</button></td>)
           //pushing row to table
            taulukko.push(<tr key={avain} className="nwBody">{rivi}</tr>)
            rivi=[];
