@@ -49,7 +49,7 @@ class NWCustomerFetch extends Component {
   NorthwindFetch(){
     let uri2='https://localhost:5001/nw/customer';
     // let uri='https://localhost:5001/nw/customer/r?offset='+this.state.offset+'&limit='+this.state.limit;
-    let uri='https://localhost:5001/nw/orders/';
+    let uri='https://localhost:5001/nw/customer/';
 
     console.log("NorthwindFetch " + uri);
     fetch(uri)

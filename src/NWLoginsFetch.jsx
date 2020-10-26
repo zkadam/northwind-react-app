@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import Helpit from './helpit';
-import NWCustomerAdd from './NWCustomerAdd';
+import NWLoginsAdd from './NWLoginsAdd';
 class NWLoginsFetch extends Component {
 
   constructor(props){
@@ -14,7 +14,7 @@ class NWLoginsFetch extends Component {
     //   limit:10,
       visible:"table",
       renderChild:true
-//nwcustomeradd komponentti renderöideään jos this.state.renderChild=true
+//NWLoginsAdd komponentti renderöideään jos this.state.renderChild=true
     };
     this.handleChildUnmount=this.handleChildUnmount.bind(this);
   }
@@ -44,30 +44,30 @@ handleChildUnmount(){
   }
 
   // --------------------------------------PREVIOUS BUTTON CLICK------------------
-//   handleClickPrev=(event)=>{
-//    let offsetnumb=this.state.offset-10;
-//       if (offsetnumb<10){offsetnumb=0}
-//     this.setState({
-//       offset: offsetnumb,
-//   },()=>this.NorthwindFetch());
+  handleClickPrev=(event)=>{
+   let offsetnumb=this.state.offset-10;
+      if (offsetnumb<10){offsetnumb=0}
+    this.setState({
+      offset: offsetnumb,
+  },()=>this.NorthwindFetch());
 
 
-//   }
+  }
   // --------------------------------------NEXT BUTTON CLICK------------------
 
-//   handleClickNext=(event)=>{
+  handleClickNext=(event)=>{
    
-//     let offsetnumb=this.state.offset+10;
-//     if (offsetnumb>this.state.recordcount)
-//     {while(offsetnumb>=this.state.recordcount)
-//       {offsetnumb=offsetnumb-10}
-//     }
+    let offsetnumb=this.state.offset+10;
+    if (offsetnumb>this.state.recordcount)
+    {while(offsetnumb>=this.state.recordcount)
+      {offsetnumb=offsetnumb-10}
+    }
 
-//       this.setState({
-//           offset: offsetnumb,
-//       },()=>this.NorthwindFetch());
+      this.setState({
+          offset: offsetnumb,
+      },()=>this.NorthwindFetch());
       
-//   }
+  }
 
 
   NorthwindFetch(){
@@ -147,7 +147,7 @@ handleChildUnmount(){
         <div >
        <h1>Tietokantahaku</h1>
           <button onClick={this.handleClickHelp}>Opasteet</button>
-          <button onClick={this.handleClickAdd}>Lisää asiakas</button>
+          <button onClick={this.handleClickAdd}>Lisää käyttäjä</button>
           <button onClick={this.handleClickPrev}>Edelliset</button>
           <button onClick={this.handleClickNext}>Seuraavat</button>
           {/* filling the table with the data */}
@@ -167,7 +167,7 @@ handleChildUnmount(){
             <button onClick={this.handleClickHelp}>Opasteet</button>
             <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
           </div>  
-          {/* {this.state.renderChild ? <NWCustomerAdd unmountMe={this.handleChildUnmount}/>:null} */}
+          {this.state.renderChild ? <NWLoginsAdd unmountMe={this.handleChildUnmount}/>:null}
           </div>
         );}
     else if(this.state.visible==="help")
