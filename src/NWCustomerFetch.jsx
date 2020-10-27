@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './App.css';
 import Helpit from './helpit';
 import NWCustomerAdd from './NWCustomerAdd';
+import NWCustomerEdit from './NWCustomerEdit'
+
 class NWCustomerFetch extends Component {
 
   constructor(props){
@@ -13,25 +15,36 @@ class NWCustomerFetch extends Component {
       offset:0,
       limit:10,
       visible:"table",
-      renderChild:true
-//nwcustomeradd komponentti renderöideään jos this.state.renderChild=true
+      renderChildAdd:true,
+      renderChildEdit:true,
+      yksiAsiakas:[]
     };
-    this.handleChildUnmount=this.handleChildUnmount.bind(this);
+    this.handleChildUnmountAdd=this.handleChildUnmountAdd.bind(this);
+    this.handleChildUnmountEdit=this.handleChildUnmountEdit.bind(this);
+
   }
 
-handleChildUnmount(){
-  this.setState({renderChild:false});
+//--------------------------------------------UNMOUNT CHILD FUNCTIONS
+handleChildUnmountAdd(){
+  this.setState({renderChildAdd:false});
   this.handleClickTable();//clicking table button
   this.NorthwindFetch();
 }
 
-//--------------------------------------------click functions
+handleChildUnmountEdit(){
+  this.setState({renderChildEdit:false});
+  this.handleClickTable();//clicking table button
+  this.NorthwindFetch();
+}
+
+
+//--------------------------------------------button click functions
   handleClickTable=()=>{
     this.setState({visible:"table"});
   }
 
   handleClickAdd=()=>{
-    this.setState({visible:"addform",renderChild:true});
+    this.setState({visible:"addform",renderChildAdd:true});
   }
 
   handleClickHelp=()=>{
@@ -39,64 +52,69 @@ handleChildUnmount(){
   }
 //-----------------------------------------EDIT BUTTON
   handleClickEdit=(dataObj,event)=>{
-    console.log(dataObj)
+    console.log(dataObj);
+    this.setState({
+      yksiAsiakas:dataObj,
+      visible:"editform",
+      renderChildEdit:true
+    },()=>console.log('visible: ' + this.state.visible +' yksiasiakas: ' + JSON.stringify(this.state.yksiAsiakas)));
   }
-
-  componentDidMount(){
-    console.log("NWCustomerFetch: component did mount")
-    this.NorthwindFetch();
-  }
-
+  
   // --------------------------------------PREVIOUS BUTTON CLICK------------------
   handleClickPrev=(event)=>{
-   let offsetnumb=this.state.offset-10;
-      if (offsetnumb<10){offsetnumb=0}
+    let offsetnumb=this.state.offset-10;
+    if (offsetnumb<10){offsetnumb=0}
     this.setState({
       offset: offsetnumb,
-  },()=>this.NorthwindFetch());
-
-
+     },()=>this.NorthwindFetch());
+    
+    
   }
   // --------------------------------------NEXT BUTTON CLICK------------------
-
+  
   handleClickNext=(event)=>{
-   
+    
     let offsetnumb=this.state.offset+10;
     if (offsetnumb>this.state.recordcount)
     {while(offsetnumb>=this.state.recordcount)
       {offsetnumb=offsetnumb-10}
     }
-
-      this.setState({
-          offset: offsetnumb,
-      },()=>this.NorthwindFetch());
-      
+    
+    this.setState({
+      offset: offsetnumb,
+    },()=>this.NorthwindFetch());
+    
   }
-
-
+  
+  
   NorthwindFetch(){
     let uri2='https://localhost:5001/nw/customer';
     let uri='https://localhost:5001/nw/customer/r?offset='+this.state.offset+'&limit='+this.state.limit;
     // let uri='https://localhost:5001/nw/orders/';
-
+    
     console.log("NorthwindFetch " + uri);
     fetch(uri)
-      .then(response => response.json())
-      .then(json =>{
-        console.log(json);
-        this.setState({nwRecords: json});
-
-      });
-// separate fetch to get max length so we can block from loading empty table lines
-      fetch(uri2)
-      .then(response => response.json())
-      .then(json =>{
-        // console.log(json);
-        this.setState({recordcount: json.length});
-
-      });
+    .then(response => response.json())
+    .then(json =>{
+      console.log(json);
+      this.setState({nwRecords: json});
+      
+    });
+    // separate fetch to get max length so we can block from loading empty table lines
+    fetch(uri2)
+    .then(response => response.json())
+    .then(json =>{
+      // console.log(json);
+      this.setState({recordcount: json.length});
+      
+    });
   }
-
+  //------------------------------------------DID MOUNT
+    componentDidMount(){
+      console.log("NWCustomerFetch: component did mount")
+      this.NorthwindFetch();
+    }
+  
   componentWillUnmount(){
     console.log("NorthwindFetch: componentWillUnmountissa")
   }
@@ -179,9 +197,21 @@ handleChildUnmount(){
             <button onClick={this.handleClickHelp}>Opasteet</button>
             <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
           </div>  
-          {this.state.renderChild ? <NWCustomerAdd unmountMe={this.handleChildUnmount}/>:null}
+          {this.state.renderChildAdd ? <NWCustomerAdd unmountMe={this.handleChildUnmountAdd}/>:null}
           </div>
         );}
+    else if(this.state.visible==="editform")
+    {
+      return(
+        <div className="box1">
+          <h1>Asiakastietojen muokkaus</h1>
+        <div>
+          <button onClick={this.handleClickHelp}>Opasteet</button>
+          <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
+        </div>  
+        {this.state.renderChildEdit ? <NWCustomerEdit asiakasObj={this.state.yksiAsiakas} unmountMe={this.handleChildUnmountEdit}/>:null}
+        </div>
+      );}
     else if(this.state.visible==="help")
       {
         return(
