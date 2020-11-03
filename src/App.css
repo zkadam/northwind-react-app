@@ -138,10 +138,12 @@
       }
 
     .labelDiv{
+    
     height: max-content;
+    padding: 10px;
     }
-    .labelDiv:nth-child(even){background-color:pink!important;}
-   .labelDiv:nth-child(odd){background-color:blue!important;}
+    .labelDiv:nth-child(even){float: right;clear: right;background-color:pink!important;}
+   .labelDiv:nth-child(odd){float: left;clear: left;background-color:blue!important;}
 
    .popupDiv{position: absolute;
     display:flex;
@@ -157,17 +159,23 @@
       }
 
     .box3pop{
-      width:max-content;
-      height: max-content;
+      min-width:max-content;
+      /* min-height: max-content; */
+      height: 80vh;
+      width:70vw;
+      overflow:auto;
       background-color: violet;
-      display:flex; 
+      display:grid; 
+      grid-template-columns: auto auto;
     }
 
     label{margin-left:5px}
 
     .deleteConfBtn{
-                    position: relative;
-                    bottom: 20px;
+               position: relative;
                     height: max-content;
+                    width: max-content;
                   
-                  }
+                margin-bottom: 5px;
+                margin-right: 5px;  
+                }

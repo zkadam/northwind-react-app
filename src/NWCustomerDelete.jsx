@@ -122,17 +122,17 @@ NWDeleteRestApista(){
         let i=0;
         console.log(keys)
         for(var field in this.state.asiakasObj){
-            divs.push(<div key={field} className="labeldiv"><label>{keys[i]}:   </label><label>{this.state.asiakasObj[field]}</label></div>);
+            divs.push(<div key={field} className="labelDiv"><label>{keys[i]}:   </label><label>{this.state.asiakasObj[field]}</label></div>);
             i++;
         }
         return (
             <div className="popupDiv">
             <form className="box3pop" onSubmit={this.handleSubmit}>
-                <div>{divs}
+               {divs}
                 
-                </div>
-            
                 <button className="deleteConfBtn" type="submit">Poista asiakkaan</button>
+               
+            
             </form>
             </div>
         )
