@@ -17,10 +17,13 @@ class NWCustomerFetch extends Component {
       visible:"table",
       renderChildAdd:true,
       renderChildEdit:true,
-      yksiAsiakas:[]
+      yksiAsiakas:[],
+      CustomerID:'',
+      CustomerID2Del:''
     };
     this.handleChildUnmountAdd=this.handleChildUnmountAdd.bind(this);
     this.handleChildUnmountEdit=this.handleChildUnmountEdit.bind(this);
+    this.handlePerformDelete=this.handlePerformDelete.bind(this);
 
   }
 
@@ -60,6 +63,50 @@ handleChildUnmountEdit(){
     },()=>console.log('visible: ' + this.state.visible +' yksiasiakas: ' + JSON.stringify(this.state.yksiAsiakas)));
   }
   
+ //-----------------------------------------DELETE FUNCTIONS
+  handleClickDelete=(poistettava,event)=>{
+    console.log('handleClickDelete------------postan asiakkaan-------',poistettava);
+    this.setState({
+      CustomerID2Del:poistettava,
+      visible:"deleteform",
+    })
+  }
+  
+  handlePerformDelete(){
+    console.log('NwDeleteRestApista......deleteissä', this.state.CustomerID2Del);
+    this.NWDeleteRestApista();
+  }
+
+  ResetDeleteDone(){
+    console.log('Reset delete done???????');
+    this.setState({
+      CustomerID2Del:'',
+    })
+    this.handleClickTable();
+    this.NorthwindFetch();
+  }
+
+NWDeleteRestApista(){
+  let apiUrl='https://localhost:5001/nw/customer/'+this.state.CustomerID2Del;
+  console.log("NWDeleteRestApista " + apiUrl);
+  fetch(apiUrl, {
+    method:"DELETE",
+    headers:{
+      "Accept":"application/json",
+     "Content-Type":"application/json" 
+    },
+    body:null
+  }).then((response)=>response.json())
+      .then((json)=>{
+        const success=json;
+        console.log('Response from server: ' +success);
+        if(success){
+          console.log('pyyntö asiakkaan poistamiseksi tehty-------');
+          this.ResetDeleteDone();
+        }
+      });
+}
+ 
   // --------------------------------------PREVIOUS BUTTON CLICK------------------
   handleClickPrev=(event)=>{
     let offsetnumb=this.state.offset-10;
@@ -138,7 +185,8 @@ handleChildUnmountEdit(){
         }
         
         otsikko.push(<th key="edit"></th>)
-     
+        otsikko.push(<th key="delete"></th>)
+
         var rivi=[];
       //for each object-aka row  
         for(let index=0; index<this.state.nwRecords.length; index++){
@@ -160,7 +208,9 @@ handleChildUnmountEdit(){
           }
             i++;
           }
-          rivi.push(<td key={"edit" + tieto[0].toString()}><button className="editBtn" onClick={this.handleClickEdit.bind(this,element)}>Muokkaa</button></td>)
+          rivi.push(<td className="thBtn" key={"edit" + tieto[0].toString()}><button className="editBtn" onClick={this.handleClickEdit.bind(this,element)}>Muokkaa</button></td>)
+          rivi.push(<td key={"delete" + tieto[0].toString()}><button className="deleteBtn" onClick={this.handleClickDelete.bind(this,element.customerId)}>Poista</button></td>)
+
           //pushing row to table
            taulukko.push(<tr key={avain} className="nwBody">{rivi}</tr>)
            rivi=[];
@@ -170,7 +220,7 @@ handleChildUnmountEdit(){
     else {
       viesti="Haetaan tietoja northwind Api:sta..."
     }
-
+//-----------------------------------------------------------ASIAKAS TAULUKKO
     if(this.state.visible==="table"){
        return (
       
@@ -200,6 +250,7 @@ handleChildUnmountEdit(){
           {this.state.renderChildAdd ? <NWCustomerAdd unmountMe={this.handleChildUnmountAdd}/>:null}
           </div>
         );}
+  //----------------------------------------------------------EDIT----------------------------------------
     else if(this.state.visible==="editform")
     {
       return(
@@ -212,6 +263,23 @@ handleChildUnmountEdit(){
         {this.state.renderChildEdit ? <NWCustomerEdit asiakasObj={this.state.yksiAsiakas} unmountMe={this.handleChildUnmountEdit}/>:null}
         </div>
       );}
+        //----------------------------------------------------------DELETE----------------------------------------
+    else if(this.state.visible==="deleteform")
+    {
+      return(
+        <div className="box1">
+          <h1>Asiakkaan poiston vahvistus</h1>
+        
+        
+          <button onClick={this.handleClickHelp}>Opasteet</button>
+          <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
+          <button onClick={this.handlePerformDelete}>Vahvista poisto</button>
+
+        </div>
+
+   
+      );}
+  //----------------------------------------------------------HELP----------------------------------------
     else if(this.state.visible==="help")
       {
         return(

@@ -119,7 +119,7 @@ handleChildUnmount(){
        for(var name in columnNames){
         otsikko.push(<th key={name}>{name}</th>)
         }
-   
+
      
         var rivi=[];
       //for each object-aka row  

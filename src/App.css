@@ -97,8 +97,44 @@
     }
 
     .editBtn{
-      background-color:rgba(7, 107, 48,0.8);
-      color:white;
-      border-radius: 5px;
-      
+      background:    #1b56a3;
+      border-radius: 2px;
+      color:         #ffffff;
+      display:       inline-block;
+      font:          normal bold  "Arial", arial;    
+        text-align:    center;
+      width: 100%;      
+      height: 100%;
+      border-color:transparent;
+      cursor: pointer;
+
        }
+
+       .editBtn:hover {
+        background-color: white; 
+        border-color:#1b56a3;
+
+        color:#1b56a3;
+      }
+
+    .deleteBtn{
+      background:    #b3040d;
+      border-radius: 2px;
+      color:         #ffffff;
+      display:       inline-block;
+      font:          normal bold  "Arial", arial;
+      text-align:    center;
+      width: 100%;      
+      height: 100%;
+      border-color:transparent;
+      cursor: pointer;
+
+      }
+      .deleteBtn:hover {
+        background-color: white; 
+        border-color:#b3040d;
+
+        color:#b3040d;
+      }
+
+      .thBtn{padding:0}
