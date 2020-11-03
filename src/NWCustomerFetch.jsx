@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import './App.css';
 import Helpit from './helpit';
 import NWCustomerAdd from './NWCustomerAdd';
-import NWCustomerEdit from './NWCustomerEdit'
+import NWCustomerEdit from './NWCustomerEdit';
+import NWCustomerDelete from './NWCustomerDelete';
 
 class NWCustomerFetch extends Component {
 
@@ -17,13 +18,15 @@ class NWCustomerFetch extends Component {
       visible:"table",
       renderChildAdd:true,
       renderChildEdit:true,
+      renderChildDelete:true,
       yksiAsiakas:[],
       CustomerID:'',
       CustomerID2Del:''
     };
     this.handleChildUnmountAdd=this.handleChildUnmountAdd.bind(this);
     this.handleChildUnmountEdit=this.handleChildUnmountEdit.bind(this);
-    this.handlePerformDelete=this.handlePerformDelete.bind(this);
+    this.handleChildUnmountDelete=this.handleChildUnmountDelete.bind(this);
+
 
   }
 
@@ -36,6 +39,12 @@ handleChildUnmountAdd(){
 
 handleChildUnmountEdit(){
   this.setState({renderChildEdit:false});
+  this.handleClickTable();//clicking table button
+  this.NorthwindFetch();
+}
+
+handleChildUnmountDelete(){
+  this.setState({renderChildDelete:false});
   this.handleClickTable();//clicking table button
   this.NorthwindFetch();
 }
@@ -69,43 +78,12 @@ handleChildUnmountEdit(){
     this.setState({
       CustomerID2Del:poistettava,
       visible:"deleteform",
+      renderChildDelete:true
+
     })
   }
   
-  handlePerformDelete(){
-    console.log('NwDeleteRestApista......deleteissä', this.state.CustomerID2Del);
-    this.NWDeleteRestApista();
-  }
-
-  ResetDeleteDone(){
-    console.log('Reset delete done???????');
-    this.setState({
-      CustomerID2Del:'',
-    })
-    this.handleClickTable();
-    this.NorthwindFetch();
-  }
-
-NWDeleteRestApista(){
-  let apiUrl='https://localhost:5001/nw/customer/'+this.state.CustomerID2Del;
-  console.log("NWDeleteRestApista " + apiUrl);
-  fetch(apiUrl, {
-    method:"DELETE",
-    headers:{
-      "Accept":"application/json",
-     "Content-Type":"application/json" 
-    },
-    body:null
-  }).then((response)=>response.json())
-      .then((json)=>{
-        const success=json;
-        console.log('Response from server: ' +success);
-        if(success){
-          console.log('pyyntö asiakkaan poistamiseksi tehty-------');
-          this.ResetDeleteDone();
-        }
-      });
-}
+  
  
   // --------------------------------------PREVIOUS BUTTON CLICK------------------
   handleClickPrev=(event)=>{
@@ -269,11 +247,13 @@ NWDeleteRestApista(){
       return(
         <div className="box1">
           <h1>Asiakkaan poiston vahvistus</h1>
-        
+          <div>
+
         
           <button onClick={this.handleClickHelp}>Opasteet</button>
           <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
-          <button onClick={this.handlePerformDelete}>Vahvista poisto</button>
+          </div>  
+        {this.state.renderChildEdit ? <NWCustomerDelete CustomerID={this.state.CustomerID2Del} unmountMe={this.handleChildUnmountDelete}/>:null}
 
         </div>
 

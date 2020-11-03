@@ -5,7 +5,7 @@ import './App.css';
 class NWCustomerEdit extends Component{
     constructor(props){
         super(props);
-        this.state={asiakasObj:[],CustomerID:'',CompanyName:'',ContactName:'',ContactTitle:'',Address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
+        this.state={CustomerID:'',CompanyName:'',ContactName:'',ContactTitle:'',Address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
 
         this.handleChangeCustomerID=this.handleChangeCustomerID.bind(this);
         this.handleChangeCompanyName=this.handleChangeCompanyName.bind(this);

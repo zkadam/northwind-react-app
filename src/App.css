@@ -137,4 +137,37 @@
         color:#b3040d;
       }
 
-      .thBtn{padding:0}
+    .labelDiv{
+    height: max-content;
+    }
+    .labelDiv:nth-child(even){background-color:pink!important;}
+   .labelDiv:nth-child(odd){background-color:blue!important;}
+
+   .popupDiv{position: absolute;
+    display:flex;
+            top:0px;
+            bottom:0px;
+            right:0px;
+            left:0px;
+            width: 100vw;
+            height: 100vh;
+            background-color:rgba(0, 0, 0, 0.555);
+            align-items: center;
+            justify-content: center 
+      }
+
+    .box3pop{
+      width:max-content;
+      height: max-content;
+      background-color: violet;
+      display:flex; 
+    }
+
+    label{margin-left:5px}
+
+    .deleteConfBtn{
+                    position: relative;
+                    bottom: 20px;
+                    height: max-content;
+                  
+                  }
