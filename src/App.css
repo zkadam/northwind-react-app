@@ -44,7 +44,7 @@
   width:max-content;
   max-width: 95%;
   max-height:75%;
-  overflow:scroll;
+  overflow:auto;
   margin-left:auto;
   margin-right: auto;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
@@ -166,8 +166,8 @@
     .box3pop{
       min-width:max-content;
       /* min-height: max-content; */
-      height: 80vh;
-      width:70vw;
+      height: 80%;
+      width:70%;
       overflow:auto;
       background-color: rgb(235, 238, 241);
       display:grid; 
