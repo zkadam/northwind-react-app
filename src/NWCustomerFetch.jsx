@@ -44,9 +44,12 @@ handleChildUnmountEdit(){
 }
 
 handleChildUnmountDelete(){
-  this.setState({renderChildDelete:false});
-  this.handleClickTable();//clicking table button
-  this.NorthwindFetch();
+  // this.setState({renderChildDelete:false});
+  this.setState({renderChildDelete:false,visible:"table",},()=>this.NorthwindFetch());
+  
+
+
+
 }
 
 
@@ -257,7 +260,7 @@ handleChildUnmountDelete(){
            <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
            </div>
            <p>{viesti}</p>
-         {this.state.renderChildEdit ? <NWCustomerDelete CustomerID={this.state.CustomerID2Del} unmountMe={this.handleChildUnmountDelete}/>:null}
+         {this.state.renderChildDelete ? <NWCustomerDelete CustomerID={this.state.CustomerID2Del} unmountMe={this.handleChildUnmountDelete}/>:null}
          </div>
           {/* <h1>Asiakkaan poiston vahvistus</h1>
           <div>

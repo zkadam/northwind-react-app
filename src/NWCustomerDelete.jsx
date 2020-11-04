@@ -14,8 +14,14 @@ class NWCustomerDelete extends Component{
     }
 
     dismiss(e){
+        console.log(e.target.className)
+        //condition tarkistaa mistä popup tuli ja suljee modalin jos tuli formin ulkopuolelta
         if(e.target.className==="popupDiv")
         {
+            this.props.unmountMe();
+        }
+        else if(e.target.className==="deleteConfBtn"){
+            this.PoistaKannasta();
             this.props.unmountMe();
         }
     }
@@ -116,7 +122,7 @@ NWDeleteRestApista(){
                 console.log("Response from server: "+ success +".");
                 if(success){
                     console.log("Pyyntö asiakkaan poistamiseksi tehty-- -- -- -- --");
-                    this.dismiss();
+                    // this.dismiss();
                 } 
             });
     }
