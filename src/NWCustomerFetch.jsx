@@ -245,18 +245,29 @@ handleChildUnmountDelete(){
     else if(this.state.visible==="deleteform")
     {
       return(
-        <div className="box1">
-          <h1>Asiakkaan poiston vahvistus</h1>
+        <div>
+        <div >
+        <h1>Asiakkaat</h1>
+           <button onClick={this.handleClickHelp}>Opasteet</button>
+           <button onClick={this.handleClickAdd}>Lisää asiakas</button>
+           <button onClick={this.handleClickPrev}>Edelliset</button>
+           <button onClick={this.handleClickNext}>Seuraavat</button>
+           {/* filling the table with the data */}
+         <div className="NorthwindFetch">
+           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
+           </div>
+           <p>{viesti}</p>
+         {this.state.renderChildEdit ? <NWCustomerDelete CustomerID={this.state.CustomerID2Del} unmountMe={this.handleChildUnmountDelete}/>:null}
+         </div>
+          {/* <h1>Asiakkaan poiston vahvistus</h1>
           <div>
 
         
           <button onClick={this.handleClickHelp}>Opasteet</button>
           <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
-          </div>  
-        {this.state.renderChildEdit ? <NWCustomerDelete CustomerID={this.state.CustomerID2Del} unmountMe={this.handleChildUnmountDelete}/>:null}
+          </div>   */}
 
         </div>
-
    
       );}
   //----------------------------------------------------------HELP----------------------------------------

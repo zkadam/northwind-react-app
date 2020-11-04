@@ -9,10 +9,15 @@ class NWCustomerDelete extends Component{
 
         
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.dismiss = this.dismiss.bind(this);
+
     }
 
-    dismiss(){
-        this.props.unmountMe();
+    dismiss(e){
+        if(e.target.className==="popupDiv")
+        {
+            this.props.unmountMe();
+        }
     }
 
 //-------------------------------GETTING JSON BY ID
@@ -120,19 +125,20 @@ NWDeleteRestApista(){
         let divs=[];
         let keys=Object.keys(this.state.asiakasObj);
         let i=0;
-        console.log(keys)
+        // pushataan kaikki key nimit ja object valuet diveihin
         for(var field in this.state.asiakasObj){
-            divs.push(<div key={field} className="labelDiv"><label>{keys[i]}:   </label><label>{this.state.asiakasObj[field]}</label></div>);
+            divs.push(<div key={field} className="labelDiv labelKeys"><label>{keys[i]}:   </label><label className="labelField">{this.state.asiakasObj[field]}</label></div>);
             i++;
         }
         return (
-            <div className="popupDiv">
+            <div className="popupDiv" onClick={this.dismiss.bind(this)}>
             <form className="box3pop" onSubmit={this.handleSubmit}>
+            <h2>Haluatko varmasti poista asiakkaan?</h2><br/>
                {divs}
-                
-                <button className="deleteConfBtn" type="submit">Poista asiakkaan</button>
-               
-            
+               <div className="buttonsDiv">
+                    <button className="deleteConfBtn" type="submit">Poista asiakkaan</button>
+                    <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>
+                </div>
             </form>
             </div>
         )
