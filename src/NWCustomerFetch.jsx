@@ -32,24 +32,17 @@ class NWCustomerFetch extends Component {
 
 //--------------------------------------------UNMOUNT CHILD FUNCTIONS
 handleChildUnmountAdd(){
-  this.setState({renderChildAdd:false});
-  this.handleClickTable();//clicking table button
-  this.NorthwindFetch();
+  this.setState({renderChildAdd:false,visible:"table",},()=>this.NorthwindFetch());
+
 }
 
 handleChildUnmountEdit(){
-  this.setState({renderChildEdit:false});
-  this.handleClickTable();//clicking table button
-  this.NorthwindFetch();
+  this.setState({renderChildEdit:false,visible:"table",},()=>this.NorthwindFetch());
 }
 
 handleChildUnmountDelete(){
   // this.setState({renderChildDelete:false});
   this.setState({renderChildDelete:false,visible:"table",},()=>this.NorthwindFetch());
-  
-
-
-
 }
 
 
@@ -235,13 +228,19 @@ handleChildUnmountDelete(){
     else if(this.state.visible==="editform")
     {
       return(
-        <div className="box1">
-          <h1>Asiakastietojen muokkaus</h1>
         <div>
-          <button onClick={this.handleClickHelp}>Opasteet</button>
-          <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
-        </div>  
-        {this.state.renderChildEdit ? <NWCustomerEdit asiakasObj={this.state.yksiAsiakas} unmountMe={this.handleChildUnmountEdit}/>:null}
+        <div >
+        <h1>Asiakkaat</h1>
+           <button onClick={this.handleClickHelp}>Opasteet</button>
+           <button onClick={this.handleClickAdd}>Lisää asiakas</button>
+           <button onClick={this.handleClickPrev}>Edelliset</button>
+           <button onClick={this.handleClickNext}>Seuraavat</button>
+           {/* filling the table with the data */}
+         <div className="NorthwindFetch">
+           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
+           </div>
+           <p>{viesti}</p>
+           {this.state.renderChildEdit ? <NWCustomerEdit asiakasObj={this.state.yksiAsiakas} unmountMe={this.handleChildUnmountEdit}/>:null}         </div>
         </div>
       );}
         //----------------------------------------------------------DELETE----------------------------------------
@@ -262,14 +261,6 @@ handleChildUnmountDelete(){
            <p>{viesti}</p>
          {this.state.renderChildDelete ? <NWCustomerDelete CustomerID={this.state.CustomerID2Del} unmountMe={this.handleChildUnmountDelete}/>:null}
          </div>
-          {/* <h1>Asiakkaan poiston vahvistus</h1>
-          <div>
-
-        
-          <button onClick={this.handleClickHelp}>Opasteet</button>
-          <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
-          </div>   */}
-
         </div>
    
       );}

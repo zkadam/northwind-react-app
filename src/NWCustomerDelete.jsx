@@ -141,6 +141,7 @@ NWDeleteRestApista(){
             <form className="box3pop" onSubmit={this.handleSubmit}>
             <h2>Haluatko varmasti poista asiakkaan?</h2><br/>
                {divs}
+
                <div className="buttonsDiv">
                     <button className="deleteConfBtn" type="submit">Poista asiakkaan</button>
                     <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>

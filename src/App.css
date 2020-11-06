@@ -180,8 +180,8 @@
     label{margin-left:5px}
     .buttonsDiv{
       text-align: center;
-vertical-align: middle;  
-    float: right;clear: right;
+      vertical-align: middle;  
+      float: right;clear: right;
     }
     .deleteConfBtn{
             position: inherit;
@@ -210,9 +210,26 @@ vertical-align: middle;
         cursor: pointer;
         top: 50%;
         transform: translate(0%,50%);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+
       }
-      .deleteConfBtn:hover{padding:10px}
-      .peruutaBtn:hover{padding:10px}
+
+      .confirmBtn{
+        height: max-content;
+        width: max-content;
+        color:white;
+        background-color:rgb(18, 109, 33);
+        margin-right: 8px;  
+        border-radius: 7px;
+        border-style: hidden;
+        padding: 5px;
+        cursor: pointer;
+        top: 50%;
+        transform: translate(0%,50%);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+
+      }
+      .deleteConfBtn:hover,.peruutaBtn:hover,.confirmBtn:hover{padding:10px}
 
 
 

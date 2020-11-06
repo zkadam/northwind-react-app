@@ -18,10 +18,21 @@ class NWCustomerEdit extends Component{
         this.handleChangePhone=this.handleChangePhone.bind(this);
         this.handleChangeFax=this.handleChangeFax.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.dismiss = this.dismiss.bind(this);
+
     }
 
-    dismiss(){
-        this.props.unmountMe();
+    dismiss(e,dismiss){
+        console.log(e.target.className)
+        //condition tarkistaa mistä popup tuli ja suljee modalin jos tuli formin ulkopuolelta
+        if(e.target.className==="popupDiv")
+        {
+            this.props.unmountMe();
+        }
+        else if(e.target.className==="confirmBtn"){
+            this.InsertoiKantaan();
+            this.props.unmountMe();
+        }
     }
 //----------------------------------------TEXTFIELD CHANGES
     handleChangeCustomerID(event){
@@ -116,7 +127,7 @@ class NWCustomerEdit extends Component{
                 console.log("Response from server: "+ success +".");
                 if(success){
                     console.log("Pyyntö asiakkaan päivittämiseksi tehty-- -- -- -- --");
-                    this.dismiss();
+                    // this.dismiss(true);
                 } 
             });
     }
@@ -124,6 +135,7 @@ class NWCustomerEdit extends Component{
     render(){
         return (
             <div className="popupDiv" onClick={this.dismiss.bind(this)}>
+            
             <form className="box3pop" onSubmit={this.handleSubmit}>
             <h2>Moukkaa asiakastiedot:</h2><br/>
                     <div className="labelDiv">
@@ -157,7 +169,11 @@ class NWCustomerEdit extends Component{
                         <label className="labelKeys">Fax: </label>
                         <input className="labelField" type="text" value={this.state.Fax || ""} placeholder="Fax" onChange={this.handleChangeFax} /> </div>
                 <br/>
-                <button type="submit">Talleta muutokset</button>
+            <div className="buttonsDiv">
+                <button className="confirmBtn" type="submit">Talleta muutokset</button>
+                <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>
+
+            </div>
             </form>
             </div>
         )
