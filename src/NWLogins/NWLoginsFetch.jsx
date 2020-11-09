@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import './App.css';
-import Helpit from './helpit';
+import '../App.css';
+import Helpit from '../helpit';
 import NWLoginsAdd from './NWLoginsAdd';
 class NWLoginsFetch extends Component {
 

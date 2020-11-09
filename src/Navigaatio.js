@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import NWCustomerFetch from './NWCustomers/NWCustomerFetch'
-import NWLoginsFetch from './NWLoginsFetch'
+import NWLoginsFetch from './NWLogins/NWLoginsFetch'
 
 
 
@@ -18,15 +18,14 @@ class Navigaatio extends Component {
 
                 <ul className="navbar-nav mr-auto">
                     <li><Link to={'/NWCustomers/NWCustomerFetch'} className="nav-link">NWCustomerFetch</Link></li>
-                    <li><Link to={'/NWLoginsFetch'} className="nav-link">NWLoginsFetch</Link></li>
+                    <li><Link to={'/NWLogins/NWLoginsFetch'} className="nav-link">NWLoginsFetch</Link></li>
 
                 </ul>    
                 </nav>
-                <hr/>
 
         <Switch>
             <Route path='/NWCustomers/NWCustomerFetch' component={NWCustomerFetch}/>
-            <Route path='/NWLoginsFetch' component={NWLoginsFetch}/>
+            <Route path='/NWLogins/NWLoginsFetch' component={NWLoginsFetch}/>
 
         </Switch>
             </div>
