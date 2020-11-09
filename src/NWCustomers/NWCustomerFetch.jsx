@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import './App.css';
-import Helpit from './helpit';
+import '../App.css';
+import Helpit from '../helpit';
 import NWCustomerAdd from './NWCustomerAdd';
 import NWCustomerEdit from './NWCustomerEdit';
 import NWCustomerDelete from './NWCustomerDelete';

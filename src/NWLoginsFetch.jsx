@@ -172,10 +172,10 @@ handleChildUnmount(){
       {
         return(
          <div className="box1">
-           <h1>Uuden asiakkaan lisäys</h1>
+           <h1>Uuden loginin lisäys</h1>
           <div>
             <button onClick={this.handleClickHelp}>Opasteet</button>
-            <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
+            <button onClick={this.handleClickTable}>Selaa logineja</button>
           </div>  
           {this.state.renderChild ? <NWLoginsAdd unmountMe={this.handleChildUnmount}/>:null}
           </div>
@@ -185,8 +185,8 @@ handleChildUnmount(){
         return(
           <div className="box1">
             <h1>Sovelluksen opasteet</h1>
-            <button onClick={this.handleClickAdd}>Lisää asiakas</button>
-            <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
+            <button onClick={this.handleClickAdd}>Lisää login</button>
+            <button onClick={this.handleClickTable}>Selaa loginsit</button>
             <Helpit moduli="NWLoginsFetch"/>
          </div>  
         
