@@ -13,8 +13,8 @@ class Navigaatio extends Component {
         return (
          <Router>
             <div>
-                <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-                <a class="navbar-brand" href="#">Northwind React Application 2019</a>
+                <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
+                <a className="navbar-brand" href="#">Northwind React Application 2019</a>
 
                 <ul className="navbar-nav mr-auto">
                     <li><Link to={'/NWCustomers/NWCustomerFetch'} className="nav-link">NWCustomerFetch</Link></li>

@@ -13,6 +13,7 @@ class NWCustomerFetch extends Component {
     this.state={
       nwRecords:[],
       recordcount: 0,
+      country:"",
       offset:0,
       limit:10,
       visible:"table",
@@ -26,6 +27,7 @@ class NWCustomerFetch extends Component {
     this.handleChildUnmountAdd=this.handleChildUnmountAdd.bind(this);
     this.handleChildUnmountEdit=this.handleChildUnmountEdit.bind(this);
     this.handleChildUnmountDelete=this.handleChildUnmountDelete.bind(this);
+    this.handleChangeCountry=this.handleChangeCountry.bind(this);
 
 
   }
@@ -107,10 +109,15 @@ handleChildUnmountDelete(){
     
   }
   
-  
+  handleChangeCountry(event){
+    let arvo=event.target.value;
+    this.setState({country: arvo},this.NorthwindFetch);
+  }
+
   NorthwindFetch(){
-    let uri2='https://localhost:5001/nw/customer';
-    let uri='https://localhost:5001/nw/customer/r?offset='+this.state.offset+'&limit='+this.state.limit;
+    let uri2='https://localhost:5001/nw/customer/r?offset='+'&limit='+'&country='+this.state.country;
+    
+    let uri='https://localhost:5001/nw/customer/r?offset='+this.state.offset+'&limit='+this.state.limit+'&country='+this.state.country;
     // let uri='https://localhost:5001/nw/orders/';
     
     console.log("NorthwindFetch " + uri);
@@ -204,11 +211,13 @@ handleChildUnmountDelete(){
           <button onClick={this.handleClickAdd}>Lisää asiakas</button>
           <button onClick={this.handleClickPrev}>Edelliset</button>
           <button onClick={this.handleClickNext}>Seuraavat</button>
+          <input type="text" placeholder="Filter by country"  onChange={this.handleChangeCountry}/>
+          <p>{viesti}</p>
+
           {/* filling the table with the data */}
         <div className="NorthwindFetch">
           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
           </div>
-          <p>{viesti}</p>
         </div>
       );
     }
