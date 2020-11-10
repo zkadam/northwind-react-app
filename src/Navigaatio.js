@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import NWCustomerFetch from './NWCustomers/NWCustomerFetch'
 import NWLoginsFetch from './NWLogins/NWLoginsFetch'
+import Login from './Login'
 
 
 
@@ -20,7 +21,9 @@ class Navigaatio extends Component {
                     <li><Link to={'/NWCustomers/NWCustomerFetch'} className="nav-link">NWCustomerFetch</Link></li>
                     <li><Link to={'/NWLogins/NWLoginsFetch'} className="nav-link">NWLoginsFetch</Link></li>
 
-                </ul>    
+                </ul>  
+                <Login/>
+
                 </nav>
 
         <Switch>

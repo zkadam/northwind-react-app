@@ -6,10 +6,13 @@ import './index.css';
 // import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Navigaatio from './Navigaatio';
+import Login from './Login';
 
 ReactDOM.render(
     <BrowserRouter>
       <Navigaatio/>
+       
+
     </BrowserRouter>
    
     
