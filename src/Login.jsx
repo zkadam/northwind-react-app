@@ -1,19 +1,21 @@
 import React, {Component} from 'react'
 import './App.css'
+import md5 from 'md5'
+
 
 class Login extends Component{
 
 constructor(props){
     super(props);
     this.state={
-        UserName:'',
-        PassWord:'',
+        userName:'',
+        passWord:'',
         ShowLoginForm:true,
         LoggedInUser:''
     }
 
-    this.handleChangeUserName=this.handleChangeUserName.bind(this);
-    this.handleChangePassword=this.handleChangePassword.bind(this);
+    this.handleChangeuserName=this.handleChangeuserName.bind(this);
+    this.handleChangepassWord=this.handleChangepassWord.bind(this);
     this.handleSubmit=this.handleSubmit.bind(this);
 }
 componentDidMount(){
@@ -28,14 +30,16 @@ logout(){
     this.setState({...this.state, LoggedInUser:'',ShowLoginForm:true})
 }
 
-handleChangeUserName(event){
+handleChangeuserName(event){
     var syöte=event.target.value;
-    this.setState({...this.state, UserName:syöte})
+    this.setState({...this.state, userName:syöte})
 }
 
-handleChangePassword(event){
-    var syöte=event.target.value;
-    this.setState({...this.state, PassWord:syöte})
+handleChangepassWord(event) {
+    var syöte =event.target.value
+    console.log(syöte)
+    //var syöte = (event.target.value)
+    this.setState({ ...this.state, passWord: syöte })
 }
 
 handleSubmit(event){
@@ -45,14 +49,14 @@ handleSubmit(event){
 
 LuoObjekti(){
     const tunnukset={
-        UserName: this.state.UserName,
-        PassWord:this.state.PassWord
+        userName: this.state.userName,
+        passWord:this.state.passWord
     }
 
     const tunnuksetJson=JSON.stringify(tunnukset);
         
     console.log("tunnuksetJson: "+tunnuksetJson);
-    const apiUrl='https://localhost:5001/nw/authentication';
+    const apiUrl='https://localhost:5001/nw/Authentication';
     fetch(apiUrl,{
         method:"POST",
         headers:{
@@ -64,14 +68,17 @@ LuoObjekti(){
         .then((json)=>{
             //store the data returned from the backend to the current state
             const success=json;
-            console.log(`Response from server: ${success}.`);
-            if(success.UserName){
-                console.log("Username: "+ success.UserName);
-                localStorage.setItem('user',success.UserName);
+            const succesStr=JSON.stringify(json);
+            console.log(`Response from server: ${succesStr}.`);
+            if(success.userName!==undefined){
+                console.log("userName: "+ success.userName);
+                localStorage.setItem('user',success.userName);
                 localStorage.setItem('token',success.token)
             }
             else
             {
+                console.log("Kirjautuminen epäonnistui.")
+
                 alert("Kirjautuminen epäonnistui.")
             }
         })
@@ -82,8 +89,8 @@ LuoObjekti(){
         if(this.state.ShowLoginForm===true){
             return (
                 <form onSubmit={this.handleSubmit}>
-                    <input type="text" placeholder="UserName" onChange={this.handleChangeUserName}/>
-                    <input type="text" placeholder="PassWord" onChange={this.handleChangePassword}/>
+                    <input type="text" placeholder="userName" onChange={this.handleChangeuserName}/>
+                    <input type="text" placeholder="passWord" onChange={this.handleChangepassWord}/>
                 <br/>
                 <button type="submit">Kirjaudu</button>
                 </form>
@@ -92,7 +99,7 @@ LuoObjekti(){
         else{
             return(
                 <div>
-                    <h3>Kirjautunut käyttäjä {this.state.LoggedInUser}</h3>
+                    <h4>Kirjautunut käyttäjä {this.state.LoggedInUser}</h4>
                     <button onClick={()=>this.logout()}>Kirjaudu ulos</button>
                 </div>
             )

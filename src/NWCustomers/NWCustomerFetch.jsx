@@ -137,24 +137,28 @@ if(jwtoken!==null)
         const success=json;
         console.log(`Response from server: ${success}.`);
         if(success){
-            alert("Pyyntö asiakkaan tallenttamiseksi tehty");
+            this.setState({nwRecords: json});
         }
     })
-  .then(response => response.json())
-  .then(json =>{
-    console.log(json);
-    this.setState({nwRecords: json});
-    
-  });
-  // separate fetch to get max length so we can block from loading empty table lines
-  fetch(uri2)
-  .then(response => response.json())
-  .then(json =>{
-    // console.log(json);
-    this.setState({recordcount: json.length});
-    
-  });
 
+  // separate fetch to get max length so we can block from loading empty table lines
+  fetch(uri2,{
+    method:"GET",
+    headers:{
+      Authorization:"Bearer "+jwtoken,
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+    }
+  }).then((response)=>response.json())
+    .then((json)=>{
+        //store the data returned from the backend to the current state
+        const success=json;
+        console.log(`Response from server: ${success}.`);
+        if(success){
+          this.setState({recordcount: json.length});
+        }
+    })
+  
 
 }
 else{
