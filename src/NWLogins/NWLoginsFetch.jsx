@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import '../App.css';
 import Helpit from '../helpit';
 import NWLoginsAdd from './NWLoginsAdd';
+import NWLoginsEdit from './NWLoginsEdit';
+import NWLoginsDelete from './NWLoginsDelete';
+
 class NWLoginsFetch extends Component {
 
   constructor(props){
@@ -10,98 +13,167 @@ class NWLoginsFetch extends Component {
     this.state={
       nwRecords:[],
       recordcount: 0,
-    //   offset:0,
-    //   limit:10,
-    sukunimi:"",
+      country:"",
+      offset:0,
+      limit:10,
       visible:"table",
-      renderChild:true
-//NWLoginsAdd komponentti renderöideään jos this.state.renderChild=true
+      renderChildAdd:true,
+      renderChildEdit:true,
+      renderChildDelete:true,
+      yksiLogin:[],
+      LoginsID:'',
+      LoginsID2Del:''
     };
-    this.handleChildUnmount=this.handleChildUnmount.bind(this);
-    this.handleChangeSukunimi=this.handleChangeSukunimi.bind(this);
+    this.handleChildUnmountAdd=this.handleChildUnmountAdd.bind(this);
+    this.handleChildUnmountEdit=this.handleChildUnmountEdit.bind(this);
+    this.handleChildUnmountDelete=this.handleChildUnmountDelete.bind(this);
+    this.handleChangeCountry=this.handleChangeCountry.bind(this);
+
+
   }
 
-handleChildUnmount(){
-  this.setState({renderChild:false});
-  this.handleClickTable();//clicking table button
-  this.NorthwindFetch();
+//--------------------------------------------UNMOUNT CHILD FUNCTIONS
+handleChildUnmountAdd(){
+  this.setState({renderChildAdd:false,visible:"table",},()=>this.NorthwindFetch());
+
 }
 
-//--------------------------------------------click functions
+handleChildUnmountEdit(){
+  this.setState({renderChildEdit:false,visible:"table",},()=>this.NorthwindFetch());
+}
+
+handleChildUnmountDelete(){
+  // this.setState({renderChildDelete:false});
+  this.setState({renderChildDelete:false,visible:"table",},()=>this.NorthwindFetch());
+}
+
+
+//--------------------------------------------button click functions
   handleClickTable=()=>{
     this.setState({visible:"table"});
   }
 
   handleClickAdd=()=>{
-    this.setState({visible:"addform",renderChild:true});
+    this.setState({visible:"addform",renderChildAdd:true});
   }
 
   handleClickHelp=()=>{
     this.setState({visible:"help"});
   }
-
-  handleChangeSukunimi(event){
-    let arvo=event.target.value;
-    this.setState({sukunimi: arvo},this.NorthwindFetch);
+//-----------------------------------------EDIT BUTTON
+  handleClickEdit=(dataObj,event)=>{
+    console.log(dataObj);
+    this.setState({
+      yksiLogin:dataObj,
+      visible:"editform",
+      renderChildEdit:true
+    },()=>console.log('visible: ' + this.state.visible +' yksiLogin: ' + JSON.stringify(this.state.yksiLogin)));
   }
   
+ //-----------------------------------------DELETE FUNCTIONS
+  handleClickDelete=(poistettava,event)=>{
+    console.log('handleClickDelete------------postan asiakkaan-------',poistettava);
+    this.setState({
+      LoginsID2Del:poistettava,
+      visible:"deleteform",
+      renderChildDelete:true
 
-  componentDidMount(){
-    console.log("NWLoginFetch: component did mount")
-    this.NorthwindFetch();
+    })
   }
-
-
+  
+  
+ 
   // --------------------------------------PREVIOUS BUTTON CLICK------------------
   handleClickPrev=(event)=>{
-   let offsetnumb=this.state.offset-10;
-      if (offsetnumb<10){offsetnumb=0}
+    let offsetnumb=this.state.offset-10;
+    if (offsetnumb<10){offsetnumb=0}
     this.setState({
       offset: offsetnumb,
-  },()=>this.NorthwindFetch());
-
-
+     },()=>this.NorthwindFetch());
+    
+    
   }
   // --------------------------------------NEXT BUTTON CLICK------------------
-
+  
   handleClickNext=(event)=>{
-   
+    
     let offsetnumb=this.state.offset+10;
     if (offsetnumb>this.state.recordcount)
     {while(offsetnumb>=this.state.recordcount)
       {offsetnumb=offsetnumb-10}
     }
-
-      this.setState({
-          offset: offsetnumb,
-      },()=>this.NorthwindFetch());
-      
+    
+    this.setState({
+      offset: offsetnumb,
+    },()=>this.NorthwindFetch());
+    
   }
-
+  
+  handleChangeCountry(event){
+    let arvo=event.target.value;
+    this.setState({country: arvo},this.NorthwindFetch);
+  }
 
   NorthwindFetch(){
-    let uri2='https://localhost:5001/nw/logins/';
-    let uri='https://localhost:5001/nw/logins/'+this.state.sukunimi;
-    // let uri='https://localhost:5001/nw/orders/';
 
-    console.log("NwLoginsfetch " + uri);
-    fetch(uri)
-      .then(response => response.json())
-      .then(json =>{
-        console.log(json);
-        this.setState({nwRecords: json});
+let jwtoken=localStorage.getItem('token');
+if(jwtoken!==null)
+{
+  let uri2='https://localhost:5001/nw/Logins/';
+  let uri='https://localhost:5001/nw/Logins/';
+  // let uri='https://localhost:5001/nw/orders/';
+  
+  console.log("NorthwindFetch " + uri);
+  fetch(uri,{
+    method:"GET",
+    headers:{
+      Authorization:"Bearer "+jwtoken,
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+    }
+  }).then((response)=>response.json())
+    .then((json)=>{
+        //store the data returned from the backend to the current state
+        const success=json;
+        console.log(`Response from server: ${success}.`);
+        if(success){
+            this.setState({nwRecords: json});
+        }
+    })
 
-      });
-// separate fetch to get max length so we can block from loading empty table lines
-      fetch(uri2)
-      .then(response => response.json())
-      .then(json =>{
-        // console.log(json);
-        this.setState({recordcount: json.length});
+  // separate fetch to get max length so we can block from loading empty table lines
+  fetch(uri2,{
+    method:"GET",
+    headers:{
+      Authorization:"Bearer "+jwtoken,
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+    }
+  }).then((response)=>response.json())
+    .then((json)=>{
+        //store the data returned from the backend to the current state
+        const success=json;
+        console.log(`Response from server: ${success}.`);
+        if(success){
+          this.setState({recordcount: json.length});
+        }
+    })
+  
 
-      });
+}
+else{
+  //setting empty value to nwrecords so render doesnt collapse
+  this.setState({nwRecords:'',recordcount: 0})
+
+}
+
   }
-
+  //------------------------------------------DID MOUNT
+    componentDidMount(){
+      console.log("NWLoginsFetch: component did mount")
+      this.NorthwindFetch();
+    }
+  
   componentWillUnmount(){
     console.log("NorthwindFetch: componentWillUnmountissa")
   }
@@ -113,14 +185,20 @@ handleChildUnmount(){
 
     let taulukko=[];
     let otsikko=[];
+    let apucounter=0;
     if (this.state.nwRecords.length>0){
     //getting first row to get columnnames - HUOM: individual key have to be set for all table data
       var columnNames = this.state.nwRecords[0];
        for(var name in columnNames){
-        otsikko.push(<th key={name}>{name}</th>)
+         if(apucounter<9){
+           otsikko.push(<th key={name}>{name}</th>)
+         }
+        apucounter=apucounter+1;
         }
+        
+        otsikko.push(<th key="edit"></th>)
+        otsikko.push(<th key="delete"></th>)
 
-     
         var rivi=[];
       //for each object-aka row  
         for(let index=0; index<this.state.nwRecords.length; index++){
@@ -136,10 +214,15 @@ handleChildUnmount(){
             avainBoole=false;
           }
         //building row by pushing value to td fields  
+        if(i<9)
+          {
             rivi.push(<td key={avain + i.toString()} className="tData">{element[tieto]}</td>)
+          }
             i++;
           }
-          
+          rivi.push(<td className="thBtn" key={"edit" + tieto[0].toString()}><button className="editBtn" onClick={this.handleClickEdit.bind(this,element)}>Muokkaa</button></td>)
+          rivi.push(<td key={"delete" + tieto[0].toString()}><button className="deleteBtn" onClick={this.handleClickDelete.bind(this,element.LoginId)}>Poista</button></td>)
+
           //pushing row to table
            taulukko.push(<tr key={avain} className="nwBody">{rivi}</tr>)
            rivi=[];
@@ -149,56 +232,105 @@ handleChildUnmount(){
     else {
       viesti="Haetaan tietoja northwind Api:sta..."
     }
-
+//-----------------------------------------------------------Login TAULUKKO
+   if (this.state.nwRecords!==''){
     if(this.state.visible==="table"){
-       return (
-      
-        <div >
-       <h1>Käyttäjät</h1>
+      return (
+     
+       <div >
+      <h1>Asiakkaat</h1>
+         <button onClick={this.handleClickHelp}>Opasteet</button>
+         <button onClick={this.handleClickAdd}>Lisää Login</button>
+         <button onClick={this.handleClickPrev}>Edelliset</button>
+         <button onClick={this.handleClickNext}>Seuraavat</button>
+         <input type="text" placeholder="Filter by country"  onChange={this.handleChangeCountry}/>
+         <p>{viesti}</p>
+
+         {/* filling the table with the data */}
+       <div className="NorthwindFetch">
+         <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
+         </div>
+       </div>
+     );
+   }
+   else if(this.state.visible==="addform")
+     {
+       return(
+        <div className="box1">
+          <h1>Uuden asiakkaan lisäys</h1>
+         <div>
+           <button onClick={this.handleClickHelp}>Opasteet</button>
+           <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
+         </div>  
+         {this.state.renderChildAdd ? <NWLoginsAdd unmountMe={this.handleChildUnmountAdd}/>:null}
+         </div>
+       );}
+ //----------------------------------------------------------EDIT----------------------------------------
+   else if(this.state.visible==="editform")
+   {
+     return(
+       <div>
+       <div >
+       <h1>Asiakkaat</h1>
           <button onClick={this.handleClickHelp}>Opasteet</button>
-          <button onClick={this.handleClickAdd}>Lisää käyttäjä</button>
+          <button onClick={this.handleClickAdd}>Lisää Login</button>
           <button onClick={this.handleClickPrev}>Edelliset</button>
           <button onClick={this.handleClickNext}>Seuraavat</button>
-          <input type="text" placeholder="Filter by surname"  onChange={this.handleChangeSukunimi}/>
           {/* filling the table with the data */}
         <div className="NorthwindFetch">
           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
           </div>
           <p>{viesti}</p>
-        </div>
-      );
-    }
-    else if(this.state.visible==="addform")
-      {
-        return(
-         <div className="box1">
-           <h1>Uuden loginin lisäys</h1>
-          <div>
-            <button onClick={this.handleClickHelp}>Opasteet</button>
-            <button onClick={this.handleClickTable}>Selaa logineja</button>
-          </div>  
-          {this.state.renderChild ? <NWLoginsAdd unmountMe={this.handleChildUnmount}/>:null}
+          {this.state.renderChildEdit ? <NWLoginsEdit loginObj={this.state.yksiLogin} unmountMe={this.handleChildUnmountEdit}/>:null}         </div>
+       </div>
+     );}
+       //----------------------------------------------------------DELETE----------------------------------------
+   else if(this.state.visible==="deleteform")
+   {
+     return(
+       <div>
+       <div >
+       <h1>Asiakkaat</h1>
+          <button onClick={this.handleClickHelp}>Opasteet</button>
+          <button onClick={this.handleClickAdd}>Lisää login</button>
+          <button onClick={this.handleClickPrev}>Edelliset</button>
+          <button onClick={this.handleClickNext}>Seuraavat</button>
+          {/* filling the table with the data */}
+        <div className="NorthwindFetch">
+          <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
           </div>
-        );}
-    else if(this.state.visible==="help")
-      {
-        return(
-          <div className="box1">
-            <h1>Sovelluksen opasteet</h1>
-            <button onClick={this.handleClickAdd}>Lisää login</button>
-            <button onClick={this.handleClickTable}>Selaa loginsit</button>
-            <Helpit moduli="NWLoginsFetch"/>
-         </div>  
-        
-        );
-      }
-    else{
-      return(
-        <div className="box1">
-         <h1>Sovellusvirhe - lataa sivu uudelleen!</h1>
+          <p>{viesti}</p>
+        {this.state.renderChildDelete ? <NWLoginsDelete LoginID={this.state.LoginsID2Del} unmountMe={this.handleChildUnmountDelete}/>:null}
+        </div>
+       </div>
+  
+     );}
+ //----------------------------------------------------------HELP----------------------------------------
+   else if(this.state.visible==="help")
+     {
+       return(
+         <div className="box1">
+           <h1>Sovelluksen opasteet</h1>
+           <button onClick={this.handleClickAdd}>Lisää login</button>
+           <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
+           <Helpit moduli="NWLoginsFetch"/>
         </div>  
-        );
-    }
+       
+       );
+     }
+   else{
+     return(
+       <div className="box1">
+        <h1>Sovellusvirhe - lataa sivu uudelleen!</h1>
+       </div>  
+       );
+   }
+  } 
+     else{return(
+      <div className="box1">
+       <h1>Kirjaudu sisään jos haluat nähdä tietoja!</h1>
+      </div>  
+      );}
    
   }
 }
