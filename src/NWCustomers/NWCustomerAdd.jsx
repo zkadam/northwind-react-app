@@ -96,12 +96,13 @@ handleChangeFax(event){
             Fax:this.state.Fax
         }
 const asiakasJson=JSON.stringify(asiakas);
-        
+        let jwtoken = localStorage.getItem('token') // <-----------------
         console.log("asiakasJson: "+asiakasJson);
         const apiUrl='https://localhost:5001/nw/customer';
         fetch(apiUrl,{
             method:"POST",
             headers:{
+                Authorization: "Bearer " + jwtoken,
                 "Accept":"application/json",
                 "Content-Type":"application/json"
             },

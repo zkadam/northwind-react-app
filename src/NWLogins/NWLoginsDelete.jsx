@@ -28,19 +28,11 @@ class NWCustomerDelete extends Component{
 
 //-------------------------------GETTING JSON BY ID
     NorthwindFetch(){
-        let jwtoken=localStorage.getItem('token');
-
         let uri='https://localhost:5001/nw/customer/'+this.props.CustomerID;
+        // let uri='https://localhost:5001/nw/orders/';
         
         console.log("NorthwindFetch " + uri);
-        fetch(uri,{
-            method:"GET",
-            headers:{
-              Authorization:"Bearer "+jwtoken,
-                "Accept":"application/json",
-                "Content-Type":"application/json"
-            }
-          })
+        fetch(uri)
         .then(response => response.json())
         .then(json =>{
           console.log(json);
@@ -83,15 +75,13 @@ class NWCustomerDelete extends Component{
 
 
 NWDeleteRestApista(){
-    let jwtoken = localStorage.getItem('token') // <-----------------
-  const apiUrl='https://localhost:5001/nw/customer/'+this.props.CustomerID2Del;
+  let apiUrl='https://localhost:5001/nw/customer/'+this.props.CustomerID2Del;
   console.log("NWDeleteRestApista " + apiUrl);
-  fetch(apiUrl,{
+  fetch(apiUrl, {
     method:"DELETE",
     headers:{
-        Authorization: "Bearer " + jwtoken,
-        "Accept":"application/json",
-        "Content-Type":"application/json"
+      "Accept":"application/json",
+     "Content-Type":"application/json" 
     },
     body:null
   }).then((response)=>response.json())
@@ -116,13 +106,12 @@ NWDeleteRestApista(){
     }
 
     PoistaKannasta(){
-        let jwtoken = localStorage.getItem('token')
-        console.log(this.state.CustomerID)
+
+        
         const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.CustomerID;
         fetch(apiUrl,{
             method:"DELETE",
             headers:{
-                Authorization: "Bearer " + jwtoken,
                 "Accept":"application/json",
                 "Content-Type":"application/json"
             },

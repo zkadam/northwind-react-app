@@ -99,6 +99,7 @@ class NWCustomerEdit extends Component{
     }
 
     InsertoiKantaan(){
+        let jwtoken=localStorage.getItem('token');
 
         const asiakas={CustomerID:this.state.CustomerID,
                         CompanyName:this.state.CompanyName,
@@ -117,6 +118,7 @@ class NWCustomerEdit extends Component{
         fetch(apiUrl,{
             method:"PUT",
             headers:{
+                Authorization: "Bearer " + jwtoken,
                 "Accept":"application/json",
                 "Content-Type":"application/json"
             },
