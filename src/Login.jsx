@@ -17,6 +17,9 @@ constructor(props){
     this.handleChangeuserName=this.handleChangeuserName.bind(this);
     this.handleChangepassWord=this.handleChangepassWord.bind(this);
     this.handleSubmit=this.handleSubmit.bind(this);
+    this.logout=this.logout.bind(this);
+    this.LuoObjekti=this.LuoObjekti.bind(this);
+
 }
 componentDidMount(){
     const userFromLS= localStorage.getItem('user')
@@ -25,9 +28,19 @@ componentDidMount(){
     }
 }
 
+checkLoginStatus(){
+    const userFromLS= localStorage.getItem('user')
+    if(userFromLS){
+        this.setState({...this.state, ShowLoginForm:false,LoggedInUser:userFromLS})
+    }
+}
+
 logout(){
     localStorage.clear()
-    this.setState({...this.state, LoggedInUser:'',ShowLoginForm:true})
+
+    this.setState({...this.state, LoggedInUser:'',ShowLoginForm:true},()=>this.checkLoginStatus())
+    window.location.reload();
+
 }
 
 handleChangeuserName(event){
@@ -43,6 +56,7 @@ handleChangepassWord(event) {
 }
 
 handleSubmit(event){
+
   event.preventDefault();
   this.LuoObjekti();
 }
@@ -73,7 +87,12 @@ LuoObjekti(){
             if(success.userName!==undefined){
                 console.log("userName: "+ success.userName);
                 localStorage.setItem('user',success.userName);
-                localStorage.setItem('token',success.token)
+                localStorage.setItem('token',success.token);
+                this.setState({ShowLoginForm:true},()=>this.checkLoginStatus());
+                //reloads page so if we log in we dont have to click the navlink again
+                window.location.reload();
+
+
             }
             else
             {
