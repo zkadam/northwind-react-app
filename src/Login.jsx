@@ -50,7 +50,6 @@ handleChangeuserName(event){
 
 handleChangepassWord(event) {
     var syöte =event.target.value
-    console.log(syöte)
     //var syöte = (event.target.value)
     this.setState({ ...this.state, passWord: syöte })
 }
@@ -109,7 +108,7 @@ LuoObjekti(){
             return (
                 <form onSubmit={this.handleSubmit}>
                     <input type="text" placeholder="userName" onChange={this.handleChangeuserName}/>
-                    <input type="text" placeholder="passWord" onChange={this.handleChangepassWord}/>
+                    <input type="password" placeholder="passWord" onChange={this.handleChangepassWord}/>
                 <br/>
                 <button type="submit">Kirjaudu</button>
                 </form>
