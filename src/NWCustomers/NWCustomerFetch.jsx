@@ -117,14 +117,13 @@ handleChildUnmountDelete(){
   NorthwindFetch(){
 
     let jwtoken=localStorage.getItem('token');
+    // let refresh_token= localStorage.getItem('refresh_token')
+    // console.log('refresh token is -----------' + refresh_token)
     // tarkistetaan, onko token
     if(jwtoken!==null)
     {
       let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
-      console.log(expDate.exp*1000)
-      console.log(Date.now())
-      console.log(Date.now() + '<>'+ expDate.exp*1000)
-
+    
       //tarkistetaan, onko token vielä voimassa
       if(Date.now()<expDate.exp*1000)
       {
