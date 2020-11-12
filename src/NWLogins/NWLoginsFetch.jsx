@@ -115,7 +115,7 @@ handleChildUnmountDelete(){
   }
 
   NorthwindFetch(){
-
+   
 let jwtoken=localStorage.getItem('token');
 if(jwtoken!==null)
 {
@@ -123,44 +123,47 @@ if(jwtoken!==null)
   let uri='https://localhost:5001/nw/Logins/';
   // let uri='https://localhost:5001/nw/orders/';
   
+ 
   console.log("NorthwindFetch " + uri);
-  fetch(uri,{
-    method:"GET",
-    headers:{
-      Authorization:"Bearer "+jwtoken,
-        "Accept":"application/json",
-        "Content-Type":"application/json"
-    }
-  }).then((response)=>response.json())
-    .then((json)=>{
-        //store the data returned from the backend to the current state
-        const success=json;
-        console.log(`Response from server: ${success}.`);
-        if(success){
-            this.setState({nwRecords: json});
-        }
-    })
+ 
 
-  // separate fetch to get max length so we can block from loading empty table lines
-  fetch(uri2,{
-    method:"GET",
-    headers:{
-      Authorization:"Bearer "+jwtoken,
-        "Accept":"application/json",
-        "Content-Type":"application/json"
-    }
-  }).then((response)=>response.json())
-    .then((json)=>{
-        //store the data returned from the backend to the current state
-        const success=json;
-        console.log(`Response from server: ${success}.`);
-        if(success){
-          this.setState({recordcount: json.length});
-        }
-    })
+    fetch(uri,{
+      method:"GET",
+      headers:{
+        Authorization:"Bearer "+jwtoken,
+          "Accept":"application/json",
+          "Content-Type":"application/json"
+      }
+    }).then((response)=>response.json())
+      .then((json)=>{
+          //store the data returned from the backend to the current state
+          const success=json;
+          console.log(`Response from server: ${success}.`);
+          if(success){
+              this.setState({nwRecords: json});
+          }
+      })
   
+    // separate fetch to get max length so we can block from loading empty table lines
+    fetch(uri2,{
+      method:"GET",
+      headers:{
+        Authorization:"Bearer "+jwtoken,
+          "Accept":"application/json",
+          "Content-Type":"application/json"
+      }
+    }).then((response)=>response.json())
+      .then((json)=>{
+          //store the data returned from the backend to the current state
+          const success=json;
+          console.log(`Response from server: ${success}.`);
+          if(success){
+            this.setState({recordcount: json.length});
+          }
+      })
+  }
 
-}
+
 else{
   //setting empty value to nwrecords so render doesnt collapse
   this.setState({nwRecords:'',recordcount: 0})

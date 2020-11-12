@@ -116,54 +116,71 @@ handleChildUnmountDelete(){
 
   NorthwindFetch(){
 
-let jwtoken=localStorage.getItem('token');
-if(jwtoken!==null)
-{
-  let uri2='https://localhost:5001/nw/customer/r?offset='+'&limit='+'&country='+this.state.country;
-  let uri='https://localhost:5001/nw/customer/r?offset='+this.state.offset+'&limit='+this.state.limit+'&country='+this.state.country;
-  // let uri='https://localhost:5001/nw/orders/';
-  
-  console.log("NorthwindFetch " + uri);
-  fetch(uri,{
-    method:"GET",
-    headers:{
-      Authorization:"Bearer "+jwtoken,
-        "Accept":"application/json",
-        "Content-Type":"application/json"
-    }
-  }).then((response)=>response.json())
-    .then((json)=>{
-        //store the data returned from the backend to the current state
-        const success=json;
-        console.log(`Response from server: ${success}.`);
-        if(success){
-            this.setState({nwRecords: json});
-        }
-    })
+    let jwtoken=localStorage.getItem('token');
+    // tarkistetaan, onko token
+    if(jwtoken!==null)
+    {
+      let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
+      console.log(expDate.exp*1000)
+      console.log(Date.now())
+      console.log(Date.now() + '<>'+ expDate.exp*1000)
 
-  // separate fetch to get max length so we can block from loading empty table lines
-  fetch(uri2,{
-    method:"GET",
-    headers:{
-      Authorization:"Bearer "+jwtoken,
-        "Accept":"application/json",
-        "Content-Type":"application/json"
-    }
-  }).then((response)=>response.json())
-    .then((json)=>{
-        //store the data returned from the backend to the current state
-        const success=json;
-        console.log(`Response from server: ${success}.`);
-        if(success){
-          this.setState({recordcount: json.length});
-        }
-    })
-  
+      //tarkistetaan, onko token vielä voimassa
+      if(Date.now()<expDate.exp*1000)
+      {
+        console.log('----------- THE TOKEN HASNT EXPIRED YET------------------')
+        let uri2='https://localhost:5001/nw/customer/r?offset='+'&limit='+'&country='+this.state.country;
+        let uri='https://localhost:5001/nw/customer/r?offset='+this.state.offset+'&limit='+this.state.limit+'&country='+this.state.country;
+        // let uri='https://localhost:5001/nw/orders/';
+        
+        console.log("NorthwindFetch " + uri);
+        fetch(uri,{
+          method:"GET",
+          headers:{
+            Authorization:"Bearer "+jwtoken,
+              "Accept":"application/json",
+              "Content-Type":"application/json"
+          }
+        }).then((response)=>response.json())
+          .then((json)=>{
+              //store the data returned from the backend to the current state
+              const success=json;
+              console.log(`Response from server: ${success}.`);
+              if(success){
+                  this.setState({nwRecords: json});
+              }
+          })
+      
+        // separate fetch to get max length so we can block from loading empty table lines
+        fetch(uri2,{
+          method:"GET",
+          headers:{
+            Authorization:"Bearer "+jwtoken,
+              "Accept":"application/json",
+              "Content-Type":"application/json"
+          }
+        }).then((response)=>response.json())
+          .then((json)=>{
+              //store the data returned from the backend to the current state
+              const success=json;
+              console.log(`Response from server: ${success}.`);
+              if(success){
+                this.setState({recordcount: json.length});
+              }
+          })
+        
+      }
+      else{
+        localStorage.clear();
+        console.log('-----------------TOKEN HAS EXPIRED------------------')
+        this.setState({nwRecords:'',recordcount: 0})
+        window.location.reload();
 
-}
-else{
-  //setting empty value to nwrecords so render doesnt collapse
-  this.setState({nwRecords:'',recordcount: 0})
+      }
+    }
+    else{
+      //setting empty value to nwrecords so render doesnt collapse
+      this.setState({nwRecords:'',recordcount: 0})
 
 }
 
