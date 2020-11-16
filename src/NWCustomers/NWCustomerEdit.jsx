@@ -5,7 +5,7 @@ import '../App.css';
 class NWCustomerEdit extends Component{
     constructor(props){
         super(props);
-        this.state={loginObj:[],CustomerID:'',CompanyName:'',ContactName:'',ContactTitle:'',Address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
+        this.state={asiakasObj:[],CustomerID:'',CompanyName:'',ContactName:'',ContactTitle:'',Address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
 
         this.handleChangeCustomerID=this.handleChangeCustomerID.bind(this);
         this.handleChangeCompanyName=this.handleChangeCompanyName.bind(this);
@@ -85,18 +85,18 @@ class NWCustomerEdit extends Component{
         let jwtoken = localStorage.getItem('token') // <-----------------
         if(jwtoken!==null)
         {
-            console.log('EDIT MOUNTED : '+this.props.loginObj.customerId)
+            console.log('EDIT MOUNTED : '+this.props.asiakasObj.customerId)
             this.setState({
-                CustomerID:this.props.loginObj.customerId ,
-                CompanyName:this.props.loginObj.companyName,
-                ContactName:this.props.loginObj.contactName,
-                ContactTitle:this.props.loginObj.contactTitle,
-                Address:this.props.loginObj.address,
-                PostalCode:this.props.loginObj.postalCode,
-                City:this.props.loginObj.city,
-                Country:this.props.loginObj.country,
-                Phone:this.props.loginObj.phone,
-                Fax:this.props.loginObj.fax,
+                CustomerID:this.props.asiakasObj.customerId ,
+                CompanyName:this.props.asiakasObj.companyName,
+                ContactName:this.props.asiakasObj.contactName,
+                ContactTitle:this.props.asiakasObj.contactTitle,
+                Address:this.props.asiakasObj.address,
+                PostalCode:this.props.asiakasObj.postalCode,
+                City:this.props.asiakasObj.city,
+                Country:this.props.asiakasObj.country,
+                Phone:this.props.asiakasObj.phone,
+                Fax:this.props.asiakasObj.fax,
        
             })
         }else{
