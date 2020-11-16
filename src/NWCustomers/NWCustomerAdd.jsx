@@ -133,56 +133,68 @@ handleChangeFax(event){
     else{
       //setting empty value to nwrecords so render doesnt collapse
       this.setState({CustomerID:''})
+      window.location.reload();
 
 }
     }
 
     render(){
 console.log('add asiakas render-----------')
-return (
-    <div className="popupDiv" onClick={this.dismiss.bind(this)}>
-    
-    <form className="box3pop" onSubmit={this.handleSubmit}>
-    <h2>Moukkaa asiakastiedot:</h2><br/>
-            <div className="labelDiv">
-                <label className="labelKeys">CustomerID: </label>
-                <input className="labelField" type="text" value={this.state.CustomerID || ""} placeholder="Customer Id" onChange={this.handleChangeCustomerID} /> </div>
-            <div className="labelDiv">
-                <label className="labelKeys">CompanyName: </label>
-                <input className="labelField" type="text" value={this.state.CompanyName || ""} placeholder="Company Name" onChange={this.handleChangeCompanyName} /> </div>
-            <div className="labelDiv">
-                <label className="labelKeys">ContactName: </label>
-                <input className="labelField" type="text" value={this.state.ContactName || ""} placeholder="Contact Name" onChange={this.handleChangeContactName} /> </div>
-            <div className="labelDiv">
-                <label className="labelKeys">ContactTitle: </label>
-                <input className="labelField" type="text" value={this.state.ContactTitle || ""} placeholder="Contact Title" onChange={this.handleChangeContactTitle} /> </div>
-            <div className="labelDiv">
-                <label className="labelKeys">Address: </label>
-                <input className="labelField" type="text" value={this.state.Address || ""} placeholder="Address" onChange={this.handleChangeAddress} /> </div>
-            <div className="labelDiv">
-                <label className="labelKeys">PostalCode: </label>
-                <input className="labelField" type="text" value={this.state.PostalCode || ""} placeholder="PostalCode" onChange={this.handleChangePostalCode} /> </div>
-            <div className="labelDiv">
-                <label className="labelKeys">City: </label>
-                <input className="labelField" type="text" value={this.state.City || ""} placeholder="City" onChange={this.handleChangeCity} /> </div>
-            <div className="labelDiv">
-                <label className="labelKeys">Country: </label>
-                <input className="labelField" type="text" value={this.state.Country || ""} placeholder="Country" onChange={this.handleChangeCountry} /> </div>
-            <div className="labelDiv">
-                <label className="labelKeys">Phone: </label>
-                <input className="labelField" type="text" value={this.state.Phone || ""} placeholder="Phone" onChange={this.handleChangePhone} /> </div>
-            <div className="labelDiv">
-                <label className="labelKeys">Fax: </label>
-                <input className="labelField" type="text" value={this.state.Fax || ""} placeholder="Fax" onChange={this.handleChangeFax} /> </div>
-        <br/>
-    <div className="buttonsDiv">
-        <button className="confirmBtn" type="submit">Talleta muutokset</button>
-        <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>
+let jwtoken = localStorage.getItem('token') // <-----------------
 
-    </div>
-    </form>
-    </div>
-  )
+if(jwtoken!==null)
+        {
+          let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
+              //tarkistetaan, onko token vielä voimassa
+            if(Date.now()<expDate.exp*1000)
+            {
+                return (
+                    <div className="popupDiv" onClick={this.dismiss.bind(this)}>
+                    
+                    <form className="box3pop" onSubmit={this.handleSubmit}>
+                    <h2>Moukkaa asiakastiedot:</h2><br/>
+                            <div className="labelDiv">
+                                <label className="labelKeys">CustomerID: </label>
+                                <input className="labelField" type="text" value={this.state.CustomerID || ""} placeholder="Customer Id" onChange={this.handleChangeCustomerID} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">CompanyName: </label>
+                                <input className="labelField" type="text" value={this.state.CompanyName || ""} placeholder="Company Name" onChange={this.handleChangeCompanyName} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">ContactName: </label>
+                                <input className="labelField" type="text" value={this.state.ContactName || ""} placeholder="Contact Name" onChange={this.handleChangeContactName} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">ContactTitle: </label>
+                                <input className="labelField" type="text" value={this.state.ContactTitle || ""} placeholder="Contact Title" onChange={this.handleChangeContactTitle} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">Address: </label>
+                                <input className="labelField" type="text" value={this.state.Address || ""} placeholder="Address" onChange={this.handleChangeAddress} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">PostalCode: </label>
+                                <input className="labelField" type="text" value={this.state.PostalCode || ""} placeholder="PostalCode" onChange={this.handleChangePostalCode} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">City: </label>
+                                <input className="labelField" type="text" value={this.state.City || ""} placeholder="City" onChange={this.handleChangeCity} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">Country: </label>
+                                <input className="labelField" type="text" value={this.state.Country || ""} placeholder="Country" onChange={this.handleChangeCountry} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">Phone: </label>
+                                <input className="labelField" type="text" value={this.state.Phone || ""} placeholder="Phone" onChange={this.handleChangePhone} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">Fax: </label>
+                                <input className="labelField" type="text" value={this.state.Fax || ""} placeholder="Fax" onChange={this.handleChangeFax} /> </div>
+                        <br/>
+                    <div className="buttonsDiv">
+                        <button className="confirmBtn" type="submit">Talleta muutokset</button>
+                        <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>
+
+                    </div>
+                    </form>
+                    </div>
+                )
+                }
+            else{ window.location.reload();}
+        }
     }
 }
 

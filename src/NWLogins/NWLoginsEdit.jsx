@@ -5,15 +5,15 @@ import '../App.css';
 class NWCustomerEdit extends Component{
     constructor(props){
         super(props);
-        this.state={asiakasObj:[],LoginId:'',Firstname:'',Lastname:'',Email:'',UserName:'',PassWord:'',AccesslevelID:''};
+        this.state={loginObj:[],loginId:'',firstname:'',lastname:'',email:'',userName:'',passWord:'',accesslevelID:''};
 
-        this.handleChangeLoginId=this.handleChangeLoginId.bind(this);
-        this.handleChangeFirstname=this.handleChangeFirstname.bind(this);
-        this.handleChangeLastname=this.handleChangeLastname.bind(this);
-        this.handleChangeEmail=this.handleChangeEmail.bind(this);
-        this.handleChangeUserName=this.handleChangeUserName.bind(this);
-        this.handleChangePassWord=this.handleChangePassWord.bind(this);
-        this.handleChangeAccesslevelID=this.handleChangeAccesslevelID.bind(this);
+        this.handleChangeloginId=this.handleChangeloginId.bind(this);
+        this.handleChangefirstname=this.handleChangefirstname.bind(this);
+        this.handleChangelastname=this.handleChangelastname.bind(this);
+        this.handleChangeemail=this.handleChangeemail.bind(this);
+        this.handleChangeuserName=this.handleChangeuserName.bind(this);
+        this.handleChangepassWord=this.handleChangepassWord.bind(this);
+        this.handleChangeaccesslevelID=this.handleChangeaccesslevelID.bind(this);
        
       this.handleSubmit = this.handleSubmit.bind(this);
       this.dismiss = this.dismiss.bind(this);
@@ -33,33 +33,33 @@ class NWCustomerEdit extends Component{
         }
     }
 //----------------------------------------TEXTFIELD CHANGES
-    handleChangeLoginId(event){
+    handleChangeloginId(event){
         var syöte=event.target.value;
-        this.setState({...this.state,LoginId: syöte});
+        this.setState({...this.state,loginId: syöte});
     }
-    handleChangeFirstname(event){
+    handleChangefirstname(event){
         var syöte=event.target.value;
-        this.setState({...this.state,Firstname: syöte});
+        this.setState({...this.state,firstname: syöte});
     }
-    handleChangeLastname(event){
+    handleChangelastname(event){
         var syöte=event.target.value;
-        this.setState({...this.state,Lastname: syöte});
+        this.setState({...this.state,lastname: syöte});
     }
-    handleChangeEmail(event){
+    handleChangeemail(event){
         var syöte=event.target.value;
-        this.setState({...this.state,Email: syöte});
+        this.setState({...this.state,email: syöte});
     }
-    handleChangeUserName(event){
+    handleChangeuserName(event){
         var syöte=event.target.value;
-        this.setState({...this.state,UserName: syöte});
+        this.setState({...this.state,userName: syöte});
     }
-    handleChangePassWord(event){
+    handleChangepassWord(event){
         var syöte=event.target.value;
-        this.setState({...this.state,PassWord: syöte});
+        this.setState({...this.state,passWord: syöte});
     }
-    handleChangeAccesslevelID(event){
+    handleChangeaccesslevelID(event){
         var syöte=event.target.value;
-        this.setState({...this.state,AccesslevelID: syöte});
+        this.setState({...this.state,accesslevelID: syöte});
     }
    
    
@@ -70,15 +70,15 @@ class NWCustomerEdit extends Component{
     }
 //-----------------------------------DID MOUNT
     componentDidMount(){
-        console.log('EDIT MOUNTED : '+this.props.asiakasObj.LoginId)
+        console.log('EDIT MOUNTED : '+JSON.stringify(this.props.loginObj))
         this.setState({
-            LoginId:this.props.asiakasObj.LoginId ,
-            Firstname:this.props.asiakasObj.Firstname,
-            Lastname:this.props.asiakasObj.Lastname,
-            Email:this.props.asiakasObj.Email,
-            UserName:this.props.asiakasObj.UserName,
-            PassWord:this.props.asiakasObj.PassWord,
-            AccesslevelID:this.props.asiakasObj.AccesslevelID,
+            loginId:this.props.loginObj.loginId ,
+            firstname:this.props.loginObj.firstname,
+            lastname:this.props.loginObj.lastname,
+            email:this.props.loginObj.email,
+            userName:this.props.loginObj.userName,
+            passWord:this.props.loginObj.passWord,
+            accesslevelID:this.props.loginObj.accesslevelID,
            
        
         })
@@ -86,17 +86,17 @@ class NWCustomerEdit extends Component{
 
     InsertoiKantaan(){
 
-        const asiakas={LoginId:this.state.LoginId,
-                        Firstname:this.state.Firstname,
-                        Lastname:this.state.Lastname,
-                        Email:this.state.Email,
-                        UserName:this.state.UserName,
-                        PassWord:this.state.PassWord,
-                        AccesslevelID:this.state.AccesslevelID
+        const asiakas={loginId:this.state.loginId,
+                        firstname:this.state.firstname,
+                        lastname:this.state.lastname,
+                        email:this.state.email,
+                        userName:this.state.userName,
+                        passWord:this.state.passWord,
+                        accesslevelID:this.state.accesslevelID
                     }
         const asiakasJson=JSON.stringify(asiakas);
 
-        const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.LoginId;
+        const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.loginId;
         fetch(apiUrl,{
             method:"PUT",
             headers:{
@@ -122,26 +122,26 @@ class NWCustomerEdit extends Component{
             <form className="box3pop" onSubmit={this.handleSubmit}>
             <h2>Moukkaa asiakastiedot:</h2><br/>
                     <div className="labelDiv">
-                        <label className="labelKeys">LoginId: </label>
-                        <input className="labelField" type="text" value={this.state.LoginId || ""} placeholder="Customer Id" onChange={this.handleChangeLoginId} /> </div>
+                        <label className="labelKeys">loginId: </label>
+                        <input className="labelField" type="text" value={this.state.loginId || ""} placeholder="loginId" onChange={this.handleChangeloginId} /> </div>
                     <div className="labelDiv">
-                        <label className="labelKeys">Firstname: </label>
-                        <input className="labelField" type="text" value={this.state.Firstname || ""} placeholder="Company Name" onChange={this.handleChangeFirstname} /> </div>
+                        <label className="labelKeys">firstname: </label>
+                        <input className="labelField" type="text" value={this.state.firstname || ""} placeholder="firstname" onChange={this.handleChangefirstname} /> </div>
                     <div className="labelDiv">
-                        <label className="labelKeys">Lastname: </label>
-                        <input className="labelField" type="text" value={this.state.Lastname || ""} placeholder="Contact Name" onChange={this.handleChangeLastname} /> </div>
+                        <label className="labelKeys">lastname: </label>
+                        <input className="labelField" type="text" value={this.state.lastname || ""} placeholder="lastname" onChange={this.handleChangelastname} /> </div>
                     <div className="labelDiv">
-                        <label className="labelKeys">Email: </label>
-                        <input className="labelField" type="text" value={this.state.Email || ""} placeholder="Contact Title" onChange={this.handleChangeEmail} /> </div>
+                        <label className="labelKeys">email: </label>
+                        <input className="labelField" type="text" value={this.state.email || ""} placeholder="email" onChange={this.handleChangeemail} /> </div>
                     <div className="labelDiv">
-                        <label className="labelKeys">UserName: </label>
-                        <input className="labelField" type="text" value={this.state.UserName || ""} placeholder="UserName" onChange={this.handleChangeUserName} /> </div>
+                        <label className="labelKeys">userName: </label>
+                        <input className="labelField" type="text" value={this.state.userName || ""} placeholder="userName" onChange={this.handleChangeuserName} /> </div>
                     <div className="labelDiv">
-                        <label className="labelKeys">PassWord: </label>
-                        <input className="labelField" type="text" value={this.state.PassWord || ""} placeholder="PassWord" onChange={this.handleChangePassWord} /> </div>
+                        <label className="labelKeys">passWord: </label>
+                        <input className="labelField" type="text" value={this.state.passWord || ""} placeholder="passWord" onChange={this.handleChangepassWord} /> </div>
                     <div className="labelDiv">
-                        <label className="labelKeys">AccesslevelID: </label>
-                        <input className="labelField" type="text" value={this.state.AccesslevelID || ""} placeholder="AccesslevelID" onChange={this.handleChangeAccesslevelID} /> </div>
+                        <label className="labelKeys">accesslevelID: </label>
+                        <input className="labelField" type="text" value={this.state.accesslevelID || ""} placeholder="accesslevelID" onChange={this.handleChangeaccesslevelID} /> </div>
                 <br/>
             <div className="buttonsDiv">
                 <button className="confirmBtn" type="submit">Talleta muutokset</button>

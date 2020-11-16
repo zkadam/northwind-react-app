@@ -28,34 +28,38 @@ class NWCustomerDelete extends Component{
 
 //-------------------------------GETTING JSON BY ID
     NorthwindFetch(){
-        let jwtoken=localStorage.getItem('token');
-
-        let uri='https://localhost:5001/nw/customer/'+this.props.CustomerID;
-        
-        console.log("NorthwindFetch " + uri);
-        fetch(uri,{
-            method:"GET",
-            headers:{
-              Authorization:"Bearer "+jwtoken,
-                "Accept":"application/json",
-                "Content-Type":"application/json"
+        let jwtoken = localStorage.getItem('token') // <-----------------
+        if(jwtoken!==null)
+        {
+          let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
+              //tarkistetaan, onko token vielä voimassa
+            if(Date.now()<expDate.exp*1000)
+            {
+                let uri='https://localhost:5001/nw/customer/'+this.props.CustomerID;
+                
+                console.log("NorthwindFetch " + uri);
+                fetch(uri,{
+                    method:"GET",
+                    headers:{
+                    Authorization:"Bearer "+jwtoken,
+                        "Accept":"application/json",
+                        "Content-Type":"application/json"
+                    }
+                })
+                .then(response => response.json())
+                .then(json =>{
+                console.log(json);
+                this.setState({asiakasObj: json,},()=>this.fillFields());
+                
+                })
+                
+            }else{
+                localStorage.clear();
+                console.log('-----------------TOKEN HAS EXPIRED------------------')
+                this.setState({CustomerID:''})
+                window.location.reload();
             }
-          })
-        .then(response => response.json())
-        .then(json =>{
-          console.log(json);
-          this.setState({asiakasObj: json,},()=>this.fillFields());
-          
-        })
-        
-        // separate fetch to get max length so we can block from loading empty table lines
-        // fetch(uri2)
-        // .then(response => response.json())
-        // .then(json =>{
-        //   // console.log(json);
-        //   this.setState({recordcount: json.length});
-          
-        // });
+      }     
     }
     //------------------------------FILLIN UO DATAFIELDS FROM JSON TO SHOW WHAT WE ARE DELETING-----------------
     fillFields=(valami)=>{
@@ -84,30 +88,45 @@ class NWCustomerDelete extends Component{
 
 NWDeleteRestApista(){
     let jwtoken = localStorage.getItem('token') // <-----------------
-  const apiUrl='https://localhost:5001/nw/customer/'+this.props.CustomerID2Del;
-  console.log("NWDeleteRestApista " + apiUrl);
-  fetch(apiUrl,{
-    method:"DELETE",
-    headers:{
-        Authorization: "Bearer " + jwtoken,
-        "Accept":"application/json",
-        "Content-Type":"application/json"
-    },
-    body:null
-  }).then((response)=>response.json())
-      .then((json)=>{
-        const success=json;
-        console.log('Response from server: ' +success);
-        if(success){
-          console.log('pyyntö asiakkaan poistamiseksi tehty-------');
-           this.dismiss();
+        if(jwtoken!==null)
+        {
+          let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
+              //tarkistetaan, onko token vielä voimassa
+            if(Date.now()<expDate.exp*1000)
+            {
+                const apiUrl='https://localhost:5001/nw/customer/'+this.props.CustomerID2Del;
+                console.log("NWDeleteRestApista " + apiUrl);
+                fetch(apiUrl,{
+                    method:"DELETE",
+                    headers:{
+                        Authorization: "Bearer " + jwtoken,
+                        "Accept":"application/json",
+                        "Content-Type":"application/json"
+                    },
+                    body:null
+                }).then((response)=>response.json())
+                    .then((json)=>{
+                        const success=json;
+                        console.log('Response from server: ' +success);
+                        if(success){
+                        console.log('pyyntö asiakkaan poistamiseksi tehty-------');
+                        this.dismiss();
+                        }
+                    });
+                }
+        }else{
+            localStorage.clear();
+            console.log('-----------------TOKEN HAS EXPIRED------------------')
+            this.setState({CustomerID:''})
+            window.location.reload();
         }
-      });
+
 }       
 //--------------------------------SUBMIT
     handleSubmit(event){
         event.preventDefault();
         this.PoistaKannasta();
+        this.props.unmountMe();
     }
 //-----------------------------------DID MOUNT
     componentDidMount(){
@@ -116,26 +135,40 @@ NWDeleteRestApista(){
     }
 
     PoistaKannasta(){
-        let jwtoken = localStorage.getItem('token')
-        console.log(this.state.CustomerID)
-        const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.CustomerID;
-        fetch(apiUrl,{
-            method:"DELETE",
-            headers:{
-                Authorization: "Bearer " + jwtoken,
-                "Accept":"application/json",
-                "Content-Type":"application/json"
-            },
-            body:null
-        }).then((response)=>response.json())
-            .then((json)=>{
-                const success=json;
-                console.log("Response from server: "+ success +".");
-                if(success){
-                    console.log("Pyyntö asiakkaan poistamiseksi tehty-- -- -- -- --");
-                    // this.dismiss();
-                } 
-            });
+        let jwtoken = localStorage.getItem('token') // <-----------------
+        if(jwtoken!==null)
+        {
+          let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
+              //tarkistetaan, onko token vielä voimassa
+            if(Date.now()<expDate.exp*1000)
+            {
+                const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.CustomerID;
+                fetch(apiUrl,{
+                    method:"DELETE",
+                    headers:{
+                        Authorization: "Bearer " + jwtoken,
+                        "Accept":"application/json",
+                        "Content-Type":"application/json"
+                    },
+                    body:null
+                }).then((response)=>response.json())
+                    .then((json)=>{
+                        const success=json;
+                        console.log("Response from server: "+ success +".");
+                        if(success){
+                            console.log("Pyyntö asiakkaan poistamiseksi tehty-- -- -- -- --");
+                            // this.dismiss();
+
+                        } 
+                    });
+                }
+            }
+            else{
+                localStorage.clear();
+                console.log('-----------------TOKEN HAS EXPIRED------------------')
+                this.setState({CustomerID:''})
+                window.location.reload();
+            }    
     }
 
     render(){
