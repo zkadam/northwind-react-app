@@ -5,7 +5,7 @@ import '../App.css';
 class NWCustomerDelete extends Component{
     constructor(props){
         super(props);
-        this.state={asiakasObj:[],CustomerID:'',CompanyName:'',ContactName:'',ContactTitle:'',Address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
+        this.state={loginObj:[],loginId:'',firstname:'',lastname:'',email:'',userName:'',passWord:'',AccesslevelId:""};
 
         
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,15 +28,15 @@ class NWCustomerDelete extends Component{
 
 //-------------------------------GETTING JSON BY ID
     NorthwindFetch(){
-        let uri='https://localhost:5001/nw/customer/'+this.props.CustomerID;
+        let uri='https://localhost:5001/nw/logins/id/'+this.props.LoginID;
+        console.log(uri);
         // let uri='https://localhost:5001/nw/orders/';
         
-        console.log("NorthwindFetch " + uri);
         fetch(uri)
         .then(response => response.json())
         .then(json =>{
           console.log(json);
-          this.setState({asiakasObj: json,},()=>this.fillFields());
+          this.setState({loginObj: json,},()=>this.fillFields());
           
         })
         
@@ -53,29 +53,26 @@ class NWCustomerDelete extends Component{
     fillFields=(valami)=>{
 
         this.setState({
-            CustomerID:this.state.asiakasObj.customerId ,
-            CompanyName:this.state.asiakasObj.companyName,
-            ContactName:this.state.asiakasObj.contactName,
-            ContactTitle:this.state.asiakasObj.contactTitle,
-            Address:this.state.asiakasObj.address,
-            PostalCode:this.state.asiakasObj.postalCode,
-            City:this.state.asiakasObj.city,
-            Country:this.state.asiakasObj.country,
-            Phone:this.state.asiakasObj.phone,
-            Fax:this.state.asiakasObj.fax,
+            loginId:this.state.loginObj.loginId ,
+            firstname:this.state.loginObj.firstname,
+            lastname:this.state.loginObj.lastname,
+            email:this.state.loginObj.email,
+            userName:this.state.loginObj.userName,
+            passWord:this.state.loginObj.passWord,
+            AccesslevelId:this.state.loginObj.accesslevelId||"",
        
         })
     }
  //---------------------------------DELETE----------------------------
  handlePerformDelete(){
-    console.log('NwDeleteRestApista......deleteissä', this.state.CustomerID2Del);
+    console.log('NwDeleteRestApista......deleteissä', this.state.LoginID2Del);
     this.NWDeleteRestApista();
   }
 
 
 
 NWDeleteRestApista(){
-  let apiUrl='https://localhost:5001/nw/customer/'+this.props.CustomerID2Del;
+  let apiUrl='https://localhost:5001/nw/logins/id/'+this.props.LoginID2Del;
   console.log("NWDeleteRestApista " + apiUrl);
   fetch(apiUrl, {
     method:"DELETE",
@@ -89,7 +86,7 @@ NWDeleteRestApista(){
         const success=json;
         console.log('Response from server: ' +success);
         if(success){
-          console.log('pyyntö asiakkaan poistamiseksi tehty-------');
+          console.log('pyyntö käyttäjän poistamisesta tehty-------');
            this.dismiss();
         }
       });
@@ -101,14 +98,14 @@ NWDeleteRestApista(){
     }
 //-----------------------------------DID MOUNT
     componentDidMount(){
-        console.log('delete MOUNTED : '+this.props.CustomerID)
+        console.log('delete MOUNTED : '+this.props.LoginID)
         this.NorthwindFetch();
     }
 
     PoistaKannasta(){
 
         
-        const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.CustomerID;
+        const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.LoginID;
         fetch(apiUrl,{
             method:"DELETE",
             headers:{
@@ -129,11 +126,11 @@ NWDeleteRestApista(){
 
     render(){
         let divs=[];
-        let keys=Object.keys(this.state.asiakasObj);
+        let keys=Object.keys(this.state.loginObj);
         let i=0;
         // pushataan kaikki key nimit ja object valuet diveihin
-        for(var field in this.state.asiakasObj){
-            divs.push(<div key={field} className="labelDiv labelKeys"><label>{keys[i]}:   </label><label className="labelField">{this.state.asiakasObj[field]}</label></div>);
+        for(var field in this.state.loginObj){
+            divs.push(<div key={field} className="labelDiv labelKeys"><label>{keys[i]}:   </label><label className="labelField">{this.state.loginObj[field]}</label></div>);
             i++;
         }
         return (

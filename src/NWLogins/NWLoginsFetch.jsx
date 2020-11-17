@@ -224,7 +224,7 @@ else{
             i++;
           }
           rivi.push(<td className="thBtn" key={"edit" + tieto[0].toString()}><button className="editBtn" onClick={this.handleClickEdit.bind(this,element)}>Muokkaa</button></td>)
-          rivi.push(<td key={"delete" + tieto[0].toString()}><button className="deleteBtn" onClick={this.handleClickDelete.bind(this,element.LoginId)}>Poista</button></td>)
+          rivi.push(<td key={"delete" + tieto[0].toString()}><button className="deleteBtn" onClick={this.handleClickDelete.bind(this,element.loginId)}>Poista</button></td>)
 
           //pushing row to table
            taulukko.push(<tr key={avain} className="nwBody">{rivi}</tr>)

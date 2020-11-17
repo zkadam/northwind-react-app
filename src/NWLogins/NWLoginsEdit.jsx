@@ -2,7 +2,7 @@ import React,{ Component } from 'react';
 import '../App.css';
 
 
-class NWCustomerEdit extends Component{
+class NWLoginsEdit extends Component{
     constructor(props){
         super(props);
         this.state={loginObj:[],loginId:'',firstname:'',lastname:'',email:'',userName:'',passWord:'',AccesslevelId:""};
@@ -124,7 +124,7 @@ class NWCustomerEdit extends Component{
             <h2>Moukkaa asiakastiedot:</h2><br/>
                     <div className="labelDiv">
                         <label className="labelKeys">loginId: </label>
-                        <input className="labelField" type="text" value={this.state.loginId || ""} placeholder="loginId" onChange={this.handleChangeloginId} /> </div>
+                        <input className="labelField"  disabled={true} type="text" value={this.state.loginId || ""} placeholder="loginId" onChange={this.handleChangeloginId} /> </div>
                     <div className="labelDiv">
                         <label className="labelKeys">firstname: </label>
                         <input className="labelField" type="text" value={this.state.firstname || ""} placeholder="firstname" onChange={this.handleChangefirstname} /> </div>
@@ -156,4 +156,4 @@ class NWCustomerEdit extends Component{
     
 
 }
-export default NWCustomerEdit;
+export default NWLoginsEdit;
