@@ -5,7 +5,7 @@ import '../App.css';
 class NWCustomerEdit extends Component{
     constructor(props){
         super(props);
-        this.state={loginObj:[],loginId:'',firstname:'',lastname:'',email:'',userName:'',passWord:'',accesslevelID:''};
+        this.state={loginObj:[],loginId:'',firstname:'',lastname:'',email:'',userName:'',passWord:'',AccesslevelId:""};
 
         this.handleChangeloginId=this.handleChangeloginId.bind(this);
         this.handleChangefirstname=this.handleChangefirstname.bind(this);
@@ -13,7 +13,7 @@ class NWCustomerEdit extends Component{
         this.handleChangeemail=this.handleChangeemail.bind(this);
         this.handleChangeuserName=this.handleChangeuserName.bind(this);
         this.handleChangepassWord=this.handleChangepassWord.bind(this);
-        this.handleChangeaccesslevelID=this.handleChangeaccesslevelID.bind(this);
+        this.handleChangeAccesslevelId=this.handleChangeAccesslevelId.bind(this);
        
       this.handleSubmit = this.handleSubmit.bind(this);
       this.dismiss = this.dismiss.bind(this);
@@ -57,9 +57,9 @@ class NWCustomerEdit extends Component{
         var syöte=event.target.value;
         this.setState({...this.state,passWord: syöte});
     }
-    handleChangeaccesslevelID(event){
+    handleChangeAccesslevelId(event){
         var syöte=event.target.value;
-        this.setState({...this.state,accesslevelID: syöte});
+        this.setState({...this.state,AccesslevelId: syöte});
     }
    
    
@@ -78,10 +78,11 @@ class NWCustomerEdit extends Component{
             email:this.props.loginObj.email,
             userName:this.props.loginObj.userName,
             passWord:this.props.loginObj.passWord,
-            accesslevelID:this.props.loginObj.accesslevelID,
+            AccesslevelId:this.props.loginObj.accesslevelId||"",
            
        
         })
+        console.log('Accesslevel id is :---------------------------------------- '+this.props.loginObj.AccesslevelId)
     }
 
     InsertoiKantaan(){
@@ -92,11 +93,11 @@ class NWCustomerEdit extends Component{
                         email:this.state.email,
                         userName:this.state.userName,
                         passWord:this.state.passWord,
-                        accesslevelID:this.state.accesslevelID
+                        AccesslevelId:parseInt(this.state.AccesslevelId)
                     }
         const asiakasJson=JSON.stringify(asiakas);
 
-        const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.loginId;
+        const apiUrl= 'https://localhost:5001/nw/logins/'+this.state.loginId;
         fetch(apiUrl,{
             method:"PUT",
             headers:{
@@ -140,8 +141,8 @@ class NWCustomerEdit extends Component{
                         <label className="labelKeys">passWord: </label>
                         <input className="labelField" type="text" value={this.state.passWord || ""} placeholder="passWord" onChange={this.handleChangepassWord} /> </div>
                     <div className="labelDiv">
-                        <label className="labelKeys">accesslevelID: </label>
-                        <input className="labelField" type="text" value={this.state.accesslevelID || ""} placeholder="accesslevelID" onChange={this.handleChangeaccesslevelID} /> </div>
+                        <label className="labelKeys">AccesslevelId: </label>
+                        <input className="labelField" type="number" value={this.state.AccesslevelId || ""} placeholder="AccesslevelId" onChange={this.handleChangeAccesslevelId} /> </div>
                 <br/>
             <div className="buttonsDiv">
                 <button className="confirmBtn" type="submit">Talleta muutokset</button>
