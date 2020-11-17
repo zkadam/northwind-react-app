@@ -269,6 +269,7 @@ handleChildUnmountDelete(){
        </div>
      );
    }
+   //-----------------------------------------------ADD FORM--------------
    else if(this.state.visible==="addform")
      {
        return(

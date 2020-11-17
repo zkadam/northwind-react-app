@@ -241,7 +241,7 @@ else{
       return (
      
        <div >
-      <h1>Asiakkaat</h1>
+      <h1>Käyttäjät</h1>
          <button onClick={this.handleClickHelp}>Opasteet</button>
          <button onClick={this.handleClickAdd}>Lisää Login</button>
          <button onClick={this.handleClickPrev}>Edelliset</button>
@@ -256,11 +256,12 @@ else{
        </div>
      );
    }
+//----------------------------------------------------ADD FORM--------------------------   
    else if(this.state.visible==="addform")
      {
        return(
         <div className="box1">
-          <h1>Uuden asiakkaan lisäys</h1>
+          <h1>Uuden käyttäjän lisäys</h1>
          <div>
            <button onClick={this.handleClickHelp}>Opasteet</button>
            <button onClick={this.handleClickTable}>Selaa asiakkaita</button>

@@ -14,10 +14,21 @@ class NWLoginsAdd extends Component {
         this.handleChangePassword=this.handleChangePassword.bind(this);
         this.handleChangeAccessLevelId=this.handleChangeAccessLevelId.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this);
+        this.dismiss = this.dismiss.bind(this);
+
     }
    
-    dismiss(){
-        this.props.unmountMe();
+    dismiss(e,dismiss){
+        console.log(e.target.className)
+        //condition tarkistaa mistä popup tuli ja suljee modalin jos tuli formin ulkopuolelta
+        if(e.target.className==="popupDiv")
+        {
+            this.props.unmountMe();
+        }
+        else if(e.target.className==="confirmBtn"){
+            this.InsertoiKantaan();
+            this.props.unmountMe();
+        }
     }
     
     // handleChangeLoginId(e){
@@ -93,16 +104,39 @@ class NWLoginsAdd extends Component {
 console.log('add käyttäjä render-----------')
         return (
   
-    <form className="box30" onSubmit={this.handleSubmit}>
-       <input type="text" placeholder="firstname"  onChange={this.handleChangeFirstname}/>
-       <input type="text" placeholder="lastname"  onChange={this.handleChangeLastname}/>
-       <input type="text" placeholder="e-mail"  onChange={this.handleChangeEmail}/>
-       <input type="text" placeholder="user name"  onChange={this.handleChangeUserName}/>
-       <input type="text" placeholder="password"  onChange={this.handleChangePassword}/>
-       <input type="number" placeholder="acceslevel id"  onChange={this.handleChangeAccessLevelId}/>
-        <br/>
-         <button type="submit">Tallenna käyttäjä</button>
+            <div className="popupDiv" onClick={this.dismiss.bind(this)}>
+            
+            <form className="box3pop" onSubmit={this.handleSubmit}>
+            <h2>Moukkaa asiakastiedot:</h2><br/>
+                    <div className="labelDiv">
+                        <label className="labelKeys">loginId: </label>
+                        <input className="labelField"  disabled={true} type="text" value={this.state.loginId || ""} placeholder="loginId" onChange={this.handleChangeloginId} /> </div>
+                    <div className="labelDiv">
+                        <label className="labelKeys">firstname: </label>
+                        <input className="labelField" type="text" value={this.state.firstname || ""} placeholder="firstname" onChange={this.handleChangeFirstname} /> </div>
+                    <div className="labelDiv">
+                        <label className="labelKeys">lastname: </label>
+                        <input className="labelField" type="text" value={this.state.lastname || ""} placeholder="lastname" onChange={this.handleChangeLastname} /> </div>
+                    <div className="labelDiv">
+                        <label className="labelKeys">email: </label>
+                        <input className="labelField" type="text" value={this.state.email || ""} placeholder="email" onChange={this.handleChangeEmail} /> </div>
+                    <div className="labelDiv">
+                        <label className="labelKeys">userName: </label>
+                        <input className="labelField" type="text" value={this.state.userName || ""} placeholder="userName" onChange={this.handleChangeUserName} /> </div>
+                    <div className="labelDiv">
+                        <label className="labelKeys">passWord: </label>
+                        <input className="labelField" type="text" value={this.state.passWord || ""} placeholder="passWord" onChange={this.handleChangePassword} /> </div>
+                    <div className="labelDiv">
+                        <label className="labelKeys">AccesslevelId: </label>
+                        <input className="labelField" type="number" value={this.state.AccesslevelId || ""} placeholder="AccesslevelId" onChange={this.handleChangeAccessLevelId} /> </div>
+                <br/>
+            <div className="buttonsDiv">
+                <button className="confirmBtn" type="submit">Talleta muutokset</button>
+                <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>
+
+            </div>
    </form>
+   </div>
   )
     }
 }
