@@ -64,33 +64,33 @@ class NWCustomerDelete extends Component{
         })
     }
  //---------------------------------DELETE----------------------------
- handlePerformDelete(){
-    console.log('NwDeleteRestApista......deleteissä', this.state.LoginID2Del);
-    this.NWDeleteRestApista();
-  }
+//  handlePerformDelete(){
+//     console.log('NwDeleteRestApista......deleteissä', this.state.LoginID2Del);
+//     this.NWDeleteRestApista();
+//   }
 
 
 
-NWDeleteRestApista(){
-  let apiUrl='https://localhost:5001/nw/logins/id/'+this.props.LoginID2Del;
-  console.log("NWDeleteRestApista " + apiUrl);
-  fetch(apiUrl, {
-    method:"DELETE",
-    headers:{
-      "Accept":"application/json",
-     "Content-Type":"application/json" 
-    },
-    body:null
-  }).then((response)=>response.json())
-      .then((json)=>{
-        const success=json;
-        console.log('Response from server: ' +success);
-        if(success){
-          console.log('pyyntö käyttäjän poistamisesta tehty-------');
-           this.dismiss();
-        }
-      });
-}       
+// NWDeleteRestApista(){
+//   let apiUrl='https://localhost:5001/nw/logins/id/'+this.props.LoginID2Del;
+//   console.log("NWDeleteRestApista " + apiUrl);
+//   fetch(apiUrl, {
+//     method:"DELETE",
+//     headers:{
+//       "Accept":"application/json",
+//      "Content-Type":"application/json" 
+//     },
+//     body:null
+//   }).then((response)=>response.json())
+//       .then((json)=>{
+//         const success=json;
+//         console.log('Response from server: ' +success);
+//         if(success){
+//           console.log('pyyntö käyttäjän poistamisesta tehty-------');
+//            this.dismiss();
+//         }
+//       });
+// }       
 //--------------------------------SUBMIT
     handleSubmit(event){
         event.preventDefault();
@@ -105,7 +105,7 @@ NWDeleteRestApista(){
     PoistaKannasta(){
 
         
-        const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.LoginID;
+        const apiUrl= 'https://localhost:5001/nw/logins/'+this.state.loginId;
         fetch(apiUrl,{
             method:"DELETE",
             headers:{
