@@ -15,7 +15,7 @@ class Navigaatio extends Component {
          <Router>
             <div>
                 <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
-                <a className="navbar-brand" href="#">Northwind React Application 2019</a>
+                <a className="navbar-brand" href="#">Northwind App</a>
 
                 <ul className="navbar-nav mr-auto">
                     <li><Link to={'/NWCustomers/NWCustomerFetch'} className="nav-link">NWCustomerFetch</Link></li>

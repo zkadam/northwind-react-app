@@ -67,37 +67,52 @@ class NWLoginsAdd extends Component {
         this.InsertoiKantaan();
     }
 
-    InsertoiKantaan(){
-        //luodaan kayttaja objekti
-        const kayttaja = {loginId:this.state.loginId,
-                        firstname:this.state.firstname,
-                        lastname:this.state.lastname,
-                        email:this.state.email,
-                        userName:this.state.userName,
-                        passWord:this.state.passWord,
-                        accesslevelId:this.state.accesslevelId
-                    };
-        const kayttajaJson=JSON.stringify(kayttaja);
-        
-        console.log("kayttajaJson: "+kayttajaJson);
-        const apiUrl='https://localhost:5001/nw/logins';
-        fetch(apiUrl,{
-            method:"POST",
-            headers:{
-                "Accept":"application/json",
-                "Content-Type":"application/json"
-            },
-            body:kayttajaJson
-        }).then((response)=>response.json())
-            .then((json)=>{
-                //store the data returned from the backend to the current state
-                const success=json;
-                console.log(`Response from server: ${success}.`);
-                if(success){
-                    alert("Pyyntö käyttäjän tallenttamiseksi tehty");
-                    this.dismiss();
-                }
-            })
+    InsertoiKantaan() {
+        let jwtoken = localStorage.getItem('token') // <-----------------
+        if (jwtoken !== null) {
+            let expDate = JSON.parse(atob(jwtoken.split('.')[1]))
+            //tarkistetaan, onko token vielä voimassa
+            if (Date.now() < expDate.exp * 1000) {
+                //luodaan kayttaja objekti
+                const kayttaja = {
+                    loginId: this.state.loginId,
+                    firstname: this.state.firstname,
+                    lastname: this.state.lastname,
+                    email: this.state.email,
+                    userName: this.state.userName,
+                    passWord: this.state.passWord,
+                    accesslevelId: this.state.accesslevelId
+                };
+                const kayttajaJson = JSON.stringify(kayttaja);
+
+                console.log("kayttajaJson: " + kayttajaJson);
+                const apiUrl = 'https://localhost:5001/nw/logins';
+                fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        Authorization: "Bearer " + jwtoken,
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: kayttajaJson
+                }).then((response) => response.json())
+                    .then((json) => {
+                        //store the data returned from the backend to the current state
+                        const success = json;
+                        console.log(`Response from server: ${success}.`);
+                        if (success) {
+                            alert("Pyyntö käyttäjän tallenttamiseksi tehty");
+                            // this.dismiss();
+                        }
+                    })
+            } else {
+                localStorage.clear();
+                console.log('-----------------TOKEN HAS EXPIRED------------------')
+                this.setState({ CustomerID: '' })
+                window.location.reload();
+
+            }
+        }
     }
 
     render(){

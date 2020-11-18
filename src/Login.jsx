@@ -106,19 +106,32 @@ LuoObjekti(){
     render(){
         if(this.state.ShowLoginForm===true){
             return (
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" placeholder="userName" onChange={this.handleChangeuserName}/>
-                    <input type="password" placeholder="passWord" onChange={this.handleChangepassWord}/>
+                <div className="popupDiv">
+                <form className="box3pop"style={{height: '30%'}} onSubmit={this.handleSubmit}>
+                <div className="labelDiv">
+                <label className="labelKeys">User Name: </label>
+
+                    <input className="labelField" type="text" placeholder="" onChange={this.handleChangeuserName}/>
+                </div>
                 <br/>
-                <button type="submit">Kirjaudu</button>
+                <div className="labelDiv">
+                <label className="labelKeys">Pass Word: </label>
+
+                    <input  className="labelField" type="password" placeholder="" onChange={this.handleChangepassWord}/>
+                </div>
+
+                <div className="buttonsDiv">
+                <button className="confirmBtn" type="submit">Kirjaudu</button>
+                </div>
                 </form>
+
+                </div>
             )
         }
         else{
             return(
                 <div>
-                    <h4>Kirjautunut käyttäjä {this.state.LoggedInUser}</h4>
-                    <button onClick={()=>this.logout()}>Kirjaudu ulos</button>
+                                       <button onClick={()=>this.logout()}>Kirjaudu ulos</button>
                 </div>
             )
         }

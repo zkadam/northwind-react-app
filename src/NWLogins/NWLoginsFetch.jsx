@@ -13,7 +13,7 @@ class NWLoginsFetch extends Component {
     this.state={
       nwRecords:[],
       recordcount: 0,
-      country:"",
+      surname:"",
       offset:0,
       limit:10,
       visible:"table",
@@ -27,24 +27,24 @@ class NWLoginsFetch extends Component {
     this.handleChildUnmountAdd=this.handleChildUnmountAdd.bind(this);
     this.handleChildUnmountEdit=this.handleChildUnmountEdit.bind(this);
     this.handleChildUnmountDelete=this.handleChildUnmountDelete.bind(this);
-    this.handleChangeCountry=this.handleChangeCountry.bind(this);
+    this.handleChangeSurname=this.handleChangeSurname.bind(this);
 
 
   }
 
 //--------------------------------------------UNMOUNT CHILD FUNCTIONS
 handleChildUnmountAdd(){
-  this.setState({renderChildAdd:false,visible:"table",},()=>this.NorthwindFetch());
-
+  this.setState({...this.state,renderChildAdd:false,visible:"table",},()=>this.NorthwindFetch());
+  
 }
 
 handleChildUnmountEdit(){
-  this.setState({renderChildEdit:false,visible:"table",},()=>this.NorthwindFetch());
+  this.setState({...this.state,renderChildEdit:false,visible:"table",},()=>this.NorthwindFetch());
 }
 
 handleChildUnmountDelete(){
   // this.setState({renderChildDelete:false});
-  this.setState({renderChildDelete:false,visible:"table",},()=>this.NorthwindFetch());
+  this.setState({...this.state,renderChildDelete:false,visible:"table",},()=>this.NorthwindFetch());
 }
 
 
@@ -109,66 +109,79 @@ handleChildUnmountDelete(){
     
   }
   
-  handleChangeCountry(event){
+  handleChangeSurname(event){
     let arvo=event.target.value;
-    this.setState({country: arvo},this.NorthwindFetch);
+    this.setState({surname: arvo},this.NorthwindFetch);
   }
 
   NorthwindFetch(){
    
 let jwtoken=localStorage.getItem('token');
 if(jwtoken!==null)
-{
-  let uri2='https://localhost:5001/nw/Logins/';
-  let uri='https://localhost:5001/nw/Logins/';
-  // let uri='https://localhost:5001/nw/orders/';
-  
- 
-  console.log("NorthwindFetch " + uri);
- 
+    {
+      let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
+    
+      //tarkistetaan, onko token vielä voimassa
+      if(Date.now()<expDate.exp*1000)
+      {
+        let uri2='https://localhost:5001/nw/Logins/'+this.state.surname;
+        let uri='https://localhost:5001/nw/Logins/'+this.state.surname;
+        // let uri='https://localhost:5001/nw/orders/';
+        
+      
+        console.log("NorthwindFetch " + uri);
+      
 
-    fetch(uri,{
-      method:"GET",
-      headers:{
-        Authorization:"Bearer "+jwtoken,
-          "Accept":"application/json",
-          "Content-Type":"application/json"
-      }
-    }).then((response)=>response.json())
-      .then((json)=>{
-          //store the data returned from the backend to the current state
-          const success=json;
-          console.log(`Response from server: ${success}.`);
-          if(success){
-              this.setState({nwRecords: json});
-          }
-      })
+          fetch(uri,{
+            method:"GET",
+            headers:{
+              Authorization:"Bearer "+jwtoken,
+                "Accept":"application/json",
+                "Content-Type":"application/json"
+            }
+          }).then((response)=>response.json())
+            .then((json)=>{
+                //store the data returned from the backend to the current state
+                const success=json;
+                console.log(`Response from server: ${success}.`);
+                if(success){
+                    this.setState({nwRecords: json});
+                }
+            })
+        
+          // separate fetch to get max length so we can block from loading empty table lines
+          fetch(uri2,{
+            method:"GET",
+            headers:{
+              Authorization:"Bearer "+jwtoken,
+                "Accept":"application/json",
+                "Content-Type":"application/json"
+            }
+          }).then((response)=>response.json())
+            .then((json)=>{
+                //store the data returned from the backend to the current state
+                const success=json;
+                console.log(`Response from server: ${success}.`);
+                if(success){
+                  this.setState({recordcount: json.length});
+                }
+            })
+        }
+
+
+        else{
+          localStorage.clear();
+          console.log('-----------------TOKEN HAS EXPIRED------------------')
+          this.setState({nwRecords:'',recordcount: 0})
+          window.location.reload();
   
-    // separate fetch to get max length so we can block from loading empty table lines
-    fetch(uri2,{
-      method:"GET",
-      headers:{
-        Authorization:"Bearer "+jwtoken,
-          "Accept":"application/json",
-          "Content-Type":"application/json"
+        }
       }
-    }).then((response)=>response.json())
-      .then((json)=>{
-          //store the data returned from the backend to the current state
-          const success=json;
-          console.log(`Response from server: ${success}.`);
-          if(success){
-            this.setState({recordcount: json.length});
-          }
-      })
+      else{
+        //setting empty value to nwrecords so render doesnt collapse
+        this.setState({nwRecords:'',recordcount: 0})
+  
   }
-
-
-else{
-  //setting empty value to nwrecords so render doesnt collapse
-  this.setState({nwRecords:'',recordcount: 0})
-
-}
 
   }
   //------------------------------------------DID MOUNT
@@ -238,15 +251,15 @@ else{
 //-----------------------------------------------------------Login TAULUKKO
    if (this.state.nwRecords!==''){
     if(this.state.visible==="table"){
-      return (
+            return (
      
        <div >
-      <h1>Käyttäjät</h1>
-         <button onClick={this.handleClickHelp}>Opasteet</button>
-         <button onClick={this.handleClickAdd}>Lisää Login</button>
-         <button onClick={this.handleClickPrev}>Edelliset</button>
-         <button onClick={this.handleClickNext}>Seuraavat</button>
-         <input type="text" placeholder="Filter by country"  onChange={this.handleChangeCountry}/>
+      <h1 className="kayttajat">Käyttäjät</h1>
+         <button className="perusBtn kayttajat" onClick={this.handleClickHelp}>Opasteet</button>
+         <button className="perusBtn kayttajat"onClick={this.handleClickAdd}>Lisää Login</button>
+         {/* <button onClick={this.handleClickPrev}>Edelliset</button>
+         <button onClick={this.handleClickNext}>Seuraavat</button> */}
+         <input type="text" placeholder="Filter by surname"  onChange={this.handleChangeSurname}/>
          <p>{viesti}</p>
 
          {/* filling the table with the data */}
@@ -261,10 +274,10 @@ else{
      {
        return(
         <div className="box1">
-          <h1>Uuden käyttäjän lisäys</h1>
+          <h1 className="kayttajat">Uuden käyttäjän lisäys</h1>
          <div>
-           <button onClick={this.handleClickHelp}>Opasteet</button>
-           <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
+           <button className="perusBtn kayttajat"onClick={this.handleClickHelp}>Opasteet</button>
+           <button className="perusBtn kayttajat"onClick={this.handleClickTable}>Selaa asiakkaita</button>
          </div>  
          {this.state.renderChildAdd ? <NWLoginsAdd unmountMe={this.handleChildUnmountAdd}/>:null}
          </div>
@@ -275,11 +288,11 @@ else{
      return(
        <div>
        <div >
-       <h1>Asiakkaat</h1>
-          <button onClick={this.handleClickHelp}>Opasteet</button>
-          <button onClick={this.handleClickAdd}>Lisää Login</button>
-          <button onClick={this.handleClickPrev}>Edelliset</button>
-          <button onClick={this.handleClickNext}>Seuraavat</button>
+       <h1 className="kayttajat">Asiakkaat</h1>
+          <button className="perusBtn kayttajat"onClick={this.handleClickHelp}>Opasteet</button>
+          <button className="perusBtn kayttajat"onClick={this.handleClickAdd}>Lisää Login</button>
+          {/* <button onClick={this.handleClickPrev}>Edelliset</button>
+          <button onClick={this.handleClickNext}>Seuraavat</button> */}
           {/* filling the table with the data */}
         <div className="NorthwindFetch">
           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
@@ -294,11 +307,11 @@ else{
      return(
        <div>
        <div >
-       <h1>Asiakkaat</h1>
-          <button onClick={this.handleClickHelp}>Opasteet</button>
-          <button onClick={this.handleClickAdd}>Lisää login</button>
-          <button onClick={this.handleClickPrev}>Edelliset</button>
-          <button onClick={this.handleClickNext}>Seuraavat</button>
+       <h1 className="kayttajat">Asiakkaat</h1>
+          <button className="perusBtn kayttajat"onClick={this.handleClickHelp}>Opasteet</button>
+          <button className="perusBtn kayttajat"onClick={this.handleClickAdd}>Lisää login</button>
+          {/* <button onClick={this.handleClickPrev}>Edelliset</button>
+          <button onClick={this.handleClickNext}>Seuraavat</button> */}
           {/* filling the table with the data */}
         <div className="NorthwindFetch">
           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
@@ -314,7 +327,7 @@ else{
      {
        return(
          <div className="box1">
-           <h1>Sovelluksen opasteet</h1>
+           <h1 className="kayttajat">Sovelluksen opasteet</h1>
            <button onClick={this.handleClickAdd}>Lisää login</button>
            <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
            <Helpit moduli="NWLoginsFetch"/>
@@ -325,14 +338,14 @@ else{
    else{
      return(
        <div className="box1">
-        <h1>Sovellusvirhe - lataa sivu uudelleen!</h1>
+        <h1 className="kayttajat">Sovellusvirhe - lataa sivu uudelleen!</h1>
        </div>  
        );
    }
   } 
      else{return(
       <div className="box1">
-       <h1>Kirjaudu sisään jos haluat nähdä tietoja!</h1>
+       <h1 className="kayttajat">Kirjaudu sisään jos haluat nähdä tietoja!</h1>
       </div>  
       );}
    

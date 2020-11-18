@@ -28,26 +28,39 @@ class NWCustomerDelete extends Component{
 
 //-------------------------------GETTING JSON BY ID
     NorthwindFetch(){
-        let uri='https://localhost:5001/nw/logins/id/'+this.props.LoginID;
-        console.log(uri);
-        // let uri='https://localhost:5001/nw/orders/';
-        
-        fetch(uri)
-        .then(response => response.json())
-        .then(json =>{
-          console.log(json);
-          this.setState({loginObj: json,},()=>this.fillFields());
-          
-        })
-        
-        // separate fetch to get max length so we can block from loading empty table lines
-        // fetch(uri2)
-        // .then(response => response.json())
-        // .then(json =>{
-        //   // console.log(json);
-        //   this.setState({recordcount: json.length});
-          
-        // });
+        let jwtoken = localStorage.getItem('token') // <-----------------
+        if(jwtoken!==null)
+        {
+          let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
+              //tarkistetaan, onko token vielä voimassa
+            if(Date.now()<expDate.exp*1000)
+            {
+            let uri='https://localhost:5001/nw/logins/id/'+this.props.LoginID;
+            console.log(uri);
+            // let uri='https://localhost:5001/nw/orders/';
+            
+            fetch(uri,{
+                method:"GET",
+                headers:{
+                Authorization:"Bearer "+jwtoken,
+                    "Accept":"application/json",
+                    "Content-Type":"application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(json =>{
+            console.log(json);
+            this.setState({loginObj: json,},()=>this.fillFields());
+            
+            })
+        }
+        else{
+            localStorage.clear();
+            console.log('-----------------TOKEN HAS EXPIRED------------------')
+            this.setState({CustomerID:''})
+            window.location.reload();
+            }
+        }         
     }
     //------------------------------FILLIN UO DATAFIELDS FROM JSON TO SHOW WHAT WE ARE DELETING-----------------
     fillFields=(valami)=>{
@@ -63,34 +76,8 @@ class NWCustomerDelete extends Component{
        
         })
     }
- //---------------------------------DELETE----------------------------
-//  handlePerformDelete(){
-//     console.log('NwDeleteRestApista......deleteissä', this.state.LoginID2Del);
-//     this.NWDeleteRestApista();
-//   }
-
-
-
-// NWDeleteRestApista(){
-//   let apiUrl='https://localhost:5001/nw/logins/id/'+this.props.LoginID2Del;
-//   console.log("NWDeleteRestApista " + apiUrl);
-//   fetch(apiUrl, {
-//     method:"DELETE",
-//     headers:{
-//       "Accept":"application/json",
-//      "Content-Type":"application/json" 
-//     },
-//     body:null
-//   }).then((response)=>response.json())
-//       .then((json)=>{
-//         const success=json;
-//         console.log('Response from server: ' +success);
-//         if(success){
-//           console.log('pyyntö käyttäjän poistamisesta tehty-------');
-//            this.dismiss();
-//         }
-//       });
-// }       
+ 
+   
 //--------------------------------SUBMIT
     handleSubmit(event){
         event.preventDefault();
@@ -104,24 +91,39 @@ class NWCustomerDelete extends Component{
 
     PoistaKannasta(){
 
-        
-        const apiUrl= 'https://localhost:5001/nw/logins/'+this.state.loginId;
-        fetch(apiUrl,{
-            method:"DELETE",
-            headers:{
-                "Accept":"application/json",
-                "Content-Type":"application/json"
-            },
-            body:null
-        }).then((response)=>response.json())
-            .then((json)=>{
-                const success=json;
-                console.log("Response from server: "+ success +".");
-                if(success){
-                    console.log("Pyyntö asiakkaan poistamiseksi tehty-- -- -- -- --");
-                    // this.dismiss();
-                } 
-            });
+        let jwtoken = localStorage.getItem('token') // <-----------------
+        if(jwtoken!==null)
+        {
+          let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
+              //tarkistetaan, onko token vielä voimassa
+            if(Date.now()<expDate.exp*1000)
+            {
+                const apiUrl= 'https://localhost:5001/nw/logins/'+this.state.loginId;
+                fetch(apiUrl,{
+                    method:"DELETE",
+                    headers:{
+                        Authorization: "Bearer " + jwtoken,
+                        "Accept":"application/json",
+                        "Content-Type":"application/json"
+                    },
+                    body:null
+                }).then((response)=>response.json())
+                    .then((json)=>{
+                        const success=json;
+                        console.log("Response from server: "+ success +".");
+                        if(success){
+                            console.log("Pyyntö asiakkaan poistamiseksi tehty-- -- -- -- --");
+                            // this.dismiss();
+                        } 
+                    });
+                }
+            }else{
+                localStorage.clear();
+                console.log('-----------------TOKEN HAS EXPIRED------------------')
+                this.setState({loginId:''})
+                window.location.reload();
+            }
+    
     }
 
     render(){

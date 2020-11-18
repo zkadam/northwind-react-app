@@ -229,7 +229,23 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
 
       }
-      .deleteConfBtn:hover,.peruutaBtn:hover,.confirmBtn:hover{padding:10px}
+
+      .perusBtn{
+        margin-left:3px;
+        height: max-content;
+        width: max-content;
+        color:white;
+        margin-right: 8px;  
+        border-radius: 3px;
+        border-style: hidden;
+        padding: 5px;
+        cursor: pointer;
+        /* top: 50%;
+        transform: translate(0%,50%); */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+
+      }
+      .deleteConfBtn:hover,.peruutaBtn:hover,.confirmBtn:hover,.perusBtn:hover{padding:10px}
 
 
 
@@ -255,4 +271,19 @@
     .labelField{
       font-weight: normal;
     }
+
+
+    h1{width:100%;
+      text-align: center;
+      color:white;
+      font-weight: 500;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+
+    }
+
+.kayttajat{      background-color: rgb(23, 90, 214);
+}
+
+.asiakkaat{      background-color: rgb(128, 4, 80);
+}
 

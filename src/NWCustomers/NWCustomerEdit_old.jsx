@@ -5,13 +5,13 @@ import '../App.css';
 class NWCustomerEdit extends Component{
     constructor(props){
         super(props);
-        this.state={CustomerID:'',CompanyName:'',ContactName:'',ContactTitle:'',Address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
+        this.state={CustomerID:'',CompanyName:'',ContactName:'',ContactTitle:'',address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
 
         this.handleChangeCustomerID=this.handleChangeCustomerID.bind(this);
         this.handleChangeCompanyName=this.handleChangeCompanyName.bind(this);
         this.handleChangeContactName=this.handleChangeContactName.bind(this);
         this.handleChangeContactTitle=this.handleChangeContactTitle.bind(this);
-        this.handleChangeAddress=this.handleChangeAddress.bind(this);
+        this.handleChangeaddress=this.handleChangeaddress.bind(this);
         this.handleChangePostalCode=this.handleChangePostalCode.bind(this);
         this.handleChangeCity=this.handleChangeCity.bind(this);
         this.handleChangeCountry=this.handleChangeCountry.bind(this);
@@ -40,9 +40,9 @@ class NWCustomerEdit extends Component{
         var syöte=event.target.value;
         this.setState({...this.state,ContactTitle: syöte});
     }
-    handleChangeAddress(event){
+    handleChangeaddress(event){
         var syöte=event.target.value;
-        this.setState({...this.state,Address: syöte});
+        this.setState({...this.state,address: syöte});
     }
     handleChangePostalCode(event){
         var syöte=event.target.value;
@@ -77,7 +77,7 @@ class NWCustomerEdit extends Component{
             CompanyName:this.props.asiakasObj.companyName,
             ContactName:this.props.asiakasObj.contactName,
             ContactTitle:this.props.asiakasObj.contactTitle,
-            Address:this.props.asiakasObj.address,
+            address:this.props.asiakasObj.address,
             PostalCode:this.props.asiakasObj.postalCode,
             City:this.props.asiakasObj.city,
             Country:this.props.asiakasObj.country,
@@ -89,16 +89,16 @@ class NWCustomerEdit extends Component{
 
     InsertoiKantaan(){
 
-        const asiakas={CustomerID:this.state.CustomerID,
-                        CompanyName:this.state.CompanyName,
-                        ContactName:this.state.ContactName,
-                        ContactTitle:this.state.ContactTitle,
-                        Address:this.state.Address,
-                        PostalCode:this.state.PostalCode,
-                        City:this.state.City,
-                        Country:this.state.Country,
-                        Phone:this.state.Phone,
-                        Fax:this.state.Fax
+        const asiakas={customerId:this.state.CustomerID,
+                        companyName:this.state.CompanyName,
+                        contactName:this.state.ContactName,
+                        contactTitle:this.state.ContactTitle,
+                        Address:this.state.address,
+                        postalCode:this.state.PostalCode,
+                        city:this.state.City,
+                        country:this.state.Country,
+                        phone:this.state.Phone,
+                        fax:this.state.Fax
                     }
         const asiakasJson=JSON.stringify(asiakas);
 
@@ -128,7 +128,7 @@ class NWCustomerEdit extends Component{
                 <input type="text" value={this.state.CompanyName||""} placeholder="Company Name" onChange={this.handleChangeCompanyName}/>
                 <input type="text" value={this.state.ContactName||""} placeholder="Contact Name" onChange={this.handleChangeContactName}/>
                 <input type="text" value={this.state.ContactTitle||""} placeholder="Contact Title" onChange={this.handleChangeContactTitle}/>
-                <input type="text" value={this.state.Address||""} placeholder="Address" onChange={this.handleChangeAddress}/>
+                <input type="text" value={this.state.address||""} placeholder="address" onChange={this.handleChangeaddress}/>
                 <input type="text" value={this.state.PostalCode||""} placeholder="PostalCode" onChange={this.handleChangePostalCode}/>
                 <input type="text" value={this.state.City||""} placeholder="City" onChange={this.handleChangeCity}/>
                 <input type="text" value={this.state.Country||""} placeholder="Country" onChange={this.handleChangeCountry}/>

@@ -86,72 +86,97 @@ class NWLoginsEdit extends Component{
     }
 
     InsertoiKantaan(){
+        let jwtoken = localStorage.getItem('token') // <-----------------
+        if(jwtoken!==null)
+        {
+            const asiakas={loginId:this.state.loginId,
+                            firstname:this.state.firstname,
+                            lastname:this.state.lastname,
+                            email:this.state.email,
+                            userName:this.state.userName,
+                            passWord:this.state.passWord,
+                            AccesslevelId:parseInt(this.state.AccesslevelId)
+                        }
+            const asiakasJson=JSON.stringify(asiakas);
 
-        const asiakas={loginId:this.state.loginId,
-                        firstname:this.state.firstname,
-                        lastname:this.state.lastname,
-                        email:this.state.email,
-                        userName:this.state.userName,
-                        passWord:this.state.passWord,
-                        AccesslevelId:parseInt(this.state.AccesslevelId)
-                    }
-        const asiakasJson=JSON.stringify(asiakas);
+            const apiUrl= 'https://localhost:5001/nw/logins/'+this.state.loginId;
+            fetch(apiUrl,{
+                method:"PUT",
+                headers:{
+                    Authorization: "Bearer " + jwtoken,
+                    "Accept":"application/json",
+                    "Content-Type":"application/json"
+                },
+                body:asiakasJson
+            }).then((response)=>response.json())
+                .then((json)=>{
+                    const success=json;
+                    console.log("Response from server: "+ success +".");
+                    if(success){
+                        console.log("Pyyntö asiakkaan päivittämiseksi tehty-- -- -- -- --");
+                        // this.dismiss(true);
+                    } 
+                });
+        }else{
+            localStorage.clear();
+            console.log('-----------------TOKEN HAS EXPIRED------------------')
+            window.location.reload();
 
-        const apiUrl= 'https://localhost:5001/nw/logins/'+this.state.loginId;
-        fetch(apiUrl,{
-            method:"PUT",
-            headers:{
-                "Accept":"application/json",
-                "Content-Type":"application/json"
-            },
-            body:asiakasJson
-        }).then((response)=>response.json())
-            .then((json)=>{
-                const success=json;
-                console.log("Response from server: "+ success +".");
-                if(success){
-                    console.log("Pyyntö asiakkaan päivittämiseksi tehty-- -- -- -- --");
-                    // this.dismiss(true);
-                } 
-            });
+    }
     }
 
     render(){
-        return (
-            <div className="popupDiv" onClick={this.dismiss.bind(this)}>
-            
-            <form className="box3pop" onSubmit={this.handleSubmit}>
-            <h2>Moukkaa asiakastiedot:</h2><br/>
-                    <div className="labelDiv">
-                        <label className="labelKeys">loginId: </label>
-                        <input className="labelField"  disabled={true} type="text" value={this.state.loginId || ""} placeholder="loginId" onChange={this.handleChangeloginId} /> </div>
-                    <div className="labelDiv">
-                        <label className="labelKeys">firstname: </label>
-                        <input className="labelField" type="text" value={this.state.firstname || ""} placeholder="firstname" onChange={this.handleChangefirstname} /> </div>
-                    <div className="labelDiv">
-                        <label className="labelKeys">lastname: </label>
-                        <input className="labelField" type="text" value={this.state.lastname || ""} placeholder="lastname" onChange={this.handleChangelastname} /> </div>
-                    <div className="labelDiv">
-                        <label className="labelKeys">email: </label>
-                        <input className="labelField" type="text" value={this.state.email || ""} placeholder="email" onChange={this.handleChangeemail} /> </div>
-                    <div className="labelDiv">
-                        <label className="labelKeys">userName: </label>
-                        <input className="labelField" type="text" value={this.state.userName || ""} placeholder="userName" onChange={this.handleChangeuserName} /> </div>
-                    <div className="labelDiv">
-                        <label className="labelKeys">passWord: </label>
-                        <input className="labelField" type="text" value={this.state.passWord || ""} placeholder="passWord" onChange={this.handleChangepassWord} /> </div>
-                    <div className="labelDiv">
-                        <label className="labelKeys">AccesslevelId: </label>
-                        <input className="labelField" type="number" value={this.state.AccesslevelId || ""} placeholder="AccesslevelId" onChange={this.handleChangeAccesslevelId} /> </div>
-                <br/>
-            <div className="buttonsDiv">
-                <button className="confirmBtn" type="submit">Talleta muutokset</button>
-                <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>
 
-            </div>
-            </form>
-            </div>
-        )
+        let jwtoken = localStorage.getItem('token') // <-----------------
+
+        if(jwtoken!==null)
+        {
+          let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
+              //tarkistetaan, onko token vielä voimassa
+            if(Date.now()<expDate.exp*1000)
+            {
+                return (
+                    <div className="popupDiv" onClick={this.dismiss.bind(this)}>
+                    
+                    <form className="box3pop" onSubmit={this.handleSubmit}>
+                    <h2>Moukkaa asiakastiedot:</h2><br/>
+                            <div className="labelDiv">
+                                <label className="labelKeys">loginId: </label>
+                                <input className="labelField"  disabled={true} type="text" value={this.state.loginId || ""} placeholder="loginId" onChange={this.handleChangeloginId} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">firstname: </label>
+                                <input className="labelField" type="text" value={this.state.firstname || ""} placeholder="firstname" onChange={this.handleChangefirstname} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">lastname: </label>
+                                <input className="labelField" type="text" value={this.state.lastname || ""} placeholder="lastname" onChange={this.handleChangelastname} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">email: </label>
+                                <input className="labelField" type="text" value={this.state.email || ""} placeholder="email" onChange={this.handleChangeemail} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">userName: </label>
+                                <input className="labelField" type="text" value={this.state.userName || ""} placeholder="userName" onChange={this.handleChangeuserName} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">passWord: </label>
+                                <input className="labelField" type="text" value={this.state.passWord || ""} placeholder="passWord" onChange={this.handleChangepassWord} /> </div>
+                            <div className="labelDiv">
+                                <label className="labelKeys">AccesslevelId: </label>
+                                <input className="labelField" type="number" value={this.state.AccesslevelId || ""} placeholder="AccesslevelId" onChange={this.handleChangeAccesslevelId} /> </div>
+                        <br/>
+                    <div className="buttonsDiv">
+                        <button className="confirmBtn" type="submit">Talleta muutokset</button>
+                        <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>
+
+                    </div>
+                    </form>
+                    </div>
+                )
+            }
+            else{
+            //setting empty value to nwrecords so render doesnt collapse
+            this.setState({loginId:''})
+            window.location.reload();   
+            }
+        }
     }
     
 

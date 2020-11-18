@@ -34,17 +34,17 @@ class NWCustomerFetch extends Component {
 
 //--------------------------------------------UNMOUNT CHILD FUNCTIONS
 handleChildUnmountAdd(){
-  this.setState({renderChildAdd:false,visible:"table",},()=>this.NorthwindFetch());
+  this.setState({...this.state,renderChildAdd:false,visible:"tableNew",},()=>this.componentDidMount());
 
 }
 
 handleChildUnmountEdit(){
-  this.setState({renderChildEdit:false,visible:"table",},()=>this.NorthwindFetch());
+  this.setState({...this.state,renderChildEdit:false,visible:"tableNew",},()=>this.NorthwindFetch());
 }
 
 handleChildUnmountDelete(){
   // this.setState({renderChildDelete:false});
-  this.setState({renderChildDelete:false,visible:"table",},()=>this.NorthwindFetch());
+  this.setState({...this.state,renderChildDelete:false,visible:"tableNew",},()=>this.NorthwindFetch());
 }
 
 
@@ -62,7 +62,7 @@ handleChildUnmountDelete(){
   }
 //-----------------------------------------EDIT BUTTON
   handleClickEdit=(dataObj,event)=>{
-    console.log(dataObj);
+    console.log(JSON.stringify(dataObj));
     this.setState({
       yksiAsiakas:dataObj,
       visible:"editform",
@@ -250,15 +250,15 @@ handleChildUnmountDelete(){
     }
 //-----------------------------------------------------------ASIAKAS TAULUKKO
    if (this.state.nwRecords!==''){
-    if(this.state.visible==="table"){
+    if(this.state.visible==="table"||this.state.visible==="tableNew"){
       return (
      
        <div >
-      <h1>Asiakkaat</h1>
-         <button onClick={this.handleClickHelp}>Opasteet</button>
-         <button onClick={this.handleClickAdd}>Lisää asiakas</button>
-         <button onClick={this.handleClickPrev}>Edelliset</button>
-         <button onClick={this.handleClickNext}>Seuraavat</button>
+      <h1 className="asiakkaat">Asiakkaat</h1>
+         <button  className="asiakkaat perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
+         <button  className="asiakkaat perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+         <button  className="asiakkaat perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
+         <button  className="asiakkaat perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
          <input type="text" placeholder="Filter by country"  onChange={this.handleChangeCountry}/>
          <p>{viesti}</p>
 
@@ -274,11 +274,14 @@ handleChildUnmountDelete(){
      {
        return(
         <div className="box1">
-          <h1>Uuden asiakkaan lisäys</h1>
+          <h1 className="asiakkaat">Uuden asiakkaan lisäys</h1>
          <div>
-           <button onClick={this.handleClickHelp}>Opasteet</button>
-           <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
+           <button  className="asiakkaat perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
+           <button  className="asiakkaat perusBtn"onClick={this.handleClickTable}>Selaa asiakkaita</button>
          </div>  
+         <div className="NorthwindFetch">
+          <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
+          </div>
          {this.state.renderChildAdd ? <NWCustomerAdd unmountMe={this.handleChildUnmountAdd}/>:null}
          </div>
        );}
@@ -288,11 +291,11 @@ handleChildUnmountDelete(){
      return(
        <div>
        <div >
-       <h1>Asiakkaat</h1>
-          <button onClick={this.handleClickHelp}>Opasteet</button>
-          <button onClick={this.handleClickAdd}>Lisää asiakas</button>
-          <button onClick={this.handleClickPrev}>Edelliset</button>
-          <button onClick={this.handleClickNext}>Seuraavat</button>
+       <h1 className="asiakkaat">Asiakkaat</h1>
+          <button  className="asiakkaat perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
+          <button  className="asiakkaat perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+          <button  className="asiakkaat perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
+          <button  className="asiakkaat perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
           {/* filling the table with the data */}
         <div className="NorthwindFetch">
           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
@@ -307,11 +310,11 @@ handleChildUnmountDelete(){
      return(
        <div>
        <div >
-       <h1>Asiakkaat</h1>
-          <button onClick={this.handleClickHelp}>Opasteet</button>
-          <button onClick={this.handleClickAdd}>Lisää asiakas</button>
-          <button onClick={this.handleClickPrev}>Edelliset</button>
-          <button onClick={this.handleClickNext}>Seuraavat</button>
+       <h1 className="asiakkaat">Asiakkaat</h1>
+          <button  className="asiakkaat perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
+          <button  className="asiakkaat perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+          <button  className="asiakkaat perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
+          <button  className="asiakkaat perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
           {/* filling the table with the data */}
         <div className="NorthwindFetch">
           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
@@ -327,9 +330,9 @@ handleChildUnmountDelete(){
      {
        return(
          <div className="box1">
-           <h1>Sovelluksen opasteet</h1>
-           <button onClick={this.handleClickAdd}>Lisää asiakas</button>
-           <button onClick={this.handleClickTable}>Selaa asiakkaita</button>
+           <h1 className="asiakkaat">Sovelluksen opasteet</h1>
+           <button  className="asiakkaat perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+           <button  className="asiakkaat perusBtn"onClick={this.handleClickTable}>Selaa asiakkaita</button>
            <Helpit moduli="NWCustomerFetch"/>
         </div>  
        
@@ -338,14 +341,14 @@ handleChildUnmountDelete(){
    else{
      return(
        <div className="box1">
-        <h1>Sovellusvirhe - lataa sivu uudelleen!</h1>
+        <h1 className="asiakkaat">Sovellusvirhe - lataa sivu uudelleen!</h1>
        </div>  
        );
    }
   } 
      else{return(
       <div className="box1">
-       <h1>Kirjaudu sisään jos haluat nähdä tietoja!</h1>
+       <h1 className="asiakkaat">Kirjaudu sisään jos haluat nähdä tietoja!</h1>
       </div>  
       );}
    
