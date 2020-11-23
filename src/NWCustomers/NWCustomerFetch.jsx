@@ -144,7 +144,7 @@ handleChildUnmountDelete(){
           .then((json)=>{
               //store the data returned from the backend to the current state
               const success=json;
-              console.log(`Response from server: ${success}.`);
+              console.log('Response from server: ', success);
               if(success){
                   this.setState({nwRecords: json});
               }
