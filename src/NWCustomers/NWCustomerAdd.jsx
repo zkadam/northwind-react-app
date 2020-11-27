@@ -78,10 +78,9 @@ handleChangeFax(event){
     handleSubmit(event){
         alert('Lähetettiin asiakas: '+this.state.CustomerID);
         event.preventDefault();
-        this.InsertoiKantaan();
     }
 
-    InsertoiKantaan(){
+    async InsertoiKantaan(){
 
         let jwtoken = localStorage.getItem('token') // <-----------------
         if(jwtoken!==null)
@@ -105,7 +104,7 @@ handleChangeFax(event){
                 const asiakasJson=JSON.stringify(asiakas);
                 console.log("asiakasJson: "+asiakasJson);
                 const apiUrl='https://localhost:5001/nw/customer';
-                fetch(apiUrl,{
+                await fetch(apiUrl,{
                     method:"POST",
                     headers:{
                         Authorization: "Bearer " + jwtoken,

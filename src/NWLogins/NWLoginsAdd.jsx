@@ -26,8 +26,14 @@ class NWLoginsAdd extends Component {
             this.props.unmountMe();
         }
         else if(e.target.className==="confirmBtn"){
+          
+
+
+
+
+
             this.InsertoiKantaan();
-            this.props.unmountMe();
+            // this.props.unmountMe();
         }
     }
     
@@ -64,10 +70,9 @@ class NWLoginsAdd extends Component {
     handleSubmit(event){
         alert('Lähetettiin uusi login: '+this.state.loginId);
         event.preventDefault();
-        this.InsertoiKantaan();
     }
 
-    InsertoiKantaan() {
+    async InsertoiKantaan() {
         let jwtoken = localStorage.getItem('token') // <-----------------
         if (jwtoken !== null) {
             let expDate = JSON.parse(atob(jwtoken.split('.')[1]))
@@ -87,7 +92,7 @@ class NWLoginsAdd extends Component {
 
                 console.log("kayttajaJson: " + kayttajaJson);
                 const apiUrl = 'https://localhost:5001/nw/logins';
-                fetch(apiUrl, {
+                 await fetch(apiUrl, {
                     method: "POST",
                     headers: {
                         Authorization: "Bearer " + jwtoken,
@@ -105,6 +110,8 @@ class NWLoginsAdd extends Component {
                             // this.dismiss();
                         }
                     })
+                    
+                    this.props.unmountMe();
             } else {
                 localStorage.clear();
                 console.log('-----------------TOKEN HAS EXPIRED------------------')
