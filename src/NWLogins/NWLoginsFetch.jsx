@@ -111,10 +111,10 @@ handleChildUnmountDelete(){
   
   handleChangeSurname(event){
     let arvo=event.target.value;
-    this.setState({surname: arvo},this.NorthwindFetch);
+    this.setState({surname: arvo},()=>this.NorthwindFetch);
   }
 
-  NorthwindFetch(){
+ async NorthwindFetch(){
    
 let jwtoken=localStorage.getItem('token');
 if(jwtoken!==null)
@@ -132,7 +132,7 @@ if(jwtoken!==null)
         console.log("NorthwindFetch " + uri);
       
 
-          fetch(uri,{
+          await fetch(uri,{
             method:"GET",
             headers:{
               Authorization:"Bearer "+jwtoken,
@@ -150,7 +150,7 @@ if(jwtoken!==null)
             })
         
           // separate fetch to get max length so we can block from loading empty table lines
-          fetch(uri2,{
+          await fetch(uri2,{
             method:"GET",
             headers:{
               Authorization:"Bearer "+jwtoken,

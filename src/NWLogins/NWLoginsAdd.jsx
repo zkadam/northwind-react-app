@@ -86,7 +86,7 @@ class NWLoginsAdd extends Component {
                     email: this.state.email,
                     userName: this.state.userName,
                     passWord: this.state.passWord,
-                    accesslevelId: this.state.accesslevelId
+                    accesslevelId: parseInt(this.state.accesslevelId)
                 };
                 const kayttajaJson = JSON.stringify(kayttaja);
 
@@ -107,8 +107,7 @@ class NWLoginsAdd extends Component {
                         console.log(`Response from server: ${success}.`);
                         if (success) {
                             alert("Pyyntö käyttäjän tallenttamiseksi tehty");
-                            // this.dismiss();
-                        }
+                            this.props.unmountMe()                        }
                     })
                     
                     this.props.unmountMe();
@@ -150,7 +149,7 @@ console.log('add käyttäjä render-----------')
                         <input className="labelField" type="text" value={this.state.passWord || ""} placeholder="passWord" onChange={this.handleChangePassword} /> </div>
                     <div className="labelDiv">
                         <label className="labelKeys">AccesslevelId: </label>
-                        <input className="labelField" type="number" value={this.state.AccesslevelId || ""} placeholder="AccesslevelId" onChange={this.handleChangeAccessLevelId} /> </div>
+                        <input className="labelField" type="number" value={this.state.AccesslevelId || null} placeholder="AccesslevelId" onChange={this.handleChangeAccessLevelId} /> </div>
                 <br/>
             <div className="buttonsDiv">
                 <button className="confirmBtn" type="submit">Talleta muutokset</button>

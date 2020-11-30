@@ -29,7 +29,6 @@ class NWLoginsEdit extends Component{
         }
         else if(e.target.className==="confirmBtn"){
             this.InsertoiKantaan();
-            this.props.unmountMe();
         }
     }
 //----------------------------------------TEXTFIELD CHANGES
@@ -66,7 +65,6 @@ class NWLoginsEdit extends Component{
 //--------------------------------SUBMIT
     handleSubmit(event){
         event.preventDefault();
-        this.InsertoiKantaan();
     }
 //-----------------------------------DID MOUNT
     componentDidMount(){
@@ -85,7 +83,7 @@ class NWLoginsEdit extends Component{
         console.log('Accesslevel id is :---------------------------------------- '+this.props.loginObj.AccesslevelId)
     }
 
-    InsertoiKantaan(){
+    async InsertoiKantaan(){
         let jwtoken = localStorage.getItem('token') // <-----------------
         if(jwtoken!==null)
         {
@@ -100,7 +98,7 @@ class NWLoginsEdit extends Component{
             const asiakasJson=JSON.stringify(asiakas);
 
             const apiUrl= 'https://localhost:5001/nw/logins/'+this.state.loginId;
-            fetch(apiUrl,{
+            await fetch(apiUrl,{
                 method:"PUT",
                 headers:{
                     Authorization: "Bearer " + jwtoken,
@@ -114,7 +112,7 @@ class NWLoginsEdit extends Component{
                     console.log("Response from server: "+ success +".");
                     if(success){
                         console.log("Pyyntö asiakkaan päivittämiseksi tehty-- -- -- -- --");
-                        // this.dismiss(true);
+                        this.props.unmountMe();
                     } 
                 });
         }else{

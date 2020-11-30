@@ -22,12 +22,11 @@ class NWCustomerDelete extends Component{
         }
         else if(e.target.className==="deleteConfBtn"){
             this.PoistaKannasta();
-            this.props.unmountMe();
         }
     }
 
 //-------------------------------GETTING JSON BY ID
-    NorthwindFetch(){
+    async NorthwindFetch(){
         let jwtoken = localStorage.getItem('token') // <-----------------
         if(jwtoken!==null)
         {
@@ -39,7 +38,7 @@ class NWCustomerDelete extends Component{
             console.log(uri);
             // let uri='https://localhost:5001/nw/orders/';
             
-            fetch(uri,{
+            await fetch(uri,{
                 method:"GET",
                 headers:{
                 Authorization:"Bearer "+jwtoken,
@@ -81,7 +80,6 @@ class NWCustomerDelete extends Component{
 //--------------------------------SUBMIT
     handleSubmit(event){
         event.preventDefault();
-        this.PoistaKannasta();
     }
 //-----------------------------------DID MOUNT
     componentDidMount(){
@@ -89,7 +87,7 @@ class NWCustomerDelete extends Component{
         this.NorthwindFetch();
     }
 
-    PoistaKannasta(){
+    async PoistaKannasta(){
 
         let jwtoken = localStorage.getItem('token') // <-----------------
         if(jwtoken!==null)
@@ -99,7 +97,7 @@ class NWCustomerDelete extends Component{
             if(Date.now()<expDate.exp*1000)
             {
                 const apiUrl= 'https://localhost:5001/nw/logins/'+this.state.loginId;
-                fetch(apiUrl,{
+                await fetch(apiUrl,{
                     method:"DELETE",
                     headers:{
                         Authorization: "Bearer " + jwtoken,
@@ -113,7 +111,8 @@ class NWCustomerDelete extends Component{
                         console.log("Response from server: "+ success +".");
                         if(success){
                             console.log("Pyyntö asiakkaan poistamiseksi tehty-- -- -- -- --");
-                            // this.dismiss();
+                            this.props.unmountMe();
+
                         } 
                     });
                 }
