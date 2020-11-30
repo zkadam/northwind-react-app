@@ -248,9 +248,26 @@ handleChildUnmountDelete(){
     else {
       viesti="Haetaan tietoja northwind Api:sta..."
     }
+
+    //------------------------------TÄSSÄ GENEROIDAN MODALIN SISÄLTÖ, RIIPPUEN MIKÄ BUTTONI OLI KLIKATTU
+    const popDiv=[];
+
+    if(this.state.visible==="editform"){
+          popDiv.push(<NWCustomerEdit asiakasObj={this.state.yksiAsiakas} unmountMe={this.handleChildUnmountEdit}/>)
+      }
+    else if(this.state.visible==="addform"){
+        popDiv.push(<NWCustomerAdd  unmountMe={this.handleChildUnmountAdd}/>)
+
+      }
+    else if(this.state.visible==="deleteform"){
+        popDiv.push(<NWCustomerDelete CustomerID={this.state.CustomerID2Del} unmountMe={this.handleChildUnmountDelete}/>)
+
+      }
+
+
 //-----------------------------------------------------------ASIAKAS TAULUKKO
    if (this.state.nwRecords!==''){
-    if(this.state.visible==="table"||this.state.visible==="tableNew"){
+    if(this.state.visible==="table"||this.state.visible==="tableNew"||this.state.visible==="editform"||this.state.visible==="addform"||this.state.visible==="deleteform"){
       return (
      
        <div >
@@ -266,65 +283,13 @@ handleChildUnmountDelete(){
        <div className="NorthwindFetch">
          <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
          </div>
+{/* ---------------------------------------TÄSSÄ ON MODAL SIÄLTÖ-------------- */}
+        {popDiv}
        </div>
+      
      );
    }
-   //-----------------------------------------------ADD FORM--------------
-   else if(this.state.visible==="addform")
-     {
-       return(
-        <div className="box1">
-          <h1 className="asiakkaat">Uuden asiakkaan lisäys</h1>
-         <div>
-           <button  className="asiakkaat perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
-           <button  className="asiakkaat perusBtn"onClick={this.handleClickTable}>Selaa asiakkaita</button>
-         </div>  
-         <div className="NorthwindFetch">
-          <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
-          </div>
-         {this.state.renderChildAdd ? <NWCustomerAdd unmountMe={this.handleChildUnmountAdd}/>:null}
-         </div>
-       );}
- //----------------------------------------------------------EDIT----------------------------------------
-   else if(this.state.visible==="editform")
-   {
-     return(
-       <div>
-       <div >
-       <h1 className="asiakkaat">Asiakkaat</h1>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
-          {/* filling the table with the data */}
-        <div className="NorthwindFetch">
-          <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
-          </div>
-          <p>{viesti}</p>
-          {this.state.renderChildEdit ? <NWCustomerEdit asiakasObj={this.state.yksiAsiakas} unmountMe={this.handleChildUnmountEdit}/>:null}         </div>
-       </div>
-     );}
-       //----------------------------------------------------------DELETE----------------------------------------
-   else if(this.state.visible==="deleteform")
-   {
-     return(
-       <div>
-       <div >
-       <h1 className="asiakkaat">Asiakkaat</h1>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
-          {/* filling the table with the data */}
-        <div className="NorthwindFetch">
-          <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
-          </div>
-          <p>{viesti}</p>
-        {this.state.renderChildDelete ? <NWCustomerDelete CustomerID={this.state.CustomerID2Del} unmountMe={this.handleChildUnmountDelete}/>:null}
-        </div>
-       </div>
-  
-     );}
+   
  //----------------------------------------------------------HELP----------------------------------------
    else if(this.state.visible==="help")
      {
@@ -339,6 +304,7 @@ handleChildUnmountDelete(){
        );
      }
    else{
+     //---------------------------------------VIRHE VIESTI
      return(
        <div className="box1">
         <h1 className="asiakkaat">Sovellusvirhe - lataa sivu uudelleen!</h1>
@@ -346,6 +312,7 @@ handleChildUnmountDelete(){
        );
    }
   } 
+  //---------------------------------------------jos ei ole voimassa oleva login
      else{return(
       <div className="box1">
        <h1 className="asiakkaat">Kirjaudu sisään jos haluat nähdä tietoja!</h1>

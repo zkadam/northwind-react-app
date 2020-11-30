@@ -26,7 +26,7 @@ class NWCustomerDelete extends Component{
     }
 
 //-------------------------------GETTING JSON BY ID
-    NorthwindFetch(){
+   async NorthwindFetch(){
         let jwtoken = localStorage.getItem('token') // <-----------------
         if(jwtoken!==null)
         {
@@ -37,7 +37,7 @@ class NWCustomerDelete extends Component{
                 let uri='https://localhost:5001/nw/customer/'+this.props.CustomerID;
                 
                 console.log("NorthwindFetch " + uri);
-                fetch(uri,{
+                await fetch(uri,{
                     method:"GET",
                     headers:{
                     Authorization:"Bearer "+jwtoken,
