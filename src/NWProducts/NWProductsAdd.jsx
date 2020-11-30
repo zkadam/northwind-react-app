@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import '../App.css';
 
-class NWCustomerAdd extends Component {
+class NWProductsAdd extends Component {
     constructor(props){
         super(props);
-        this.state={CustomerID:'',CompanyName:'',ContactName:'',ContactTitle:'',Address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
-        this.handleChangeCustomerID=this.handleChangeCustomerID.bind(this);
+        this.state={ProductID:'',CompanyName:'',ContactName:'',ContactTitle:'',Address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
+        this.handleChangeProductID=this.handleChangeProductID.bind(this);
         this.handleChangeCompanyName=this.handleChangeCompanyName.bind(this);
         this.handleChangeContactName=this.handleChangeContactName.bind(this);
         this.handleChangeContactTitle=this.handleChangeContactTitle.bind(this);
@@ -33,9 +33,9 @@ class NWCustomerAdd extends Component {
     }
     
 //----------------------------------------TEXTFIELD CHANGES
-handleChangeCustomerID(event){
+handleChangeProductID(event){
     var syöte=event.target.value;
-    this.setState({...this.state,CustomerID: syöte});
+    this.setState({...this.state,ProductID: syöte});
 }
 handleChangeCompanyName(event){
     var syöte=event.target.value;
@@ -75,7 +75,7 @@ handleChangeFax(event){
 }
 
     handleSubmit(event){
-        alert('Lähetettiin asiakas: '+this.state.CustomerID);
+        alert('Lähetettiin asiakas: '+this.state.ProductID);
         event.preventDefault();
     }
 
@@ -89,7 +89,7 @@ handleChangeFax(event){
             if(Date.now()<expDate.exp*1000)
             {
                 //luodaan asiakasobjekti       
-                const asiakas={CustomerID:this.state.CustomerID,
+                const asiakas={ProductID:this.state.ProductID,
                     CompanyName:this.state.CompanyName,
                     ContactName:this.state.ContactName,
                     ContactTitle:this.state.ContactTitle,
@@ -102,7 +102,7 @@ handleChangeFax(event){
                 }
                 const asiakasJson=JSON.stringify(asiakas);
                 console.log("asiakasJson: "+asiakasJson);
-                const apiUrl='https://localhost:5001/nw/customer';
+                const apiUrl='https://localhost:5001/nw/Products';
                 await fetch(apiUrl,{
                     method:"POST",
                     headers:{
@@ -125,14 +125,14 @@ handleChangeFax(event){
             }else{
                 localStorage.clear();
                 console.log('-----------------TOKEN HAS EXPIRED------------------')
-                this.setState({CustomerID:''})
+                this.setState({ProductID:''})
                 window.location.reload();
 
       }
     }
     else{
       //setting empty value to nwrecords so render doesnt collapse
-      this.setState({CustomerID:''})
+      this.setState({ProductID:''})
       window.location.reload();
 
 }
@@ -154,8 +154,8 @@ if(jwtoken!==null)
                     <form className="box3pop" onSubmit={this.handleSubmit}>
                     <h2>Moukkaa asiakastiedot:</h2><br/>
                             <div className="labelDiv">
-                                <label className="labelKeys">CustomerID: </label>
-                                <input className="labelField" type="text" value={this.state.CustomerID || ""} placeholder="Customer Id" onChange={this.handleChangeCustomerID} /> </div>
+                                <label className="labelKeys">ProductID: </label>
+                                <input className="labelField" type="text" value={this.state.ProductID || ""} placeholder="Product Id" onChange={this.handleChangeProductID} /> </div>
                             <div className="labelDiv">
                                 <label className="labelKeys">CompanyName: </label>
                                 <input className="labelField" type="text" value={this.state.CompanyName || ""} placeholder="Company Name" onChange={this.handleChangeCompanyName} /> </div>
@@ -198,4 +198,4 @@ if(jwtoken!==null)
     }
 }
 
-export default NWCustomerAdd;
+export default NWProductsAdd;

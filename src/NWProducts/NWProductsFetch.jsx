@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import '../App.css';
 import Helpit from '../helpit';
-import NWCustomerAdd from './NWCustomerAdd';
-import NWCustomerEdit from './NWCustomerEdit';
-import NWCustomerDelete from './NWCustomerDelete';
+import NWProductsAdd from './NWProductsAdd';
+import NWProductsEdit from './NWProductsEdit';
+import NWProductsDelete from './NWProductsDelete';
 
-class NWCustomerFetch extends Component {
+class NWProductsFetch extends Component {
 
   constructor(props){
     super(props);
-    console.log("NWCustomerFetch: Constructor");
+    console.log("NWProductFetch: Constructor");
     this.state={
       nwRecords:[],
       recordcount: 0,
@@ -21,8 +21,8 @@ class NWCustomerFetch extends Component {
       renderChildEdit:true,
       renderChildDelete:true,
       yksiAsiakas:[],
-      CustomerID:'',
-      CustomerID2Del:''
+      ProductID:'',
+      ProductID2Del:''
     };
     this.handleChildUnmountAdd=this.handleChildUnmountAdd.bind(this);
     this.handleChildUnmountEdit=this.handleChildUnmountEdit.bind(this);
@@ -74,7 +74,7 @@ handleChildUnmountDelete(){
   handleClickDelete=(poistettava,event)=>{
     console.log('handleClickDelete------------postan asiakkaan-------',poistettava);
     this.setState({
-      CustomerID2Del:poistettava,
+      ProductID2Del:poistettava,
       visible:"deleteform",
       renderChildDelete:true
 
@@ -128,9 +128,12 @@ handleChildUnmountDelete(){
       if(Date.now()<expDate.exp*1000)
       {
         console.log('----------- THE TOKEN HASNT EXPIRED YET------------------')
-        let uri2='https://localhost:5001/nw/customer/r?offset='+'&limit='+'&country='+this.state.country;
-        let uri='https://localhost:5001/nw/customer/r?offset='+this.state.offset+'&limit='+this.state.limit+'&country='+this.state.country;
+        let uri2='https://localhost:5001/nw/products/';
+        let uri='https://localhost:5001/nw/products/';
         // let uri='https://localhost:5001/nw/orders/';
+        // let uri2='https://localhost:5001/nw/products/r?offset='+'&limit='+'&country='+this.state.country;
+        // let uri='https://localhost:5001/nw/products/r?offset='+this.state.offset+'&limit='+this.state.limit+'&country='+this.state.country;
+        // // let uri='https://localhost:5001/nw/orders/';
         
         console.log("NorthwindFetch " + uri);
         await fetch(uri,{
@@ -186,7 +189,7 @@ handleChildUnmountDelete(){
   }
   //------------------------------------------DID MOUNT
     componentDidMount(){
-      console.log("NWCustomerFetch: component did mount")
+      console.log("NWProductFetch: component did mount")
       this.NorthwindFetch();
     }
   
@@ -237,7 +240,7 @@ handleChildUnmountDelete(){
             i++;
           }
           rivi.push(<td className="thBtn" key={"edit" + tieto[0].toString()}><button className="editBtn" onClick={this.handleClickEdit.bind(this,element)}>Muokkaa</button></td>)
-          rivi.push(<td key={"delete" + tieto[0].toString()}><button className="deleteBtn" onClick={this.handleClickDelete.bind(this,element.customerId)}>Poista</button></td>)
+          rivi.push(<td key={"delete" + tieto[0].toString()}><button className="deleteBtn" onClick={this.handleClickDelete.bind(this,element.ProductId)}>Poista</button></td>)
 
           //pushing row to table
            taulukko.push(<tr key={avain} className="nwBody">{rivi}</tr>)
@@ -254,11 +257,11 @@ handleChildUnmountDelete(){
       return (
      
        <div >
-      <h1 className="asiakkaat">Asiakkaat</h1>
-         <button  className="asiakkaat perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
-         <button  className="asiakkaat perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
-         <button  className="asiakkaat perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
-         <button  className="asiakkaat perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
+      <h1 className="tuotteet">tuotteet</h1>
+         <button  className="tuotteet perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
+         <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+         <button  className="tuotteet perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
+         <button  className="tuotteet perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
          <input type="text" placeholder="Filter by country"  onChange={this.handleChangeCountry}/>
          <p>{viesti}</p>
 
@@ -274,15 +277,15 @@ handleChildUnmountDelete(){
      {
        return(
         <div className="box1">
-          <h1 className="asiakkaat">Uuden asiakkaan lisäys</h1>
+          <h1 className="tuotteet">Uuden tuotteen lisäys</h1>
          <div>
-           <button  className="asiakkaat perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
-           <button  className="asiakkaat perusBtn"onClick={this.handleClickTable}>Selaa asiakkaita</button>
+           <button  className="tuotteet perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
+           <button  className="tuotteet perusBtn"onClick={this.handleClickTable}>Selaa asiakkaita</button>
          </div>  
          <div className="NorthwindFetch">
           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
           </div>
-         {this.state.renderChildAdd ? <NWCustomerAdd unmountMe={this.handleChildUnmountAdd}/>:null}
+         {this.state.renderChildAdd ? <NWProductsAdd unmountMe={this.handleChildUnmountAdd}/>:null}
          </div>
        );}
  //----------------------------------------------------------EDIT----------------------------------------
@@ -291,17 +294,17 @@ handleChildUnmountDelete(){
      return(
        <div>
        <div >
-       <h1 className="asiakkaat">Asiakkaat</h1>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
+       <h1 className="tuotteet">Tuotteet</h1>
+          <button  className="tuotteet perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
+          <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+          <button  className="tuotteet perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
+          <button  className="tuotteet perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
           {/* filling the table with the data */}
         <div className="NorthwindFetch">
           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
           </div>
           <p>{viesti}</p>
-          {this.state.renderChildEdit ? <NWCustomerEdit asiakasObj={this.state.yksiAsiakas} unmountMe={this.handleChildUnmountEdit}/>:null}         </div>
+          {this.state.renderChildEdit ? <NWProductsEdit asiakasObj={this.state.yksiAsiakas} unmountMe={this.handleChildUnmountEdit}/>:null}         </div>
        </div>
      );}
        //----------------------------------------------------------DELETE----------------------------------------
@@ -310,17 +313,17 @@ handleChildUnmountDelete(){
      return(
        <div>
        <div >
-       <h1 className="asiakkaat">Asiakkaat</h1>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
-          <button  className="asiakkaat perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
+       <h1 className="tuotteet">Tuotteet</h1>
+          <button  className="tuotteet perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
+          <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+          <button  className="tuotteet perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
+          <button  className="tuotteet perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
           {/* filling the table with the data */}
         <div className="NorthwindFetch">
           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
           </div>
           <p>{viesti}</p>
-        {this.state.renderChildDelete ? <NWCustomerDelete CustomerID={this.state.CustomerID2Del} unmountMe={this.handleChildUnmountDelete}/>:null}
+        {this.state.renderChildDelete ? <NWProductsDelete ProductID={this.state.ProductID2Del} unmountMe={this.handleChildUnmountDelete}/>:null}
         </div>
        </div>
   
@@ -330,10 +333,10 @@ handleChildUnmountDelete(){
      {
        return(
          <div className="box1">
-           <h1 className="asiakkaat">Sovelluksen opasteet</h1>
-           <button  className="asiakkaat perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
-           <button  className="asiakkaat perusBtn"onClick={this.handleClickTable}>Selaa asiakkaita</button>
-           <Helpit moduli="NWCustomerFetch"/>
+           <h1 className="tuotteet">Sovelluksen opasteet</h1>
+           <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+           <button  className="tuotteet perusBtn"onClick={this.handleClickTable}>Selaa asiakkaita</button>
+           <Helpit moduli="NWProductFetch"/>
         </div>  
        
        );
@@ -341,17 +344,17 @@ handleChildUnmountDelete(){
    else{
      return(
        <div className="box1">
-        <h1 className="asiakkaat">Sovellusvirhe - lataa sivu uudelleen!</h1>
+        <h1 className="tuotteet">Sovellusvirhe - lataa sivu uudelleen!</h1>
        </div>  
        );
    }
   } 
      else{return(
       <div className="box1">
-       <h1 className="asiakkaat">Kirjaudu sisään jos haluat nähdä tietoja!</h1>
+       <h1 className="tuotteet">Kirjaudu sisään jos haluat nähdä tietoja!</h1>
       </div>  
       );}
    
   }
 }
-export default NWCustomerFetch;
+export default NWProductsFetch;
