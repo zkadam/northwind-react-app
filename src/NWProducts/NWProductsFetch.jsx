@@ -20,7 +20,7 @@ class NWProductsFetch extends Component {
       renderChildAdd:true,
       renderChildEdit:true,
       renderChildDelete:true,
-      yksiAsiakas:[],
+      yksiTuote:[],
       ProductID:'',
       ProductID2Del:''
     };
@@ -64,10 +64,10 @@ handleChildUnmountDelete(){
   handleClickEdit=(dataObj,event)=>{
     console.log(JSON.stringify(dataObj));
     this.setState({
-      yksiAsiakas:dataObj,
+      yksiTuote:dataObj,
       visible:"editform",
       renderChildEdit:true
-    },()=>console.log('visible: ' + this.state.visible +' yksiasiakas: ' + JSON.stringify(this.state.yksiAsiakas)));
+    },()=>console.log('visible: ' + this.state.visible +' yksituote: ' + JSON.stringify(this.state.yksiTuote)));
   }
   
  //-----------------------------------------DELETE FUNCTIONS
@@ -257,9 +257,9 @@ handleChildUnmountDelete(){
       return (
      
        <div >
-      <h1 className="tuotteet">tuotteet</h1>
+      <h1 className="tuotteet">Tuotteet</h1>
          <button  className="tuotteet perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
-         <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+         <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää tuote</button>
          <button  className="tuotteet perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
          <button  className="tuotteet perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
          <input type="text" placeholder="Filter by country"  onChange={this.handleChangeCountry}/>
@@ -296,7 +296,7 @@ handleChildUnmountDelete(){
        <div >
        <h1 className="tuotteet">Tuotteet</h1>
           <button  className="tuotteet perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
-          <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+          <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää tuote</button>
           <button  className="tuotteet perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
           <button  className="tuotteet perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
           {/* filling the table with the data */}
@@ -304,7 +304,7 @@ handleChildUnmountDelete(){
           <table className={"nwTable"} id="t01"><thead><tr key={"headerKey"}>{otsikko}</tr></thead><tbody className="nwBody">{taulukko}</tbody></table>
           </div>
           <p>{viesti}</p>
-          {this.state.renderChildEdit ? <NWProductsEdit asiakasObj={this.state.yksiAsiakas} unmountMe={this.handleChildUnmountEdit}/>:null}         </div>
+          {this.state.renderChildEdit ? <NWProductsEdit tuoteObj={this.state.yksiTuote} unmountMe={this.handleChildUnmountEdit}/>:null}         </div>
        </div>
      );}
        //----------------------------------------------------------DELETE----------------------------------------
@@ -315,7 +315,7 @@ handleChildUnmountDelete(){
        <div >
        <h1 className="tuotteet">Tuotteet</h1>
           <button  className="tuotteet perusBtn"onClick={this.handleClickHelp}>Opasteet</button>
-          <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+          <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää tuote</button>
           <button  className="tuotteet perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
           <button  className="tuotteet perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
           {/* filling the table with the data */}
@@ -334,7 +334,7 @@ handleChildUnmountDelete(){
        return(
          <div className="box1">
            <h1 className="tuotteet">Sovelluksen opasteet</h1>
-           <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää asiakas</button>
+           <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää tuote</button>
            <button  className="tuotteet perusBtn"onClick={this.handleClickTable}>Selaa asiakkaita</button>
            <Helpit moduli="NWProductFetch"/>
         </div>  

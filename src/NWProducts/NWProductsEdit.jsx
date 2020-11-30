@@ -5,18 +5,18 @@ import '../App.css';
 class NWCustomerEdit extends Component{
     constructor(props){
         super(props);
-        this.state={asiakasObj:[],CustomerID:'',CompanyName:'',ContactName:'',ContactTitle:'',Address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
+        this.state={tuoteObj:[],ProductID:null,ProductName:'',SupplierID:'',CategoryID:'',QuantityPerUnit:'',UnitPrice:'',UnitsInStock:'',UnitsOnOrder:'',Discontinued:'',ImageLink:''};
 
-        this.handleChangeCustomerID=this.handleChangeCustomerID.bind(this);
-        this.handleChangeCompanyName=this.handleChangeCompanyName.bind(this);
-        this.handleChangeContactName=this.handleChangeContactName.bind(this);
-        this.handleChangeContactTitle=this.handleChangeContactTitle.bind(this);
-        this.handleChangeAddress=this.handleChangeAddress.bind(this);
-        this.handleChangePostalCode=this.handleChangePostalCode.bind(this);
-        this.handleChangeCity=this.handleChangeCity.bind(this);
-        this.handleChangeCountry=this.handleChangeCountry.bind(this);
-        this.handleChangePhone=this.handleChangePhone.bind(this);
-        this.handleChangeFax=this.handleChangeFax.bind(this);
+        this.handleChangeProductID=this.handleChangeProductID.bind(this);
+        this.handleChangeProductName=this.handleChangeProductName.bind(this);
+        this.handleChangeSupplierID=this.handleChangeSupplierID.bind(this);
+        this.handleChangeCategoryID=this.handleChangeCategoryID.bind(this);
+        this.handleChangeQuantityPerUnit=this.handleChangeQuantityPerUnit.bind(this);
+        this.handleChangeUnitPrice=this.handleChangeUnitPrice.bind(this);
+        this.handleChangeUnitsInStock=this.handleChangeUnitsInStock.bind(this);
+        this.handleChangeUnitsOnOrder=this.handleChangeUnitsOnOrder.bind(this);
+        this.handleChangeDiscontinued=this.handleChangeDiscontinued.bind(this);
+        this.handleChangeImageLink=this.handleChangeImageLink.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.dismiss = this.dismiss.bind(this);
 
@@ -35,45 +35,49 @@ class NWCustomerEdit extends Component{
         }
     }
 //----------------------------------------TEXTFIELD CHANGES
-    handleChangeCustomerID(event){
+    handleChangeProductID(event){
         var syöte=event.target.value;
-        this.setState({...this.state,CustomerID: syöte});
+        this.setState({...this.state,ProductID: syöte});
     }
-    handleChangeCompanyName(event){
+    handleChangeProductName(event){
         var syöte=event.target.value;
-        this.setState({...this.state,CompanyName: syöte});
+        this.setState({...this.state,ProductName: syöte});
     }
-    handleChangeContactName(event){
+    handleChangeSupplierID(event){
         var syöte=event.target.value;
-        this.setState({...this.state,ContactName: syöte});
+        this.setState({...this.state,SupplierID: syöte});
     }
-    handleChangeContactTitle(event){
+    handleChangeCategoryID(event){
         var syöte=event.target.value;
-        this.setState({...this.state,ContactTitle: syöte});
+        this.setState({...this.state,CategoryID: syöte});
     }
-    handleChangeAddress(event){
+    handleChangeQuantityPerUnit(event){
         var syöte=event.target.value;
-        this.setState({...this.state,Address: syöte});
+        this.setState({...this.state,QuantityPerUnit: syöte});
     }
-    handleChangePostalCode(event){
+    handleChangeUnitPrice(event){
         var syöte=event.target.value;
-        this.setState({...this.state,PostalCode: syöte});
+        this.setState({...this.state,UnitPrice: syöte});
     }
-    handleChangeCity(event){
+    handleChangeUnitsInStock(event){
         var syöte=event.target.value;
-        this.setState({...this.state,City: syöte});
+        this.setState({...this.state,UnitsInStock: syöte});
     }
-    handleChangeCountry(event){
+    handleChangeUnitsOnOrder(event){
         var syöte=event.target.value;
-        this.setState({...this.state,Country: syöte});
+        this.setState({...this.state,UnitsOnOrder: syöte});
     }
-    handleChangePhone(event){
-        var syöte=event.target.value;
-        this.setState({...this.state,Phone: syöte});
+    handleChangeDiscontinued(event){
+      var syöte=event.target.value;
+        // if(syöte){
+        //     syöte=false
+        // }
+        // else{syöte=true}
+        this.setState({...this.state,Discontinued: syöte});
     }
-    handleChangeFax(event){
+    handleChangeImageLink(event){
         var syöte=event.target.value;
-        this.setState({...this.state,Fax: syöte});
+        this.setState({...this.state,ImageLink: syöte});
     }
 //--------------------------------SUBMIT
     handleSubmit(event){
@@ -84,18 +88,18 @@ class NWCustomerEdit extends Component{
         let jwtoken = localStorage.getItem('token') // <-----------------
         if(jwtoken!==null)
         {
-            console.log('EDIT MOUNTED : '+this.props.asiakasObj.customerId)
+            console.log('EDIT MOUNTED : '+this.props.tuoteObj.productId)
             this.setState({
-                CustomerID:this.props.asiakasObj.customerId ,
-                CompanyName:this.props.asiakasObj.companyName,
-                ContactName:this.props.asiakasObj.contactName,
-                ContactTitle:this.props.asiakasObj.contactTitle,
-                Address:this.props.asiakasObj.address,
-                PostalCode:this.props.asiakasObj.postalCode,
-                City:this.props.asiakasObj.city,
-                Country:this.props.asiakasObj.country,
-                Phone:this.props.asiakasObj.phone,
-                Fax:this.props.asiakasObj.fax,
+                ProductID:this.props.tuoteObj.productId ,
+                ProductName:this.props.tuoteObj.productName,
+                SupplierID:this.props.tuoteObj.supplierId,
+                CategoryID:this.props.tuoteObj.categoryId,
+                QuantityPerUnit:this.props.tuoteObj.quantityPerUnit,
+                UnitPrice:this.props.tuoteObj.unitPrice,
+                UnitsInStock:this.props.tuoteObj.unitsInStock,
+                UnitsOnOrder:this.props.tuoteObj.unitsOnOrder,
+                Discontinued:this.props.tuoteObj.discontinued,
+                ImageLink:this.props.tuoteObj.imageLink,
        
             })
         }else{
@@ -109,21 +113,21 @@ class NWCustomerEdit extends Component{
         let jwtoken = localStorage.getItem('token') // <-----------------
         if(jwtoken!==null)
         {
-
-            const asiakas={CustomerID:this.state.CustomerID,
-                            CompanyName:this.state.CompanyName,
-                            ContactName:this.state.ContactName,
-                            ContactTitle:this.state.ContactTitle,
-                            Address:this.state.Address,
-                            PostalCode:this.state.PostalCode,
-                            City:this.state.City,
-                            Country:this.state.Country,
-                            Phone:this.state.Phone,
-                            Fax:this.state.Fax
+console.log(this.state.Discontinued)
+            const tuote={productId:parseInt(this.state.ProductID),
+                            productName:this.state.ProductName,
+                            supplierId:parseInt(this.state.SupplierID),
+                            categoryId:parseInt(this.state.CategoryID),
+                            quantityPerUnit:this.state.QuantityPerUnit,
+                            unitPrice:parseFloat(this.state.UnitPrice),
+                            unitsInStock:parseInt(this.state.UnitsInStock),
+                            unitsOnOrder:parseInt(this.state.UnitsOnOrder),
+                            discontinued:this.state.Discontinued,
+                            imageLink:this.state.ImageLink
                         }
-            const asiakasJson=JSON.stringify(asiakas);
+            const tuoteJson=JSON.stringify(tuote);
 
-            const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.CustomerID;
+            const apiUrl= 'https://localhost:5001/nw/products/'+this.state.ProductID;
             await fetch(apiUrl,{
                 method:"PUT",
                 headers:{
@@ -131,7 +135,7 @@ class NWCustomerEdit extends Component{
                     "Accept":"application/json",
                     "Content-Type":"application/json"
                 },
-                body:asiakasJson
+                body:tuoteJson
             }).then((response)=>response.json())
                 .then((json)=>{
                     const success=json;
@@ -161,37 +165,38 @@ class NWCustomerEdit extends Component{
                     <div className="popupDiv" onClick={this.dismiss.bind(this)}>
                     
                     <form className="box3pop" onSubmit={this.handleSubmit}>
-                    <h2>Moukkaa asiakastiedot:</h2><br/>
+                    <h2>Moukkaa tuotetiedot:</h2><br/>
                             <div className="labelDiv">
-                                <label className="labelKeys">CustomerID: </label>
-                                <input className="labelField" type="text" value={this.state.CustomerID || ""} placeholder="Customer Id" onChange={this.handleChangeCustomerID} /> </div>
+                                <label className="labelKeys">ProductID: </label>
+                                <input className="labelField" type="number" value={this.state.ProductID || ""} placeholder="Product Id" onChange={this.handleChangeProductID} /> </div>
                             <div className="labelDiv">
-                                <label className="labelKeys">CompanyName: </label>
-                                <input className="labelField" type="text" value={this.state.CompanyName || ""} placeholder="Company Name" onChange={this.handleChangeCompanyName} /> </div>
+                                <label className="labelKeys">ProductName: </label>
+                                <input className="labelField" type="text" value={this.state.ProductName || ""} placeholder="Product Name" onChange={this.handleChangeProductName} /> </div>
                             <div className="labelDiv">
-                                <label className="labelKeys">ContactName: </label>
-                                <input className="labelField" type="text" value={this.state.ContactName || ""} placeholder="Contact Name" onChange={this.handleChangeContactName} /> </div>
+                                <label className="labelKeys">SupplierID: </label>
+                                <input className="labelField" type="number" value={this.state.SupplierID || ""} placeholder="Supplier ID" onChange={this.handleChangeSupplierID} /> </div>
                             <div className="labelDiv">
-                                <label className="labelKeys">ContactTitle: </label>
-                                <input className="labelField" type="text" value={this.state.ContactTitle || ""} placeholder="Contact Title" onChange={this.handleChangeContactTitle} /> </div>
+                                <label className="labelKeys">CategoryID: </label>
+                                <input className="labelField" type="number" value={this.state.CategoryID || ""} placeholder="Category ID" onChange={this.handleChangeCategoryID} /> </div>
                             <div className="labelDiv">
-                                <label className="labelKeys">Address: </label>
-                                <input className="labelField" type="text" value={this.state.Address || ""} placeholder="Address" onChange={this.handleChangeAddress} /> </div>
+                                <label className="labelKeys">QuantityPerUnit: </label>
+                                <input className="labelField" type="text" value={this.state.QuantityPerUnit || ""} placeholder="QuantityPerUnit" onChange={this.handleChangeQuantityPerUnit} /> </div>
                             <div className="labelDiv">
-                                <label className="labelKeys">PostalCode: </label>
-                                <input className="labelField" type="text" value={this.state.PostalCode || ""} placeholder="PostalCode" onChange={this.handleChangePostalCode} /> </div>
+                                <label className="labelKeys">UnitPrice: </label>
+                                <input className="labelField" type="number" value={this.state.UnitPrice || ""} placeholder="UnitPrice" onChange={this.handleChangeUnitPrice} /> </div>
                             <div className="labelDiv">
-                                <label className="labelKeys">City: </label>
-                                <input className="labelField" type="text" value={this.state.City || ""} placeholder="City" onChange={this.handleChangeCity} /> </div>
+                                <label className="labelKeys">UnitsInStock: </label>
+                                <input className="labelField" type="number" value={this.state.UnitsInStock || ""} placeholder="UnitsInStock" onChange={this.handleChangeUnitsInStock} /> </div>
                             <div className="labelDiv">
-                                <label className="labelKeys">Country: </label>
-                                <input className="labelField" type="text" value={this.state.Country || ""} placeholder="Country" onChange={this.handleChangeCountry} /> </div>
+                                <label className="labelKeys">UnitsOnOrder: </label>
+                                <input className="labelField" type="number" value={this.state.UnitsOnOrder || ""} placeholder="UnitsOnOrder" onChange={this.handleChangeUnitsOnOrder} /> </div>
                             <div className="labelDiv">
-                                <label className="labelKeys">Phone: </label>
-                                <input className="labelField" type="text" value={this.state.Phone || ""} placeholder="Phone" onChange={this.handleChangePhone} /> </div>
+                                <label className="labelKeys">Discontinued: </label>
+                                <input className="labelField" type="checkbox" defaultChecked={this.state.Discontinued} value={!this.state.Discontinued} placeholder="Discontinued" onChange={this.handleChangeDiscontinued} /> </div>
+
                             <div className="labelDiv">
-                                <label className="labelKeys">Fax: </label>
-                                <input className="labelField" type="text" value={this.state.Fax || ""} placeholder="Fax" onChange={this.handleChangeFax} /> </div>
+                                <label className="labelKeys">ImageLink: </label>
+                                <input className="labelField" type="text" name="Discontinued" value={this.state.ImageLink || ""} placeholder="ImageLink" onChange={this.handleChangeImageLink} /> </div>
                         <br/>
                     <div className="buttonsDiv">
                         <button className="confirmBtn" type="submit">Talleta muutokset</button>
@@ -204,7 +209,7 @@ class NWCustomerEdit extends Component{
             }
             else{
             //setting empty value to nwrecords so render doesnt collapse
-            this.setState({CustomerID:''})
+            this.setState({ProductID:''})
             window.location.reload();
 
         }
