@@ -5,7 +5,7 @@ import '../App.css';
 class NWCustomerEdit extends Component{
     constructor(props){
         super(props);
-        this.state={tuoteObj:[],ProductID:null,ProductName:'',SupplierID:'',CategoryID:'',QuantityPerUnit:'',UnitPrice:'',UnitsInStock:'',UnitsOnOrder:'',Discontinued:true,ImageLink:''};
+        this.state={tuoteObj:[],ProductID:null,ProductName:'',SupplierID:'',CategoryID:'',QuantityPerUnit:'',UnitPrice:'',UnitsInStock:'',UnitsOnOrder:'',Discontinued:true,ImageLink:'',CategoryList:[]};
 
         this.handleChangeProductID=this.handleChangeProductID.bind(this);
         this.handleChangeProductName=this.handleChangeProductName.bind(this);
@@ -87,6 +87,7 @@ class NWCustomerEdit extends Component{
     }
 //-----------------------------------DID MOUNT
       componentDidMount(){
+          this.haeCategorit();
         let jwtoken = localStorage.getItem('token') // <-----------------
         if(jwtoken!==null)
         {
@@ -152,8 +153,27 @@ console.log(this.state.Discontinued)
                 window.location.reload();
 
       }
+   
     }
-
+    async haeCategorit(){
+          let catUri='https://localhost:5001/nw/categories'
+          await fetch(catUri,{
+            method:"GET",
+            headers:{
+              
+                "Accept":"application/json",
+                "Content-Type":"application/json"
+            }
+          }).then((response)=>response.json())
+            .then((json)=>{
+                //store the data returned from the backend to the current state
+                const success=json;
+                console.log(`Response from server: ${success}.`);
+                if(success){
+                  this.setState({CategoryList: success},()=>console.log(this.state.CategoryList));
+                }
+            })
+    }
     render(){
         let jwtoken = localStorage.getItem('token') // <-----------------
 
@@ -163,8 +183,21 @@ console.log(this.state.Discontinued)
               //tarkistetaan, onko token vielä voimassa
             if(Date.now()<expDate.exp*1000)
             {
+                const catList=[];
+console.log(this.state.CategoryList)
+                // for(var tieto in this.state.CategoryList.length){
+
+                //     catList.push(<option value={tieto[1]}>{tieto[2]}</option>)
+
+                // }
+                for(var i=0; i<this.state.CategoryList.length;i++){
+                        let kategoria=this.state.CategoryList[i]
+                        console.log(kategoria)
+                       catList.push(<option value={kategoria.categoryId}>{kategoria.categoryName}</option>)
+                }
                 return (
                     <div className="popupDiv" onClick={this.dismiss.bind(this)}>
+                    
                     
                     <form className="box3pop" onSubmit={this.handleSubmit}>
                     <h2>Moukkaa tuotetiedot:</h2><br/>
@@ -179,7 +212,11 @@ console.log(this.state.Discontinued)
                                 <input className="labelField" type="number" value={this.state.SupplierID || ""} placeholder="Supplier ID" onChange={this.handleChangeSupplierID} /> </div>
                             <div className="labelDiv">
                                 <label className="labelKeys">CategoryID: </label>
-                                <input className="labelField" type="number" value={this.state.CategoryID || ""} placeholder="Category ID" onChange={this.handleChangeCategoryID} /> </div>
+    {/* --------------------------------------------------------------------------drobdownlist */}
+                                <select value={this.state.CategoryID} onChange={this.handleChangeCategoryID}>
+                                  {catList}
+                                 </select></div>
+                                {/* <input className="labelField" type="number" value={this.state.CategoryID || ""} placeholder="Category ID" onChange={this.handleChangeCategoryID} /> </div> */}
                             <div className="labelDiv">
                                 <label className="labelKeys">QuantityPerUnit: </label>
                                 <input className="labelField" type="text" value={this.state.QuantityPerUnit || ""} placeholder="QuantityPerUnit" onChange={this.handleChangeQuantityPerUnit} /> </div>
