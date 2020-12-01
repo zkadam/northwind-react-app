@@ -4,17 +4,17 @@ import '../App.css';
 class NWProductsAdd extends Component {
     constructor(props){
         super(props);
-        this.state={ProductID:'',CompanyName:'',ContactName:'',ContactTitle:'',Address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
+        this.state={ProductID:null,ProductName:'',SupplierID:'',CategoryID:'',QuantityPerUnit:'',UnitPrice:'',UnitsInStock:'',UnitsOnOrder:'',Discontinued:true,ImageLink:'',CategoryList:[]};
         this.handleChangeProductID=this.handleChangeProductID.bind(this);
-        this.handleChangeCompanyName=this.handleChangeCompanyName.bind(this);
-        this.handleChangeContactName=this.handleChangeContactName.bind(this);
-        this.handleChangeContactTitle=this.handleChangeContactTitle.bind(this);
-        this.handleChangeAddress=this.handleChangeAddress.bind(this);
-        this.handleChangePostalCode=this.handleChangePostalCode.bind(this);
-        this.handleChangeCity=this.handleChangeCity.bind(this);
-        this.handleChangeCountry=this.handleChangeCountry.bind(this);
-        this.handleChangePhone=this.handleChangePhone.bind(this);
-        this.handleChangeFax=this.handleChangeFax.bind(this);
+        this.handleChangeProductName=this.handleChangeProductName.bind(this);
+        this.handleChangeSupplierID=this.handleChangeSupplierID.bind(this);
+        this.handleChangeCategoryID=this.handleChangeCategoryID.bind(this);
+        this.handleChangeQuantityPerUnit=this.handleChangeQuantityPerUnit.bind(this);
+        this.handleChangeUnitPrice=this.handleChangeUnitPrice.bind(this);
+        this.handleChangeUnitsInStock=this.handleChangeUnitsInStock.bind(this);
+        this.handleChangeUnitsOnOrder=this.handleChangeUnitsOnOrder.bind(this);
+        this.handleChangeDiscontinued=this.handleChangeDiscontinued.bind(this);
+        this.handleChangeImageLink=this.handleChangeImageLink.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.dismiss = this.dismiss.bind(this);
 
@@ -37,42 +37,52 @@ handleChangeProductID(event){
     var syöte=event.target.value;
     this.setState({...this.state,ProductID: syöte});
 }
-handleChangeCompanyName(event){
+handleChangeProductName(event){
     var syöte=event.target.value;
-    this.setState({...this.state,CompanyName: syöte});
+    this.setState({...this.state,ProductName: syöte});
 }
-handleChangeContactName(event){
+handleChangeSupplierID(event){
     var syöte=event.target.value;
-    this.setState({...this.state,ContactName: syöte});
+    this.setState({...this.state,SupplierID: syöte});
 }
-handleChangeContactTitle(event){
+handleChangeCategoryID(event){
     var syöte=event.target.value;
-    this.setState({...this.state,ContactTitle: syöte});
+    this.setState({...this.state,CategoryID: syöte});
 }
-handleChangeAddress(event){
+handleChangeQuantityPerUnit(event){
     var syöte=event.target.value;
-    this.setState({...this.state,Address: syöte});
+    this.setState({...this.state,QuantityPerUnit: syöte});
 }
-handleChangePostalCode(event){
+handleChangeUnitPrice(event){
     var syöte=event.target.value;
-    this.setState({...this.state,PostalCode: syöte});
+    this.setState({...this.state,UnitPrice: syöte});
 }
-handleChangeCity(event){
+handleChangeUnitsInStock(event){
     var syöte=event.target.value;
-    this.setState({...this.state,City: syöte});
+    this.setState({...this.state,UnitsInStock: syöte});
 }
-handleChangeCountry(event){
+handleChangeUnitsOnOrder(event){
     var syöte=event.target.value;
-    this.setState({...this.state,Country: syöte});
+    this.setState({...this.state,UnitsOnOrder: syöte});
 }
-handleChangePhone(event){
+handleChangeDiscontinued(event){
+//   var syöte=event.target.value;
+    // if(syöte){
+    //     syöte=false
+    // }
+    // else{syöte=true}
+    var syöte = event.target.checked ? true : false;
+
+    this.setState({...this.state,Discontinued: syöte});
+}
+handleChangeImageLink(event){
     var syöte=event.target.value;
-    this.setState({...this.state,Phone: syöte});
+    this.setState({...this.state,ImageLink: syöte});
 }
-handleChangeFax(event){
-    var syöte=event.target.value;
-    this.setState({...this.state,Fax: syöte});
-}
+
+
+componentDidMount(){
+    this.haeCategorit();}
 
     handleSubmit(event){
         alert('Lähetettiin asiakas: '+this.state.ProductID);
@@ -89,19 +99,19 @@ handleChangeFax(event){
             if(Date.now()<expDate.exp*1000)
             {
                 //luodaan asiakasobjekti       
-                const asiakas={ProductID:this.state.ProductID,
-                    CompanyName:this.state.CompanyName,
-                    ContactName:this.state.ContactName,
-                    ContactTitle:this.state.ContactTitle,
-                    Address:this.state.Address,
-                    PostalCode:this.state.PostalCode,
-                    City:this.state.City,
-                    Country:this.state.Country,
-                    Phone:this.state.Phone,
-                    Fax:this.state.Fax
+                const tuote={
+                    productName:this.state.ProductName,
+                    supplierId:parseInt(this.state.SupplierID),
+                    categoryId:parseInt(this.state.CategoryID),
+                    quantityPerUnit:this.state.QuantityPerUnit,
+                    unitPrice:parseFloat(this.state.UnitPrice),
+                    unitsInStock:parseInt(this.state.UnitsInStock),
+                    unitsOnOrder:parseInt(this.state.UnitsOnOrder),
+                    discontinued:this.state.Discontinued,
+                    imageLink:this.state.ImageLink
                 }
-                const asiakasJson=JSON.stringify(asiakas);
-                console.log("asiakasJson: "+asiakasJson);
+    const tuoteJson=JSON.stringify(tuote);
+                console.log("asiakasJson: "+tuoteJson);
                 const apiUrl='https://localhost:5001/nw/Products';
                 await fetch(apiUrl,{
                     method:"POST",
@@ -110,7 +120,7 @@ handleChangeFax(event){
                         "Accept":"application/json",
                         "Content-Type":"application/json"
                     },
-                    body:asiakasJson
+                    body:tuoteJson
                     }).then((response)=>response.json())
                     .then((json)=>{
                         //store the data returned from the backend to the current state
@@ -137,65 +147,104 @@ handleChangeFax(event){
 
 }
     }
+    async haeCategorit(){
+        let catUri='https://localhost:5001/nw/categories'
+        await fetch(catUri,{
+          method:"GET",
+          headers:{
+            
+              "Accept":"application/json",
+              "Content-Type":"application/json"
+          }
+        }).then((response)=>response.json())
+          .then((json)=>{
+              //store the data returned from the backend to the current state
+              const success=json;
+              console.log(`Response from server: ${success}.`);
+              if(success){
+                this.setState({CategoryList: success},()=>console.log(this.state.CategoryList));
+              }
+          })
+  }
+  render(){
+    let jwtoken = localStorage.getItem('token') // <-----------------
 
-    render(){
-console.log('add asiakas render-----------')
-let jwtoken = localStorage.getItem('token') // <-----------------
-
-if(jwtoken!==null)
+    if(jwtoken!==null)
+    {
+      let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
+          //tarkistetaan, onko token vielä voimassa
+        if(Date.now()<expDate.exp*1000)
         {
-          let expDate=JSON.parse(atob(jwtoken.split('.')[1]))
-              //tarkistetaan, onko token vielä voimassa
-            if(Date.now()<expDate.exp*1000)
-            {
-                return (
-                    <div className="popupDiv" onClick={this.dismiss.bind(this)}>
-                    
-                    <form className="box3pop" onSubmit={this.handleSubmit}>
-                    <h2>Moukkaa asiakastiedot:</h2><br/>
-                            <div className="labelDiv">
-                                <label className="labelKeys">ProductID: </label>
-                                <input className="labelField" type="text" value={this.state.ProductID || ""} placeholder="Product Id" onChange={this.handleChangeProductID} /> </div>
-                            <div className="labelDiv">
-                                <label className="labelKeys">CompanyName: </label>
-                                <input className="labelField" type="text" value={this.state.CompanyName || ""} placeholder="Company Name" onChange={this.handleChangeCompanyName} /> </div>
-                            <div className="labelDiv">
-                                <label className="labelKeys">ContactName: </label>
-                                <input className="labelField" type="text" value={this.state.ContactName || ""} placeholder="Contact Name" onChange={this.handleChangeContactName} /> </div>
-                            <div className="labelDiv">
-                                <label className="labelKeys">ContactTitle: </label>
-                                <input className="labelField" type="text" value={this.state.ContactTitle || ""} placeholder="Contact Title" onChange={this.handleChangeContactTitle} /> </div>
-                            <div className="labelDiv">
-                                <label className="labelKeys">Address: </label>
-                                <input className="labelField" type="text" value={this.state.Address || ""} placeholder="Address" onChange={this.handleChangeAddress} /> </div>
-                            <div className="labelDiv">
-                                <label className="labelKeys">PostalCode: </label>
-                                <input className="labelField" type="text" value={this.state.PostalCode || ""} placeholder="PostalCode" onChange={this.handleChangePostalCode} /> </div>
-                            <div className="labelDiv">
-                                <label className="labelKeys">City: </label>
-                                <input className="labelField" type="text" value={this.state.City || ""} placeholder="City" onChange={this.handleChangeCity} /> </div>
-                            <div className="labelDiv">
-                                <label className="labelKeys">Country: </label>
-                                <input className="labelField" type="text" value={this.state.Country || ""} placeholder="Country" onChange={this.handleChangeCountry} /> </div>
-                            <div className="labelDiv">
-                                <label className="labelKeys">Phone: </label>
-                                <input className="labelField" type="text" value={this.state.Phone || ""} placeholder="Phone" onChange={this.handleChangePhone} /> </div>
-                            <div className="labelDiv">
-                                <label className="labelKeys">Fax: </label>
-                                <input className="labelField" type="text" value={this.state.Fax || ""} placeholder="Fax" onChange={this.handleChangeFax} /> </div>
-                        <br/>
-                    <div className="buttonsDiv">
-                        <button className="confirmBtn" type="submit">Talleta muutokset</button>
-                        <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>
+            const catList=[];
+console.log(this.state.CategoryList)
+            // for(var tieto in this.state.CategoryList.length){
 
-                    </div>
-                    </form>
-                    </div>
-                )
-                }
-            else{ window.location.reload();}
+            //     catList.push(<option value={tieto[1]}>{tieto[2]}</option>)
+
+            // }
+            for(var i=0; i<this.state.CategoryList.length;i++){
+                    let kategoria=this.state.CategoryList[i]
+                   catList.push(<option key={"kateg"+i} value={kategoria.categoryId}>{kategoria.categoryName}</option>)
+            }
+            return (
+                <div className="popupDiv" onClick={this.dismiss.bind(this)}>
+                
+                
+                <form className="box3pop" onSubmit={this.handleSubmit}>
+                <h2>Moukkaa tuotetiedot:</h2><br/>
+                        <div className="labelDiv">
+                            <label className="labelKeys">ProductID: </label>
+                            <input disabled="true" className="labelField" type="number" value={this.state.ProductID || ""} placeholder="(automatically generated)" onChange={this.handleChangeProductID} /> </div>
+                        <div className="labelDiv">
+                            <label className="labelKeys">ProductName: </label>
+                            <input className="labelField" type="text" value={this.state.ProductName || ""} placeholder="Product Name" onChange={this.handleChangeProductName} /> </div>
+                        <div className="labelDiv">
+                            <label className="labelKeys">SupplierID: </label>
+                            <input className="labelField" type="number" value={this.state.SupplierID || ""} placeholder="Supplier ID" onChange={this.handleChangeSupplierID} /> </div>
+                        <div className="labelDiv">
+                            <label className="labelKeys">CategoryID: </label>
+{/* --------------------------------------------------------------------------drobdownlist */}
+                            <select value={this.state.CategoryID} onChange={this.handleChangeCategoryID}>
+                              {catList}
+                             </select></div>
+                            {/* <input className="labelField" type="number" value={this.state.CategoryID || ""} placeholder="Category ID" onChange={this.handleChangeCategoryID} /> </div> */}
+                        <div className="labelDiv">
+                            <label className="labelKeys">QuantityPerUnit: </label>
+                            <input className="labelField" type="text" value={this.state.QuantityPerUnit || ""} placeholder="QuantityPerUnit" onChange={this.handleChangeQuantityPerUnit} /> </div>
+                        <div className="labelDiv">
+                            <label className="labelKeys">UnitPrice: </label>
+                            <input className="labelField" type="number" value={this.state.UnitPrice || ""} placeholder="UnitPrice" onChange={this.handleChangeUnitPrice} /> </div>
+                        <div className="labelDiv">
+                            <label className="labelKeys">UnitsInStock: </label>
+                            <input className="labelField" type="number" value={this.state.UnitsInStock || ""} placeholder="UnitsInStock" onChange={this.handleChangeUnitsInStock} /> </div>
+                        <div className="labelDiv">
+                            <label className="labelKeys">UnitsOnOrder: </label>
+                            <input className="labelField" type="number" value={this.state.UnitsOnOrder || ""} placeholder="UnitsOnOrder" onChange={this.handleChangeUnitsOnOrder} /> </div>
+                        <div className="labelDiv">
+                            <label className="labelKeys">Discontinued: </label>
+                            <input id="discCheck" className="labelField" type="checkbox" defaultChecked={false}  onChange={this.handleChangeDiscontinued} /> </div>
+
+                        <div className="labelDiv">
+                            <label className="labelKeys">ImageLink: </label>
+                            <input className="labelField" type="text" name="Imagelink" value={this.state.ImageLink || ""} placeholder="ImageLink" onChange={this.handleChangeImageLink} /> </div>
+                    <br/>
+                <div className="buttonsDiv">
+                    <button className="confirmBtn" type="submit">Talleta muutokset</button>
+                    <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>
+
+                </div>
+                </form>
+                </div>
+            )
         }
+        else{
+        //setting empty value to nwrecords so render doesnt collapse
+        this.setState({ProductID:''})
+        window.location.reload();
+
     }
 }
+}
 
+}
 export default NWProductsAdd;
