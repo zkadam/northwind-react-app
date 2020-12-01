@@ -5,7 +5,7 @@ import '../App.css';
 class NWCustomerEdit extends Component{
     constructor(props){
         super(props);
-        this.state={tuoteObj:[],ProductID:null,ProductName:'',SupplierID:'',CategoryID:'',QuantityPerUnit:'',UnitPrice:'',UnitsInStock:'',UnitsOnOrder:'',Discontinued:'',ImageLink:''};
+        this.state={tuoteObj:[],ProductID:null,ProductName:'',SupplierID:'',CategoryID:'',QuantityPerUnit:'',UnitPrice:'',UnitsInStock:'',UnitsOnOrder:'',Discontinued:true,ImageLink:''};
 
         this.handleChangeProductID=this.handleChangeProductID.bind(this);
         this.handleChangeProductName=this.handleChangeProductName.bind(this);
@@ -68,11 +68,13 @@ class NWCustomerEdit extends Component{
         this.setState({...this.state,UnitsOnOrder: syöte});
     }
     handleChangeDiscontinued(event){
-      var syöte=event.target.value;
+    //   var syöte=event.target.value;
         // if(syöte){
         //     syöte=false
         // }
         // else{syöte=true}
+        var syöte = event.target.checked ? true : false;
+
         this.setState({...this.state,Discontinued: syöte});
     }
     handleChangeImageLink(event){
@@ -84,11 +86,11 @@ class NWCustomerEdit extends Component{
         event.preventDefault();
     }
 //-----------------------------------DID MOUNT
-    componentDidMount(){
+      componentDidMount(){
         let jwtoken = localStorage.getItem('token') // <-----------------
         if(jwtoken!==null)
         {
-            console.log('EDIT MOUNTED : '+this.props.tuoteObj.productId)
+            console.log('EDIT MOUNTED : '+this.props.tuoteObj.discontinued)
             this.setState({
                 ProductID:this.props.tuoteObj.productId ,
                 ProductName:this.props.tuoteObj.productName,
@@ -192,11 +194,11 @@ console.log(this.state.Discontinued)
                                 <input className="labelField" type="number" value={this.state.UnitsOnOrder || ""} placeholder="UnitsOnOrder" onChange={this.handleChangeUnitsOnOrder} /> </div>
                             <div className="labelDiv">
                                 <label className="labelKeys">Discontinued: </label>
-                                <input className="labelField" type="checkbox" defaultChecked={this.state.Discontinued} value={!this.state.Discontinued} placeholder="Discontinued" onChange={this.handleChangeDiscontinued} /> </div>
+                                <input id="discCheck" className="labelField" type="checkbox" defaultChecked={this.props.tuoteObj.discontinued}  onChange={this.handleChangeDiscontinued} /> </div>
 
                             <div className="labelDiv">
                                 <label className="labelKeys">ImageLink: </label>
-                                <input className="labelField" type="text" name="Discontinued" value={this.state.ImageLink || ""} placeholder="ImageLink" onChange={this.handleChangeImageLink} /> </div>
+                                <input className="labelField" type="text" name="Imagelink" value={this.state.ImageLink || ""} placeholder="ImageLink" onChange={this.handleChangeImageLink} /> </div>
                         <br/>
                     <div className="buttonsDiv">
                         <button className="confirmBtn" type="submit">Talleta muutokset</button>
