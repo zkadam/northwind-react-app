@@ -2,7 +2,7 @@ import React,{ Component } from 'react';
 import '../App.css';
 
 
-class NWCustomerEdit extends Component{
+class NWProductsEdit extends Component{
     constructor(props){
         super(props);
         this.state={tuoteObj:[],ProductID:null,ProductName:'',SupplierID:'',CategoryID:'',QuantityPerUnit:'',UnitPrice:'',UnitsInStock:'',UnitsOnOrder:'',Discontinued:true,ImageLink:'',CategoryList:[]};
@@ -192,8 +192,7 @@ console.log(this.state.CategoryList)
                 // }
                 for(var i=0; i<this.state.CategoryList.length;i++){
                         let kategoria=this.state.CategoryList[i]
-                        console.log(kategoria)
-                       catList.push(<option value={kategoria.categoryId}>{kategoria.categoryName}</option>)
+                       catList.push(<option key={"kateg"+i} value={kategoria.categoryId}>{kategoria.categoryName}</option>)
                 }
                 return (
                     <div className="popupDiv" onClick={this.dismiss.bind(this)}>
@@ -256,4 +255,4 @@ console.log(this.state.CategoryList)
 }
 
 }
-export default NWCustomerEdit;
+export default NWProductsEdit;

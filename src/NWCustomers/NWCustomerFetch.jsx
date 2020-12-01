@@ -111,7 +111,7 @@ handleChildUnmountDelete(){
   
   handleChangeCountry(event){
     let arvo=event.target.value;
-    this.setState({country: arvo},()=>this.NorthwindFetch);
+    this.setState({...this.state,country:arvo,offset:0},()=>this.NorthwindFetch());
   }
 
   async NorthwindFetch(){

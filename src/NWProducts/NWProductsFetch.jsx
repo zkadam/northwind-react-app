@@ -13,7 +13,7 @@ class NWProductsFetch extends Component {
     this.state={
       nwRecords:[],
       recordcount: 0,
-      country:"",
+      ProdName:"",
       offset:0,
       limit:10,
       visible:"table",
@@ -27,7 +27,7 @@ class NWProductsFetch extends Component {
     this.handleChildUnmountAdd=this.handleChildUnmountAdd.bind(this);
     this.handleChildUnmountEdit=this.handleChildUnmountEdit.bind(this);
     this.handleChildUnmountDelete=this.handleChildUnmountDelete.bind(this);
-    this.handleChangeCountry=this.handleChangeCountry.bind(this);
+    this.handleChangeProdName=this.handleChangeProdName.bind(this);
 
 
   }
@@ -109,9 +109,9 @@ handleChildUnmountDelete(){
     
   }
   
-  handleChangeCountry(event){
+  handleChangeProdName(event){
     let arvo=event.target.value;
-    this.setState({country: arvo},()=>this.NorthwindFetch);
+    this.setState({ProdName: arvo, offset:0},()=>this.NorthwindFetch());
   }
 
   async NorthwindFetch(){
@@ -128,11 +128,11 @@ handleChildUnmountDelete(){
       if(Date.now()<expDate.exp*1000)
       {
         console.log('----------- THE TOKEN HASNT EXPIRED YET------------------')
-        let uri2='https://localhost:5001/nw/products/';
-        let uri='https://localhost:5001/nw/products/';
+        // let uri2='https://localhost:5001/nw/products/';
+        // let uri='https://localhost:5001/nw/products/';
         // let uri='https://localhost:5001/nw/orders/';
-        // let uri2='https://localhost:5001/nw/products/r?offset='+'&limit='+'&country='+this.state.country;
-        // let uri='https://localhost:5001/nw/products/r?offset='+this.state.offset+'&limit='+this.state.limit+'&country='+this.state.country;
+        let uri2='https://localhost:5001/nw/products/r?offset='+'&limit='+'&ProdName='+this.state.ProdName;
+        let uri='https://localhost:5001/nw/products/r?offset='+this.state.offset+'&limit='+this.state.limit+'&ProdName='+this.state.ProdName;
         // // let uri='https://localhost:5001/nw/orders/';
         
         console.log("NorthwindFetch " + uri);
@@ -262,7 +262,7 @@ handleChildUnmountDelete(){
          <button  className="tuotteet perusBtn"onClick={this.handleClickAdd}>Lisää tuote</button>
          <button  className="tuotteet perusBtn"onClick={this.handleClickPrev}>Edelliset</button>
          <button  className="tuotteet perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
-         <input type="text" placeholder="Filter by country"  onChange={this.handleChangeCountry}/>
+         <input type="text" placeholder="Filter by Product name"  onChange={this.handleChangeProdName}/>
          <p>{viesti}</p>
 
          {/* filling the table with the data */}
