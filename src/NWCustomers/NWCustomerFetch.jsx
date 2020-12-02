@@ -210,7 +210,7 @@ handleChildUnmountDelete(){
          if(apucounter<9){
            otsikko.push(<th key={name}>{name}</th>)
          }
-        apucounter=apucounter;
+        apucounter=apucounter+1;
         }
         
         otsikko.push(<th key="edit"></th>)
