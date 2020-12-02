@@ -279,6 +279,7 @@ handleChildUnmountDelete(){
          <button  className="asiakkaat perusBtn"onClick={this.handleClickNext}>Seuraavat</button>
          <input type="text" placeholder="Filter by country"  onChange={this.handleChangeCountry}/>
          <p>{viesti}</p>
+       
 
          {/* filling the table with the data */}
        <div className="NorthwindFetch">
@@ -286,6 +287,7 @@ handleChildUnmountDelete(){
          </div>
 {/* ---------------------------------------TÄSSÄ ON MODAL SIÄLTÖ-------------- */}
         {popDiv}
+
        </div>
       
      );

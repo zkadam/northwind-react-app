@@ -108,13 +108,7 @@ handleChildUnmountDelete(){
       
 
     }
-      // if (offsetnumb>this.state.recordcount)
-      // {while(offsetnumb>=this.state.recordcount)
-      //         {offsetnumb=offsetnumb-1;
-      //         console.log('offset number reset : --------' + offsetnumb)}
-              
-      //       }
-      //       console.log('offset number reset : --------' + offsetnumb)
+    
     }
     
   
