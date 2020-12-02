@@ -102,7 +102,7 @@ class NWCustomerEdit extends Component{
                     }
         const asiakasJson=JSON.stringify(asiakas);
 
-        const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.CustomerID;
+        const apiUrl= 'https://webapiharjoituskoodi2020.azurewebsites.net/nw/customer/'+this.state.CustomerID;
         fetch(apiUrl,{
             method:"PUT",
             headers:{

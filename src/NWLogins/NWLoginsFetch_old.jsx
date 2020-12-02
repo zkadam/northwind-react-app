@@ -80,9 +80,9 @@
 
 
 //   NorthwindFetch(){
-//     let uri2='https://localhost:5001/nw/logins/';
-//     let uri='https://localhost:5001/nw/logins/'+this.state.sukunimi;
-//     // let uri='https://localhost:5001/nw/orders/';
+//     let uri2='https://webapiharjoituskoodi2020.azurewebsites.net/nw/logins/';
+//     let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/logins/'+this.state.sukunimi;
+//     // let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/orders/';
 
 //     console.log("NwLoginsfetch " + uri);
 //     fetch(uri)

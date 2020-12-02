@@ -131,12 +131,12 @@ handleChildUnmountDelete(){
       if(Date.now()<expDate.exp*1000)
       {
         console.log('----------- THE TOKEN HASNT EXPIRED YET------------------')
-        // let uri2='https://localhost:5001/nw/products/';
-        // let uri='https://localhost:5001/nw/products/';
-        // let uri='https://localhost:5001/nw/orders/';
-        let uri2='https://localhost:5001/nw/products/r?offset='+'&limit='+'&ProdName='+this.state.ProdName;
-        let uri='https://localhost:5001/nw/products/r?offset='+this.state.offset+'&limit='+this.state.limit+'&ProdName='+this.state.ProdName;
-        // // let uri='https://localhost:5001/nw/orders/';
+        // let uri2='https://webapiharjoituskoodi2020.azurewebsites.net/nw/products/';
+        // let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/products/';
+        // let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/orders/';
+        let uri2='https://webapiharjoituskoodi2020.azurewebsites.net/nw/products/r?offset='+'&limit='+'&ProdName='+this.state.ProdName;
+        let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/products/r?offset='+this.state.offset+'&limit='+this.state.limit+'&ProdName='+this.state.ProdName;
+        // // let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/orders/';
         
         console.log("NorthwindFetch " + uri);
         await fetch(uri,{

@@ -34,9 +34,9 @@ class NWCustomerDelete extends Component{
               //tarkistetaan, onko token vielä voimassa
             if(Date.now()<expDate.exp*1000)
             {
-            let uri='https://localhost:5001/nw/logins/id/'+this.props.LoginID;
+            let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/logins/id/'+this.props.LoginID;
             console.log(uri);
-            // let uri='https://localhost:5001/nw/orders/';
+            // let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/orders/';
             
             await fetch(uri,{
                 method:"GET",
@@ -96,7 +96,7 @@ class NWCustomerDelete extends Component{
               //tarkistetaan, onko token vielä voimassa
             if(Date.now()<expDate.exp*1000)
             {
-                const apiUrl= 'https://localhost:5001/nw/logins/'+this.state.loginId;
+                const apiUrl= 'https://webapiharjoituskoodi2020.azurewebsites.net/nw/logins/'+this.state.loginId;
                 await fetch(apiUrl,{
                     method:"DELETE",
                     headers:{

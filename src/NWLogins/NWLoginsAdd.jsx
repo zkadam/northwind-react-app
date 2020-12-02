@@ -91,7 +91,7 @@ class NWLoginsAdd extends Component {
                 const kayttajaJson = JSON.stringify(kayttaja);
 
                 console.log("kayttajaJson: " + kayttajaJson);
-                const apiUrl = 'https://localhost:5001/nw/logins';
+                const apiUrl = 'https://webapiharjoituskoodi2020.azurewebsites.net/nw/logins';
                  await fetch(apiUrl, {
                     method: "POST",
                     headers: {

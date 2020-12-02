@@ -102,7 +102,7 @@ handleChangeFax(event){
                 }
                 const asiakasJson=JSON.stringify(asiakas);
                 console.log("asiakasJson: "+asiakasJson);
-                const apiUrl='https://localhost:5001/nw/customer';
+                const apiUrl='https://webapiharjoituskoodi2020.azurewebsites.net/nw/customer';
                 await fetch(apiUrl,{
                     method:"POST",
                     headers:{

@@ -97,7 +97,7 @@ class NWLoginsEdit extends Component{
                         }
             const asiakasJson=JSON.stringify(asiakas);
 
-            const apiUrl= 'https://localhost:5001/nw/logins/'+this.state.loginId;
+            const apiUrl= 'https://webapiharjoituskoodi2020.azurewebsites.net/nw/logins/'+this.state.loginId;
             await fetch(apiUrl,{
                 method:"PUT",
                 headers:{

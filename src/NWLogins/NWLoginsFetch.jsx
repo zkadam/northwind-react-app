@@ -124,9 +124,9 @@ if(jwtoken!==null)
       //tarkistetaan, onko token vielä voimassa
       if(Date.now()<expDate.exp*1000)
       {
-        let uri2='https://localhost:5001/nw/Logins/'+this.state.surname;
-        let uri='https://localhost:5001/nw/Logins/'+this.state.surname;
-        // let uri='https://localhost:5001/nw/orders/';
+        let uri2='https://webapiharjoituskoodi2020.azurewebsites.net/nw/Logins/'+this.state.surname;
+        let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/Logins/'+this.state.surname;
+        // let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/orders/';
         
       
         console.log("NorthwindFetch " + uri);

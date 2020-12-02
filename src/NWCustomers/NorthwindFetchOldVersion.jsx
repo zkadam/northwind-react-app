@@ -47,9 +47,9 @@ class NWCustomerFetch extends Component {
 
 
   NorthwindFetch(){
-    let uri2='https://localhost:5001/nw/customer';
-    // let uri='https://localhost:5001/nw/customer/r?offset='+this.state.offset+'&limit='+this.state.limit;
-    let uri='https://localhost:5001/nw/customer/';
+    let uri2='https://webapiharjoituskoodi2020.azurewebsites.net/nw/customer';
+    // let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/customer/r?offset='+this.state.offset+'&limit='+this.state.limit;
+    let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/customer/';
 
     console.log("NorthwindFetch " + uri);
     fetch(uri)

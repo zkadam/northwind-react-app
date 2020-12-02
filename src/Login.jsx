@@ -69,7 +69,7 @@ LuoObjekti(){
     const tunnuksetJson=JSON.stringify(tunnukset);
         
     console.log("tunnuksetJson: "+tunnuksetJson);
-    const apiUrl='https://localhost:5001/nw/Authentication';
+    const apiUrl='https://webapiharjoituskoodi2020.azurewebsites.net/nw/Authentication';
     fetch(apiUrl,{
         method:"POST",
         headers:{

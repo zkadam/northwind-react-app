@@ -112,7 +112,7 @@ componentDidMount(){
                 }
     const tuoteJson=JSON.stringify(tuote);
                 console.log("asiakasJson: "+tuoteJson);
-                const apiUrl='https://localhost:5001/nw/Products';
+                const apiUrl='https://webapiharjoituskoodi2020.azurewebsites.net/nw/Products';
                 await fetch(apiUrl,{
                     method:"POST",
                     headers:{
@@ -148,7 +148,7 @@ componentDidMount(){
 }
     }
     async haeCategorit(){
-        let catUri='https://localhost:5001/nw/categories'
+        let catUri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/categories'
         await fetch(catUri,{
           method:"GET",
           headers:{

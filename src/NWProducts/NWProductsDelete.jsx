@@ -34,7 +34,7 @@ class NWProductDelete extends Component{
               //tarkistetaan, onko token vielä voimassa
             if(Date.now()<expDate.exp*1000)
             {
-                let uri='https://localhost:5001/nw/products/'+this.props.ProductID;
+                let uri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/products/'+this.props.ProductID;
                 
                 console.log("NorthwindFetch " + uri);
                 fetch(uri,{
@@ -93,7 +93,7 @@ NWDeleteRestApista(){
               //tarkistetaan, onko token vielä voimassa
             if(Date.now()<expDate.exp*1000)
             {
-                const apiUrl='https://localhost:5001/nw/products/'+this.props.ProductID2Del;
+                const apiUrl='https://webapiharjoituskoodi2020.azurewebsites.net/nw/products/'+this.props.ProductID2Del;
                 console.log("NWDeleteRestApista " + apiUrl);
                 fetch(apiUrl,{
                     method:"DELETE",
@@ -141,7 +141,7 @@ NWDeleteRestApista(){
               //tarkistetaan, onko token vielä voimassa
             if(Date.now()<expDate.exp*1000)
             {
-                const apiUrl= 'https://localhost:5001/nw/products/'+this.state.ProductID;
+                const apiUrl= 'https://webapiharjoituskoodi2020.azurewebsites.net/nw/products/'+this.state.ProductID;
                await fetch(apiUrl,{
                     method:"DELETE",
                     headers:{

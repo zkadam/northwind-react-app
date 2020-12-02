@@ -130,7 +130,7 @@ console.log(this.state.Discontinued)
                         }
             const tuoteJson=JSON.stringify(tuote);
 
-            const apiUrl= 'https://localhost:5001/nw/products/'+this.state.ProductID;
+            const apiUrl= 'https://webapiharjoituskoodi2020.azurewebsites.net/nw/products/'+this.state.ProductID;
             await fetch(apiUrl,{
                 method:"PUT",
                 headers:{
@@ -156,7 +156,7 @@ console.log(this.state.Discontinued)
    
     }
     async haeCategorit(){
-          let catUri='https://localhost:5001/nw/categories'
+          let catUri='https://webapiharjoituskoodi2020.azurewebsites.net/nw/categories'
           await fetch(catUri,{
             method:"GET",
             headers:{
