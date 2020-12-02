@@ -44,7 +44,7 @@ handleChildUnmountEdit(){
 
 handleChildUnmountDelete(){
   // this.setState({renderChildDelete:false});
-  this.setState({...this.state,renderChildDelete:false,visible:"tableNew",},()=>this.NorthwindFetch());
+  this.setState({...this.state,renderChildDelete:false,offset:0,visible:"tableNew",},()=>this.NorthwindFetch());
 }
 
 
@@ -97,17 +97,26 @@ handleChildUnmountDelete(){
   
   handleClickNext=(event)=>{
     
+    
     let offsetnumb=this.state.offset+10;
-    if (offsetnumb>this.state.recordcount)
-    {while(offsetnumb>=this.state.recordcount)
-      {offsetnumb=offsetnumb-10}
+    if(offsetnumb<this.state.recordcount)
+    {
+
+      this.setState({
+        offset: offsetnumb,
+      },()=>this.NorthwindFetch());
+      
+
+    }
+      // if (offsetnumb>this.state.recordcount)
+      // {while(offsetnumb>=this.state.recordcount)
+      //         {offsetnumb=offsetnumb-1;
+      //         console.log('offset number reset : --------' + offsetnumb)}
+              
+      //       }
+      //       console.log('offset number reset : --------' + offsetnumb)
     }
     
-    this.setState({
-      offset: offsetnumb,
-    },()=>this.NorthwindFetch());
-    
-  }
   
   handleChangeProdName(event){
     let arvo=event.target.value;
@@ -240,7 +249,7 @@ handleChildUnmountDelete(){
             i++;
           }
           rivi.push(<td className="thBtn" key={"edit" + tieto[0].toString()}><button className="editBtn" onClick={this.handleClickEdit.bind(this,element)}>Muokkaa</button></td>)
-          rivi.push(<td key={"delete" + tieto[0].toString()}><button className="deleteBtn" onClick={this.handleClickDelete.bind(this,element.ProductId)}>Poista</button></td>)
+          rivi.push(<td key={"delete" + tieto[0].toString()}><button className="deleteBtn" onClick={this.handleClickDelete.bind(this,element.productId)}>Poista</button></td>)
 
           //pushing row to table
            taulukko.push(<tr key={avain} className="nwBody">{rivi}</tr>)
@@ -251,7 +260,7 @@ handleChildUnmountDelete(){
     else {
       viesti="Haetaan tietoja northwind Api:sta..."
     }
-//-----------------------------------------------------------ASIAKAS TAULUKKO
+//-----------------------------------------------------------TUOTE TAULUKKO
    if (this.state.nwRecords!==''){
     if(this.state.visible==="table"||this.state.visible==="tableNew"){
       return (

@@ -2,10 +2,10 @@ import React,{ Component } from 'react';
 import '../App.css';
 
 
-class NWCustomerDelete extends Component{
+class NWProductDelete extends Component{
     constructor(props){
         super(props);
-        this.state={asiakasObj:[],CustomerID:'',CompanyName:'',ContactName:'',ContactTitle:'',Address:'',PostalCode:'',City:'',Country:'',Phone:'',Fax:''};
+        this.state={tuoteObj:[],ProductID:null,ProductName:'',SupplierID:'',CategoryID:'',QuantityPerUnit:'',UnitPrice:'',UnitsInStock:'',UnitsOnOrder:'',Discontinued:true,ImageLink:'',CategoryList:[]};
 
         
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,7 +34,7 @@ class NWCustomerDelete extends Component{
               //tarkistetaan, onko token vielä voimassa
             if(Date.now()<expDate.exp*1000)
             {
-                let uri='https://localhost:5001/nw/customer/'+this.props.CustomerID;
+                let uri='https://localhost:5001/nw/products/'+this.props.ProductID;
                 
                 console.log("NorthwindFetch " + uri);
                 fetch(uri,{
@@ -48,14 +48,14 @@ class NWCustomerDelete extends Component{
                 .then(response => response.json())
                 .then(json =>{
                 console.log(json);
-                this.setState({asiakasObj: json,},()=>this.fillFields());
+                this.setState({tuoteObj: json,},()=>this.fillFields());
                 
                 })
                 
             }else{
                 localStorage.clear();
                 console.log('-----------------TOKEN HAS EXPIRED------------------')
-                this.setState({CustomerID:''})
+                this.setState({ProductID:''})
                 window.location.reload();
             }
       }     
@@ -64,22 +64,22 @@ class NWCustomerDelete extends Component{
     fillFields=(valami)=>{
 
         this.setState({
-            CustomerID:this.state.asiakasObj.customerId ,
-            CompanyName:this.state.asiakasObj.companyName,
-            ContactName:this.state.asiakasObj.contactName,
-            ContactTitle:this.state.asiakasObj.contactTitle,
-            Address:this.state.asiakasObj.address,
-            PostalCode:this.state.asiakasObj.postalCode,
-            City:this.state.asiakasObj.city,
-            Country:this.state.asiakasObj.country,
-            Phone:this.state.asiakasObj.phone,
-            Fax:this.state.asiakasObj.fax,
+            ProductID:this.state.tuoteObj.productId ,
+            ProductName:this.state.tuoteObj.productName,
+            SupplierID:this.state.tuoteObj.supplierId,
+            CategoryID:this.state.tuoteObj.categoryId,
+            QuantityPerUnit:this.state.tuoteObj.quantityPerUnit,
+            UnitPrice:this.state.tuoteObj.unitPrice,
+            UnitsInStock:this.state.tuoteObj.unitsInStock,
+            UnitsOnOrder:this.state.tuoteObj.unitsOnOrder,
+            Discontinued:this.state.tuoteObj.discontinued,
+            ImageLink:this.state.tuoteObj.imageLink,
        
         })
     }
  //---------------------------------DELETE----------------------------
  handlePerformDelete(){
-    console.log('NwDeleteRestApista......deleteissä', this.state.CustomerID2Del);
+    console.log('NwDeleteRestApista......deleteissä', this.state.ProductID2Del);
     this.NWDeleteRestApista();
   }
 
@@ -93,7 +93,7 @@ NWDeleteRestApista(){
               //tarkistetaan, onko token vielä voimassa
             if(Date.now()<expDate.exp*1000)
             {
-                const apiUrl='https://localhost:5001/nw/customer/'+this.props.CustomerID2Del;
+                const apiUrl='https://localhost:5001/nw/products/'+this.props.ProductID2Del;
                 console.log("NWDeleteRestApista " + apiUrl);
                 fetch(apiUrl,{
                     method:"DELETE",
@@ -106,9 +106,9 @@ NWDeleteRestApista(){
                 }).then((response)=>response.json())
                     .then((json)=>{
                         const success=json;
-                        console.log('Response from server: ' +success);
+                        // console.log('Response from server: ' +success);
                         if(success){
-                        console.log('pyyntö asiakkaan poistamiseksi tehty-------');
+                        // console.log('pyyntö asiakkaan poistamiseksi tehty-------');
                         this.props.unmountMe();
 
                         }
@@ -117,7 +117,7 @@ NWDeleteRestApista(){
         }else{
             localStorage.clear();
             console.log('-----------------TOKEN HAS EXPIRED------------------')
-            this.setState({CustomerID:''})
+            this.setState({ProductID:''})
             window.location.reload();
         }
 
@@ -129,7 +129,7 @@ NWDeleteRestApista(){
     }
 //-----------------------------------DID MOUNT
     componentDidMount(){
-        console.log('delete MOUNTED : '+this.props.CustomerID)
+        console.log('delete MOUNTED : '+this.props.ProductID)
         this.NorthwindFetch();
     }
 
@@ -141,7 +141,7 @@ NWDeleteRestApista(){
               //tarkistetaan, onko token vielä voimassa
             if(Date.now()<expDate.exp*1000)
             {
-                const apiUrl= 'https://localhost:5001/nw/customer/'+this.state.CustomerID;
+                const apiUrl= 'https://localhost:5001/nw/products/'+this.state.ProductID;
                await fetch(apiUrl,{
                     method:"DELETE",
                     headers:{
@@ -155,7 +155,7 @@ NWDeleteRestApista(){
                         const success=json;
                         console.log("Response from server: "+ success +".");
                         if(success){
-                            console.log("Pyyntö asiakkaan poistamiseksi tehty-- -- -- -- --");
+                            // console.log("Pyyntö asiakkaan poistamiseksi tehty-- -- -- -- --");
                             this.props.unmountMe();
                         } 
                     });
@@ -164,28 +164,28 @@ NWDeleteRestApista(){
             else{
                 localStorage.clear();
                 console.log('-----------------TOKEN HAS EXPIRED------------------')
-                this.setState({CustomerID:''})
+                this.setState({ProductID:''})
                 window.location.reload();
             }    
     }
 
     render(){
         let divs=[];
-        let keys=Object.keys(this.state.asiakasObj);
+        let keys=Object.keys(this.state.tuoteObj);
         let i=0;
         // pushataan kaikki key nimit ja object valuet diveihin
-        for(var field in this.state.asiakasObj){
-            divs.push(<div key={field} className="labelDiv labelKeys"><label>{keys[i]}:   </label><label className="labelField">{this.state.asiakasObj[field]}</label></div>);
+        for(var field in this.state.tuoteObj){
+            divs.push(<div key={field} className="labelDiv labelKeys"><label>{keys[i]}:   </label><label className="labelField">{this.state.tuoteObj[field]}</label></div>);
             i++;
         }
         return (
             <div className="popupDiv" onClick={this.dismiss.bind(this)}>
             <form className="box3pop" onSubmit={this.handleSubmit}>
-            <h2>Haluatko varmasti poista asiakkaan?</h2><br/>
+            <h2>Haluatko varmasti poista tuotteen?</h2><br/>
                {divs}
 
                <div className="buttonsDiv">
-                    <button className="deleteConfBtn" type="submit">Poista asiakkaan</button>
+                    <button className="deleteConfBtn" type="submit">Poista tuotteen</button>
                     <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>
                 </div>
             </form>
@@ -195,4 +195,4 @@ NWDeleteRestApista(){
     
 
 }
-export default NWCustomerDelete;
+export default NWProductDelete;

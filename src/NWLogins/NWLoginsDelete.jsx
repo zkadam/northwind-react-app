@@ -141,7 +141,7 @@ class NWCustomerDelete extends Component{
                {divs}
 
                <div className="buttonsDiv">
-                    <button className="deleteConfBtn" type="submit">Poista asiakkaan</button>
+                    <button className="deleteConfBtn" type="submit">Poista tuotteen</button>
                     <button className="peruutaBtn" onClick={this.props.unmountMe}>Peruuta</button>
                 </div>
             </form>

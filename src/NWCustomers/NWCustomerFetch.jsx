@@ -98,14 +98,15 @@ handleChildUnmountDelete(){
   handleClickNext=(event)=>{
     
     let offsetnumb=this.state.offset+10;
-    if (offsetnumb>this.state.recordcount)
-    {while(offsetnumb>=this.state.recordcount)
-      {offsetnumb=offsetnumb-10}
+    if(offsetnumb<this.state.recordcount)
+    {
+
+      this.setState({
+        offset: offsetnumb,
+      },()=>this.NorthwindFetch());
+      
+
     }
-    
-    this.setState({
-      offset: offsetnumb,
-    },()=>this.NorthwindFetch());
     
   }
   
@@ -209,7 +210,7 @@ handleChildUnmountDelete(){
          if(apucounter<9){
            otsikko.push(<th key={name}>{name}</th>)
          }
-        apucounter=apucounter+1;
+        apucounter=apucounter;
         }
         
         otsikko.push(<th key="edit"></th>)

@@ -85,7 +85,7 @@ componentDidMount(){
     this.haeCategorit();}
 
     handleSubmit(event){
-        alert('Lähetettiin asiakas: '+this.state.ProductID);
+        // alert('Lähetettiin asiakas: '+this.state.ProductID);
         event.preventDefault();
     }
 
@@ -127,7 +127,7 @@ componentDidMount(){
                         const success=json;
                         console.log(`Response from server: ${success}.`);
                         if(success){
-                            alert("Pyyntö asiakkaan tallenttamiseksi tehty");
+                            // alert("Pyyntö asiakkaan tallenttamiseksi tehty");
                             this.props.unmountMe();
 
                         }
@@ -194,7 +194,7 @@ console.log(this.state.CategoryList)
                 <h2>Moukkaa tuotetiedot:</h2><br/>
                         <div className="labelDiv">
                             <label className="labelKeys">ProductID: </label>
-                            <input disabled="true" className="labelField" type="number" value={this.state.ProductID || ""} placeholder="(automatically generated)" onChange={this.handleChangeProductID} /> </div>
+                            <input disabled={true} className="labelField" type="number" value={this.state.ProductID || ""} placeholder="(automatically generated)" onChange={this.handleChangeProductID} /> </div>
                         <div className="labelDiv">
                             <label className="labelKeys">ProductName: </label>
                             <input className="labelField" type="text" value={this.state.ProductName || ""} placeholder="Product Name" onChange={this.handleChangeProductName} /> </div>
